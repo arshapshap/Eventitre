@@ -3,6 +3,7 @@ package com.arshapshap.eventitre
 import android.app.Application
 import com.arshapshap.eventitre.di.AppComponent
 import com.arshapshap.eventitre.di.DaggerAppComponent
+import com.arshapshap.events.di.EventsFeatureDependenciesStore
 
 class App : Application() {
 
@@ -14,10 +15,11 @@ class App : Application() {
             .builder()
             .application(this)
             .build()
-        initDeps()
+        initDependencies()
     }
 
-    private fun initDeps() {
+    private fun initDependencies() {
+        EventsFeatureDependenciesStore.dependencies = appComponent
     }
 
 }

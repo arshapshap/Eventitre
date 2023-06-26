@@ -1,14 +1,14 @@
 package com.arshapshap.eventitre.di
 
+import com.arshapshap.common.di.scopes.ApplicationScope
 import com.arshapshap.eventitre.navigation.Navigator
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 object NavigationModule {
 
-    @Singleton
+    @ApplicationScope
     @Provides
     fun provideNavigation(): Navigator = Navigator()
 }

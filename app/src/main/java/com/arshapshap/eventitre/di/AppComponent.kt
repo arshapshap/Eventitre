@@ -1,21 +1,17 @@
 package com.arshapshap.eventitre.di
 
 import android.app.Application
+import com.arshapshap.common.di.scopes.ApplicationScope
 import com.arshapshap.eventitre.presentation.MainActivity
+import com.arshapshap.events.di.EventsFeatureDependencies
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
 @Component(
-    modules = [
-        AppModule::class,
-        NavigationModule::class
-    ]
+    modules = [AppModule::class, NavigationModule::class]
 )
-interface AppComponent {
-
-    fun inject(activity: MainActivity)
+@ApplicationScope
+interface AppComponent : EventsFeatureDependencies {
 
     @Component.Builder
     interface Builder {
@@ -25,4 +21,6 @@ interface AppComponent {
 
         fun build(): AppComponent
     }
+
+    fun inject(activity: MainActivity)
 }

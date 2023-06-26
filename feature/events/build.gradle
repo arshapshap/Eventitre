@@ -1,21 +1,19 @@
 plugins {
-    alias libs.plugins.android.application
+    alias libs.plugins.android.library
     alias libs.plugins.jetbrains.kotlin.android
     alias libs.plugins.jetbrains.kotlin.kapt
 }
 
 android {
-    namespace 'com.arshapshap.eventitre'
+    namespace 'com.arshapshap.events'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.arshapshap.eventitre"
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -39,14 +37,10 @@ android {
 dependencies {
 
     implementation project(path: ':core:common')
-    implementation project(path: ':feature:events')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
-    implementation libs.android.material
-    implementation libs.androidx.constraintlayout
-
-    implementation libs.bundles.navigation
+    implementation libs.fragment.ktx
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.kapt
