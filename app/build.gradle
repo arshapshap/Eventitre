@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.arshapshap.evental'
+    namespace 'com.arshapshap.eventitre'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.arshapshap.evental"
+        applicationId "com.arshapshap.eventitre"
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
         versionCode rootProject.versionCode

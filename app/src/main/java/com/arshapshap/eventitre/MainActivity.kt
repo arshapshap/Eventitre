@@ -1,4 +1,4 @@
-package com.arshapshap.evental
+package com.arshapshap.eventitre
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
