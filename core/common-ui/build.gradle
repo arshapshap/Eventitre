@@ -1,11 +1,10 @@
 plugins {
     alias libs.plugins.android.library
     alias libs.plugins.jetbrains.kotlin.android
-    alias libs.plugins.jetbrains.kotlin.kapt
 }
 
 android {
-    namespace 'com.arshapshap.events'
+    namespace 'com.arshapshap.common_ui'
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
@@ -36,15 +35,7 @@ android {
 
 dependencies {
 
-    implementation project(path: ':core:common')
-    implementation project(path: ':core:common-ui')
-
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
-    implementation libs.fragment.ktx
-    implementation libs.androidx.recyclerview
-    implementation libs.androidx.constraintlayout
-
-    implementation libs.bundles.dagger
-    kapt libs.bundles.dagger.kapt
+    implementation libs.android.material
 }

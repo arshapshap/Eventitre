@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arshapshap.common.extensions.formatDayToString
+import com.arshapshap.common_ui.extensions.formatDayToString
 import com.arshapshap.events.databinding.ItemEventBinding
 import com.arshapshap.events.domain.models.Event
 

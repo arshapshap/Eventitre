@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text.Hint" parent="Text.ExtraSmall">
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <style name="Text.Title" parent="Text.Medium">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Text.Subtitle" parent="Text.Small">
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Text.Subtitle.Clickable">
+        <item name="android:background">@drawable/bg_clickable</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Text.Title.Clickable">
+        <item name="android:background">@drawable/bg_clickable</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+</resources>

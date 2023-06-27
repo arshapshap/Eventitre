@@ -16,3 +16,4 @@ rootProject.name = "Eventitre"
 include ':app'
 include ':core:common'
 include ':feature:events'
+include ':core:common-ui'

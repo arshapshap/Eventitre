@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="event_not_found">Event not found</string>
+    <string name="start">Start</string>
+    <string name="finish">Finish</string>
+    <string name="edit_event">Edit event</string>
+    <string name="delete_event">Delete event</string>
+    <string name="description">Description</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.arshapshap.common.extensions
+package com.arshapshap.common_ui.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

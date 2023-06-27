@@ -10,6 +10,7 @@ abstract class BaseViewModel : ViewModel() {
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
 
+
     protected val _errorFromResourceLiveData = MutableLiveData<Int>()
     val errorFromResourceLiveData: LiveData<Int>
         get() = _errorFromResourceLiveData

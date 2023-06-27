@@ -27,4 +27,8 @@ class Navigator: EventsFeatureRouter {
             args = bundleOf(EventFragment.EVENT_ID_KEY to id)
         )
     }
+
+    override fun closeCurrentFragment() {
+        navController?.popBackStack()
+    }
 }
