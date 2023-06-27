@@ -5,6 +5,8 @@ import com.arshapshap.common.di.scopes.FeatureScope
 import com.arshapshap.events.di.modules.EventsFeatureModule
 import com.arshapshap.events.presentation.screens.calendar.CalendarFragment
 import com.arshapshap.events.presentation.screens.calendar.CalendarViewModel
+import com.arshapshap.events.presentation.screens.event.EventFragment
+import com.arshapshap.events.presentation.screens.event.EventViewModel
 import dagger.Component
 
 @Component(
@@ -23,5 +25,7 @@ internal interface EventsFeatureComponent : BaseFeatureComponent {
     }
 
     fun inject(fragment: CalendarFragment)
+    fun inject(fragment: EventFragment)
     fun calendarViewModel(): CalendarViewModel.Factory
+    fun eventViewModel(): EventViewModel.Factory
 }

@@ -11,4 +11,8 @@ class EventsInteractor @Inject constructor(
     internal suspend fun getEvents(): List<Event> {
         return repository.getEvents()
     }
+
+    internal suspend fun getEventById(id: Int): Event? {
+        return repository.getEventById(id)
+    }
 }

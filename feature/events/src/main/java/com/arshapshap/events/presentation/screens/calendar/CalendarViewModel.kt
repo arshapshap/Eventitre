@@ -6,13 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.common.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.domain.models.Event
+import com.arshapshap.events.presentation.screens.EventsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CalendarViewModel @AssistedInject constructor(
-    private val interactor: EventsInteractor
+    private val interactor: EventsInteractor,
+    private val router: EventsFeatureRouter
 ) : BaseViewModel() {
 
     private val _listLiveData = MutableLiveData<List<Event>>(listOf())
@@ -27,7 +29,7 @@ class CalendarViewModel @AssistedInject constructor(
     }
 
     internal fun openEvent(event: Event) {
-
+        router.openEvent(event.id)
     }
 
     @AssistedFactory
