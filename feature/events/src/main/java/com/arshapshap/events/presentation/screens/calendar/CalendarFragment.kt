@@ -1,7 +1,7 @@
 package com.arshapshap.events.presentation.screens.calendar
 
-import androidx.fragment.app.viewModels
 import com.arshapshap.common.base.BaseFragment
+import com.arshapshap.common.di.lazyViewModel
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
@@ -10,17 +10,35 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     FragmentCalendarBinding::inflate
 ) {
 
-    override val viewModel: CalendarViewModel by viewModels()
+    private val component by lazy {
+        getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>()
+    }
+
+    override val viewModel: CalendarViewModel by lazyViewModel {
+        component.calendarViewModel().create()
+    }
 
     override fun inject() {
-        getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>().inject(this)
+        component.inject(this)
     }
 
     override fun initViews() {
-        TODO("Not yet implemented")
+        with (binding) {
+            eventsRecyclerView.adapter = EventsRecyclerViewAdapter {
+                viewModel.openEvent(it)
+            }
+        }
     }
 
-    override fun subscribe(viewModel: CalendarViewModel) {
-        TODO("Not yet implemented")
+    override fun subscribe() {
+        with (viewModel) {
+            loadList()
+            listLiveData.observe(viewLifecycleOwner) {
+                getEventsRecyclerViewAdapter().setList(it)
+            }
+        }
     }
+
+    private fun getEventsRecyclerViewAdapter(): EventsRecyclerViewAdapter =
+        binding.eventsRecyclerView.adapter as EventsRecyclerViewAdapter
 }

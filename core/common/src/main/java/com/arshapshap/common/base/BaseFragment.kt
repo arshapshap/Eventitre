@@ -43,14 +43,14 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        subscribe(viewModel)
+        subscribe()
     }
 
     abstract fun inject()
 
     abstract fun initViews()
 
-    abstract fun subscribe(viewModel: VM)
+    abstract fun subscribe()
 
     override fun onDestroyView() {
         super.onDestroyView()
