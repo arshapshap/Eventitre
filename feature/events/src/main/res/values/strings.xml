@@ -7,4 +7,7 @@
     <string name="delete_event">Delete event</string>
     <string name="description">Description</string>
     <string name="confirm_deleting_event">Delete an event?</string>
+    <string name="name_must_be_filled">The name must be filled</string>
+    <string name="event_name">Event name</string>
+    <string name="event_description">Event description</string>
 </resources>
