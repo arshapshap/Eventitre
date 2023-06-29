@@ -1,7 +1,5 @@
 package com.arshapshap.events.presentation.screens.event
 
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -9,14 +7,13 @@ import androidx.core.widget.doAfterTextChanged
 import com.arshapshap.common.base.BaseFragment
 import com.arshapshap.common.base.ViewModelErrorLevel
 import com.arshapshap.common.di.lazyViewModel
-import com.arshapshap.common_ui.extensions.formatDayToString
-import com.arshapshap.common_ui.extensions.showAlert
-import com.arshapshap.common_ui.extensions.showAlertWithTwoButtons
-import com.arshapshap.common_ui.extensions.showToast
+import com.arshapshap.common_ui.extensions.*
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
+import com.arshapshap.events.domain.models.Event
+import java.util.*
 
 class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     FragmentEventBinding::inflate
@@ -68,9 +65,11 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                 nameEditText.setText(it.name)
                 descriptionEditText.setText(it.description)
                 setDescriptionVisibility(it.description.isNotEmpty())
-                dateStartTextView.text = it.dateStart.formatDayToString()
-                dateFinishTextView.text = it.dateFinish.formatDayToString()
             }
+            setDateTimeFields(event = it)
+        }
+        viewModel.editingEventLiveData.observe(viewLifecycleOwner) {
+            setDateTimeFields(event = it)
         }
         viewModel.isEditingLiveData.observe(viewLifecycleOwner) {
             setFieldsEditing(it)
@@ -86,26 +85,74 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                     showToast(message = it.messageRes)
             }
         }
-
         viewModel.loadData()
+    }
+
+    private fun setDateTimeFields(event: Event?) {
+        with (binding) {
+            timeStartTextView.text = event?.dateStart?.formatTimeToString()
+            timeFinishTextView.text = event?.dateFinish?.formatTimeToString()
+            dateStartTextView.text = event?.dateStart?.formatDateToString()
+            dateFinishTextView.text = event?.dateFinish?.formatDateToString()
+        }
     }
 
     private fun setDescriptionVisibility(isVisible: Boolean) {
         with (binding) {
-            descriptionHintTextView.isVisible = isVisible
+            descriptionHintTextView.text = if (isVisible) getString(R.string.description) else ""
             descriptionEditText.isVisible = isVisible
         }
     }
 
     private fun setFieldsEditing(isEditing: Boolean) {
         with (binding) {
-            nameEditText.setEditing(isEditing)
-            descriptionEditText.setEditing(isEditing)
+            setInputFieldEditing(nameEditText, isEditing)
+            setInputFieldEditing(descriptionEditText, isEditing)
             setDescriptionVisibility(isEditing || !descriptionEditText.text.isNullOrEmpty())
 
-            setDateFieldEditing(dateStartTextView, isEditing)
-            setDateFieldEditing(dateFinishTextView, isEditing)
+            setDateTimeFieldEditing(timeStartTextView, isEditing) {
+                showTimePickerDialog(
+                    message = getString(R.string.event_start_time),
+                    getCurrent = ::getCurrentDateStart,
+                    onTimeSet = viewModel::setDateStart
+                )
+            }
+            setDateTimeFieldEditing(timeFinishTextView, isEditing) {
+                showTimePickerDialog(
+                    message = getString(R.string.event_finish_time),
+                    getCurrent = ::getCurrentDateFinish,
+                    onTimeSet = viewModel::setDateFinish
+                )
+            }
+            setDateTimeFieldEditing(dateStartTextView, isEditing) {
+                showDatePickerDialog(
+                    message = getString(R.string.event_start_date),
+                    getCurrent = ::getCurrentDateStart,
+                    onDateSet = viewModel::setDateStart
+                )
+            }
+            setDateTimeFieldEditing(dateFinishTextView, isEditing) {
+                showDatePickerDialog(
+                    message = getString(R.string.event_finish_date),
+                    getCurrent = ::getCurrentDateFinish,
+                    onDateSet = viewModel::setDateFinish
+                )
+            }
 
+            changeEditImageView(isEditing)
+        }
+    }
+
+    private fun getCurrentDateStart(): Calendar {
+        return viewModel.editingEventLiveData.value?.dateStart?.toCalendar() ?: Calendar.getInstance()
+    }
+
+    private fun getCurrentDateFinish(): Calendar {
+        return viewModel.editingEventLiveData.value?.dateFinish?.toCalendar() ?: Calendar.getInstance()
+    }
+
+    private fun changeEditImageView(isEditing: Boolean) {
+        with (binding) {
             editImageView.setImageResource(if (isEditing) R.drawable.ic_done else R.drawable.ic_edit)
             editImageView.setOnClickListener {
                 viewModel.setEditing(!isEditing)
@@ -114,21 +161,17 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
         }
     }
 
-    private fun setDateFieldEditing(textView: TextView, isEditing: Boolean) {
+    private fun setDateTimeFieldEditing(textView: TextView, isEditing: Boolean, onClickListener: () -> Unit) {
         textView.setOnClickListener {
             if (!isEditing) return@setOnClickListener
+            onClickListener.invoke()
         }
-        textView.setBackgroundResource(if (isEditing) R.drawable.bg_clickable else android.R.color.transparent)
+        textView.setBackgroundResource(if (isEditing) R.drawable.bg_clickable_with_stroke else android.R.color.transparent)
     }
 
-    private fun EditText.setEditing(isEditing: Boolean) {
-        isFocusable = isEditing
-        isFocusableInTouchMode = isEditing
-        setBackgroundResource(if (isEditing) R.drawable.bg_round_corners else android.R.color.transparent)
-    }
-
-    private fun hideKeyboard() {
-        val imm = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    private fun setInputFieldEditing(editText: EditText, isEditing: Boolean) {
+        editText.isFocusable = isEditing
+        editText.isFocusableInTouchMode = isEditing
+        editText.setBackgroundResource(if (isEditing) R.drawable.bg_round_corners else android.R.color.transparent)
     }
 }

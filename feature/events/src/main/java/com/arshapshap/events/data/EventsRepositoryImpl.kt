@@ -12,7 +12,7 @@ class EventsRepositoryImpl @Inject constructor() : EventsRepository {
             id = 1,
             dateStart = Date(1510500494000),
             dateFinish = Date(1510510494000),
-            name = "Event 1",
+            name = "Event 12345678901234567890",
             description = "Something is happening here"
         ),
         Event(

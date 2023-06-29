@@ -3,18 +3,31 @@ package com.arshapshap.common_ui.extensions
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Date.formatDayToString(): String {
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-
+fun Date.toCalendar(): Calendar {
     val calendar = Calendar.getInstance()
     calendar.time = this
-    val year = calendar.get(Calendar.YEAR)
+    return calendar
+}
+
+fun Date.formatDateTimeToString(): String {
+    val timeString = this.formatTimeToString()
+    val dateString = this.formatDateToString()
+    return "$timeString $dateString"
+}
+
+fun Date.formatDateToString(): String {
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val year = this.toCalendar().get(Calendar.YEAR)
 
     val outputDateFormatter =
         if (currentYear == year)
-            SimpleDateFormat("HH:mm dd MMM", Locale.getDefault())
+            SimpleDateFormat("dd MMM", Locale.getDefault())
         else
-            SimpleDateFormat("HH:mm dd MMM, yyyy", Locale.getDefault())
+            SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+    return outputDateFormatter.format(this)
+}
 
+fun Date.formatTimeToString(): String {
+    val outputDateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return outputDateFormatter.format(this)
 }

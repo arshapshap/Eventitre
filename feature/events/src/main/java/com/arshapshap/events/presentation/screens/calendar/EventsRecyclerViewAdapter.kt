@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arshapshap.common_ui.extensions.formatDayToString
+import com.arshapshap.common_ui.extensions.formatDateTimeToString
 import com.arshapshap.events.databinding.ItemEventBinding
 import com.arshapshap.events.domain.models.Event
 
@@ -22,8 +22,8 @@ internal class EventsRecyclerViewAdapter(
             with(binding) {
                 nameTextView.text = event.name
                 descriptionTextView.text = event.description
-                dateStartTextView.text = event.dateStart.formatDayToString()
-                dateFinishTextView.text = event.dateFinish.formatDayToString()
+                dateStartTextView.text = event.dateStart.formatDateTimeToString()
+                dateFinishTextView.text = event.dateFinish.formatDateTimeToString()
 
                 root.setOnClickListener {
                     onClick.invoke(event)

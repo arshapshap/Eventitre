@@ -10,4 +10,9 @@
     <string name="name_must_be_filled">The name must be filled</string>
     <string name="event_name">Event name</string>
     <string name="event_description">Event description</string>
+    <string name="start_date_later_than_finish_error">The start date cannot be later than the finish date</string>
+    <string name="event_start_time">Select the start time of the event</string>
+    <string name="event_finish_time">Select the finish time of the event</string>
+    <string name="event_start_date">Select the start date of the event</string>
+    <string name="event_finish_date">Select the finish date of the event</string>
 </resources>
