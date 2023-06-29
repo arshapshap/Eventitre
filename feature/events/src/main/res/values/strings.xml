@@ -6,4 +6,5 @@
     <string name="edit_event">Edit event</string>
     <string name="delete_event">Delete event</string>
     <string name="description">Description</string>
+    <string name="confirm_deleting_event">Delete an event?</string>
 </resources>

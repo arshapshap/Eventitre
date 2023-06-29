@@ -33,3 +33,21 @@ fun Fragment.showAlert(@StringRes title: Int, @StringRes message: Int, onClick: 
         }
         .show()
 }
+
+fun Fragment.showAlertWithTwoButtons(
+    @StringRes title: Int,
+    @StringRes message: Int? = null,
+    onPositiveButtonClick: () -> Unit = { },
+    onNegativeButtonClick: () -> Unit = { }
+) {
+    var builder = AlertDialog.Builder(requireContext())
+        .setTitle(title)
+        .setPositiveButton(R.string.ok) { _, _ ->
+            onPositiveButtonClick.invoke()
+        }.setNegativeButton(R.string.cancel) { _, _ ->
+            onNegativeButtonClick.invoke()
+        }
+    if (message != null)
+        builder = builder.setMessage(message)
+    builder.show()
+}

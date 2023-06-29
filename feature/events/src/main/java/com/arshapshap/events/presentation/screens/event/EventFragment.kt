@@ -6,6 +6,8 @@ import com.arshapshap.common.base.BaseFragment
 import com.arshapshap.common.di.lazyViewModel
 import com.arshapshap.common_ui.extensions.formatDayToString
 import com.arshapshap.common_ui.extensions.showAlert
+import com.arshapshap.common_ui.extensions.showAlertWithTwoButtons
+import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
@@ -36,6 +38,12 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     override fun initViews() {
         with (binding) {
             descriptionTextView.movementMethod = ScrollingMovementMethod()
+            deleteImageView.setOnClickListener {
+                showAlertWithTwoButtons(
+                    title = R.string.confirm_deleting_event,
+                    onPositiveButtonClick = viewModel::deleteEvent
+                )
+            }
         }
     }
 
@@ -43,8 +51,8 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
         viewModel.loadData()
         viewModel.eventLiveData.observe(viewLifecycleOwner) {
             with(binding) {
-                nameTextView.setText(it.name)
-                descriptionTextView.setText(it.description)
+                nameTextView.text = it.name
+                descriptionTextView.text = it.description
                 descriptionHintTextView.isVisible = it.description.isNotEmpty()
                 dateStartTextView.text = it.dateStart.formatDayToString()
                 dateFinishTextView.text = it.dateFinish.formatDayToString()
@@ -53,10 +61,9 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
         viewModel.errorFromResourceLiveData.observe(viewLifecycleOwner) {
             showAlert(
                 title = com.arshapshap.common_ui.R.string.error,
-                message = it
-            ) {
-                viewModel.closeFragment()
-            }
+                message = it,
+                onClick = viewModel::closeFragment
+            )
         }
     }
 }

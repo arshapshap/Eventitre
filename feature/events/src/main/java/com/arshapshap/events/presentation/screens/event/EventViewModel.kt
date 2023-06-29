@@ -38,6 +38,13 @@ class EventViewModel @AssistedInject constructor(
         router.closeCurrentFragment()
     }
 
+    internal fun deleteEvent() {
+        viewModelScope.launch {
+            interactor.deleteEventById(id)
+        }
+        router.closeCurrentFragment()
+    }
+
     @AssistedFactory
     interface Factory {
 

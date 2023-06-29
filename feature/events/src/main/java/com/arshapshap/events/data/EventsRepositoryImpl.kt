@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class EventsRepositoryImpl @Inject constructor() : EventsRepository {
 
-    private val list = listOf(
+    private val list = mutableListOf(
         Event(
             id = 1,
             dateStart = Date(1510500494000),
@@ -41,5 +41,9 @@ class EventsRepositoryImpl @Inject constructor() : EventsRepository {
 
     override suspend fun getEventById(id: Int): Event? {
         return list.find { it.id == id }
+    }
+
+    override suspend fun deleteEventById(id: Int) {
+        list.removeIf { it.id == id }
     }
 }
