@@ -1,6 +1,6 @@
 package com.arshapshap.events.domain
 
-import com.arshapshap.events.domain.interfaces.EventsRepository
+import com.arshapshap.events.domain.repositories.EventsRepository
 import com.arshapshap.events.domain.models.Event
 import javax.inject.Inject
 

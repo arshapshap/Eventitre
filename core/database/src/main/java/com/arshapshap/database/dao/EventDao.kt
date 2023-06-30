@@ -12,12 +12,12 @@ abstract class EventDao {
     @Update
     abstract suspend fun update(eventEntity: EventEntity)
 
-    @Delete
-    abstract suspend fun delete(eventEntity: EventEntity)
+    @Query("DELETE FROM Event WHERE event_id = :id")
+    abstract suspend fun deleteById(id: Long)
 
     @Query("SELECT * FROM Event")
     abstract suspend fun getAll(): List<EventEntity>
 
     @Query("SELECT * FROM Event WHERE event_id=:id")
-    abstract suspend fun getById(id: Long): EventEntity
+    abstract suspend fun getById(id: Long): EventEntity?
 }
