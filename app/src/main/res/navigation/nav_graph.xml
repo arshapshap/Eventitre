@@ -3,24 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/eventsFeature">
+    app:startDestination="@id/calendarFragment">
 
-    <navigation
-        android:id="@+id/eventsFeature"
-        app:startDestination="@id/calendarFragment">
-        <fragment
-            android:id="@+id/eventFragment"
-            android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
-            android:label="EventFragment"
-            tools:layout="@layout/fragment_event" />
-        <fragment
-            android:id="@+id/calendarFragment"
-            android:name="com.arshapshap.events.presentation.screens.calendar.CalendarFragment"
-            android:label="CalendarFragment"
-            tools:layout="@layout/fragment_calendar">
-            <action
-                android:id="@+id/action_calendarFragment_to_eventFragment"
-                app:destination="@id/eventFragment" />
-        </fragment>
-    </navigation>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.arshapshap.events.presentation.screens.calendar.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
+        android:label="EventFragment"
+        tools:layout="@layout/fragment_event" />
 </navigation>

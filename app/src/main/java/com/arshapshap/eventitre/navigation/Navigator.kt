@@ -1,6 +1,5 @@
 package com.arshapshap.eventitre.navigation
 
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import com.arshapshap.eventitre.R
 import com.arshapshap.events.presentation.screens.EventsFeatureRouter
@@ -22,16 +21,11 @@ class Navigator: EventsFeatureRouter {
     }
 
     override fun openEvent(id: Long) {
-        navController?.navigate(
-            resId = R.id.action_calendarFragment_to_eventFragment,
-            args = bundleOf(EventFragment.EVENT_ID_KEY to id)
-        )
+        navController?.navigate(R.id.eventFragment, EventFragment.createBundle(id))
     }
 
     override fun openEventCreating() {
-        navController?.navigate(
-            resId = R.id.action_calendarFragment_to_eventFragment
-        )
+        navController?.navigate(R.id.eventFragment)
     }
 
     override fun closeCurrentFragment() {

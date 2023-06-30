@@ -1,7 +1,9 @@
 package com.arshapshap.events.presentation.screens.event
 
+import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -22,7 +24,11 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     companion object {
 
-        const val EVENT_ID_KEY = "EVENT_ID_KEY"
+        fun createBundle(eventId: Long?): Bundle {
+            return bundleOf(EVENT_ID_KEY to eventId)
+        }
+
+        private const val EVENT_ID_KEY = "EVENT_ID_KEY"
     }
 
     private val component by lazy {
