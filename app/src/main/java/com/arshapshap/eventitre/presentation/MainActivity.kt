@@ -2,6 +2,8 @@ package com.arshapshap.eventitre.presentation
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.arshapshap.common_ui.base.BaseActivity
 import com.arshapshap.eventitre.App
 import com.arshapshap.eventitre.R
@@ -16,10 +18,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     lateinit var navigator: Navigator
     private var navController: NavController? = null
 
+    @Inject
+    lateinit var router: MainRouter
+
     override fun initViews() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment).navController
-        navigator.attachNavController(navController!!, R.navigation.nav_graph)
+
+        navController?.let {
+            navigator.attachNavController(it, R.navigation.nav_graph)
+            configureToolbar(it)
+        }
+    }
+
+    private fun configureToolbar(navController: NavController) {
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        with (binding.toolbar) {
+            setupWithNavController(navController, appBarConfiguration)
+
+            menu.getItem(0).setOnMenuItemClickListener { _ ->
+                router.openSettings()
+                true
+            }
+        }
     }
 
     override fun inject() {

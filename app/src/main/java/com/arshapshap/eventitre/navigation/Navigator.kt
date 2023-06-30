@@ -2,10 +2,11 @@ package com.arshapshap.eventitre.navigation
 
 import androidx.navigation.NavController
 import com.arshapshap.eventitre.R
+import com.arshapshap.eventitre.presentation.MainRouter
 import com.arshapshap.events.presentation.screens.EventsFeatureRouter
 import com.arshapshap.events.presentation.screens.event.EventFragment
 
-class Navigator: EventsFeatureRouter {
+class Navigator: MainRouter, EventsFeatureRouter {
 
     private var navController: NavController? = null
 
@@ -30,5 +31,9 @@ class Navigator: EventsFeatureRouter {
 
     override fun closeCurrentFragment() {
         navController?.popBackStack()
+    }
+
+    override fun openSettings() {
+        //TODO("Not yet implemented")
     }
 }
