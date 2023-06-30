@@ -1,199 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <EditText
+        android:id="@+id/name_edit_text"
+        style="@style/Text.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:hint="@string/event_name"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="textShortMessage"
+        android:padding="10dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/top_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name" />
 
-        <EditText
-            android:id="@+id/name_edit_text"
-            style="@style/Text.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="@string/event_name"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="textShortMessage"
-            android:maxLength="30"
-            android:padding="10dp"
-            android:singleLine="true"
-            app:layout_constraintBottom_toTopOf="@+id/top_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Name" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/top_guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/middle_vertical_guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.3" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_vertical_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
 
-        <TextView
-            android:id="@+id/start_text_view"
-            style="@style/Text.Hint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="@string/start"
-            app:layout_constraintBottom_toTopOf="@+id/finish_text_view"
-            app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/top_guideline" />
+    <TextView
+        android:id="@+id/start_text_view"
+        style="@style/Text.Hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/start"
+        app:layout_constraintBottom_toTopOf="@+id/finish_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/top_guideline" />
 
-        <TextView
-            android:id="@+id/time_start_text_view"
-            style="@style/Text.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@+id/start_text_view"
-            app:layout_constraintEnd_toStartOf="@id/date_start_text_view"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/middle_vertical_guideline"
-            tools:text="12:00" />
+    <TextView
+        android:id="@+id/time_start_text_view"
+        style="@style/Text.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        app:layout_constraintBaseline_toBaselineOf="@+id/start_text_view"
+        app:layout_constraintEnd_toStartOf="@id/date_start_text_view"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/middle_vertical_guideline"
+        tools:text="12:00" />
 
-        <TextView
-            android:id="@+id/date_start_text_view"
-            style="@style/Text.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@+id/start_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/time_start_text_view"
-            tools:text="June 15" />
+    <TextView
+        android:id="@+id/date_start_text_view"
+        style="@style/Text.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        app:layout_constraintBaseline_toBaselineOf="@+id/start_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_start_text_view"
+        tools:text="June 15" />
 
-        <TextView
-            android:id="@+id/finish_text_view"
-            style="@style/Text.Hint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="@string/finish"
-            app:layout_constraintBottom_toTopOf="@id/description_hint_text_view"
-            app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_text_view" />
+    <TextView
+        android:id="@+id/finish_text_view"
+        style="@style/Text.Hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/finish"
+        app:layout_constraintBottom_toTopOf="@id/description_hint_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_text_view" />
 
-        <TextView
-            android:id="@+id/time_finish_text_view"
-            style="@style/Text.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@+id/finish_text_view"
-            app:layout_constraintEnd_toStartOf="@id/date_finish_text_view"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/middle_vertical_guideline"
-            tools:text="15:00" />
+    <TextView
+        android:id="@+id/time_finish_text_view"
+        style="@style/Text.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        app:layout_constraintBaseline_toBaselineOf="@+id/finish_text_view"
+        app:layout_constraintEnd_toStartOf="@id/date_finish_text_view"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/middle_vertical_guideline"
+        tools:text="15:00" />
 
-        <TextView
-            android:id="@+id/date_finish_text_view"
-            style="@style/Text.Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@+id/finish_text_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/time_finish_text_view"
-            tools:text="June 15" />
+    <TextView
+        android:id="@+id/date_finish_text_view"
+        style="@style/Text.Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        app:layout_constraintBaseline_toBaselineOf="@+id/finish_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_finish_text_view"
+        tools:text="June 15" />
 
-        <TextView
-            android:id="@+id/description_hint_text_view"
-            style="@style/Text.Hint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="@string/description"
-            app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
-            app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/finish_text_view" />
+    <TextView
+        android:id="@+id/description_hint_text_view"
+        style="@style/Text.Hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/description"
+        app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/middle_vertical_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/finish_text_view" />
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/middle_guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.39" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36" />
 
-        <EditText
-            android:id="@+id/description_edit_text"
-            style="@style/Text.Small"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="top|start"
-            android:hint="@string/event_description"
-            android:importantForAutofill="no"
-            android:inputType="text|textMultiLine"
-            android:maxLength="500"
-            android:paddingHorizontal="10dp"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description_hint_text_view"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+    <EditText
+        android:id="@+id/description_edit_text"
+        style="@style/Text.Small"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="top|start"
+        android:hint="@string/event_description"
+        android:importantForAutofill="no"
+        android:inputType="text|textMultiLine"
+        android:paddingHorizontal="10dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description_hint_text_view"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/bottom_guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.85" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
 
-        <ImageView
-            android:id="@+id/edit_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:contentDescription="@string/edit_event"
-            android:focusable="true"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/delete_image_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
-            app:tint="@color/blue" />
+    <ImageView
+        android:id="@+id/edit_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/edit_event"
+        android:focusable="true"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/delete_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
+        app:tint="@color/blue" />
 
-        <ImageView
-            android:id="@+id/delete_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:contentDescription="@string/delete_event"
-            android:focusable="true"
-            android:src="@drawable/ic_delete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/edit_image_view"
-            app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
-            app:tint="@color/red" />
+    <ImageView
+        android:id="@+id/delete_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/delete_event"
+        android:focusable="true"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_image_view"
+        app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
+        app:tint="@color/red" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

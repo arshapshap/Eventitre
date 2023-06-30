@@ -12,7 +12,7 @@
     </style>
 
     <style name="Text.Medium">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="Text.Large">
