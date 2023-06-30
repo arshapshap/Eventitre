@@ -1,4 +1,4 @@
-package com.arshapshap.common.base
+package com.arshapshap.common_ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

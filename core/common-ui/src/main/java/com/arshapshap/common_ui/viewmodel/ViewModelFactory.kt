@@ -1,4 +1,4 @@
-package com.arshapshap.common.viewmodel
+package com.arshapshap.common_ui.viewmodel
 
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle

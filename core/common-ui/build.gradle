@@ -35,7 +35,10 @@ android {
 
 dependencies {
 
+    implementation project(path: ':core:common')
+
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
+    implementation libs.fragment.ktx
     implementation libs.android.material
 }

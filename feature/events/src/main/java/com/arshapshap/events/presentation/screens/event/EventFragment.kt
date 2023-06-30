@@ -4,9 +4,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.arshapshap.common.base.BaseFragment
-import com.arshapshap.common.base.ViewModelErrorLevel
-import com.arshapshap.common.di.lazyViewModel
+import com.arshapshap.common_ui.base.BaseFragment
+import com.arshapshap.common_ui.base.ViewModelErrorLevel
+import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.common_ui.extensions.*
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
@@ -30,7 +30,7 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     override val viewModel: EventViewModel by lazyViewModel {
         component.eventViewModel().create(
-            arguments?.getInt(EVENT_ID_KEY) ?: throw IllegalArgumentException("Event not found")
+            arguments?.getLong(EVENT_ID_KEY) ?: throw IllegalArgumentException("Event not found")
         )
     }
 

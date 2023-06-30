@@ -1,7 +1,7 @@
 package com.arshapshap.events.presentation.screens.calendar
 
-import com.arshapshap.common.base.BaseFragment
-import com.arshapshap.common.di.lazyViewModel
+import com.arshapshap.common_ui.base.BaseFragment
+import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
