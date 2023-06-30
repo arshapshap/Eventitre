@@ -28,6 +28,12 @@ class Navigator: EventsFeatureRouter {
         )
     }
 
+    override fun openEventCreating() {
+        navController?.navigate(
+            resId = R.id.action_calendarFragment_to_eventFragment
+        )
+    }
+
     override fun closeCurrentFragment() {
         navController?.popBackStack()
     }

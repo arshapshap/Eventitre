@@ -4,5 +4,7 @@ interface EventsFeatureRouter {
 
     fun openEvent(id: Long)
 
+    fun openEventCreating()
+
     fun closeCurrentFragment()
 }
