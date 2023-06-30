@@ -15,6 +15,10 @@ class EventsRepositoryImpl @Inject constructor(
         return localSource.add(mapper.map(event))
     }
 
+    override suspend fun updateEvent(event: Event) {
+        localSource.update(mapper.map(event))
+    }
+
     override suspend fun getEvents(): List<Event> {
         return localSource.getAll().map { mapper.map(it) }
     }

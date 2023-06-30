@@ -2,12 +2,13 @@ package com.arshapshap.events.presentation.screens.event
 
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.base.ViewModelErrorLevel
-import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.common_ui.extensions.*
+import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
@@ -30,7 +31,7 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     override val viewModel: EventViewModel by lazyViewModel {
         component.eventViewModel().create(
-            arguments?.getLong(EVENT_ID_KEY) ?: throw IllegalArgumentException("Event not found")
+            arguments?.getLong(EVENT_ID_KEY)
         )
     }
 
@@ -40,7 +41,6 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     override fun initViews() {
         with (binding) {
-            setFieldsEditing(false)
             nameEditText.doAfterTextChanged {
                 viewModel.setName(it.toString())
             }
@@ -65,6 +65,8 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                 nameEditText.setText(it.name)
                 descriptionEditText.setText(it.description)
                 setDescriptionVisibility(it.description.isNotEmpty())
+                setFieldsEditing(false)
+                deleteImageView.isGone = viewModel.isCreating
             }
             setDateTimeFields(event = it)
         }
@@ -155,7 +157,10 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
         with (binding) {
             editImageView.setImageResource(if (isEditing) R.drawable.ic_done else R.drawable.ic_edit)
             editImageView.setOnClickListener {
-                viewModel.setEditing(!isEditing)
+                if (isEditing)
+                    viewModel.applyChanges()
+                else
+                    viewModel.editEvent()
                 hideKeyboard()
             }
         }

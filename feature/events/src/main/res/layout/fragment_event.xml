@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
+        app:layout_constraintGuide_percent="0.1" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -182,6 +182,7 @@
         android:contentDescription="@string/delete_event"
         android:focusable="true"
         android:src="@drawable/ic_delete"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/edit_image_view"

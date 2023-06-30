@@ -6,6 +6,8 @@ interface EventsRepository {
 
     suspend fun addEvent(event: Event): Long
 
+    suspend fun updateEvent(event: Event)
+
     suspend fun getEvents(): List<Event>
 
     suspend fun getEventsByPredicate(predicate: (Event) -> Boolean): List<Event>

@@ -15,13 +15,16 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Calendar
+import java.util.*
 
 class EventViewModel @AssistedInject constructor(
-    @Assisted("ID") private val id: Long,
+    @Assisted("ID") private val id: Long?,
     private val interactor: EventsInteractor,
     private val router: EventsFeatureRouter
 ) : BaseViewModel() {
+
+    internal val isCreating
+        get() = eventLiveData.value == null
 
     private val _eventLiveData = MutableLiveData<Event>()
     internal val eventLiveData: LiveData<Event>
@@ -37,43 +40,71 @@ class EventViewModel @AssistedInject constructor(
 
     internal fun loadData() {
         _loadingLiveData.postValue(true)
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor.getEventById(id)?.let {
-                _eventLiveData.postValue(it)
-            } ?: run {
-                _errorLiveData.postValue(
-                    ViewModelError(
-                        messageRes = R.string.event_not_found, level = ViewModelErrorLevel.Error
+        if (id == null) {
+            val newEvent = Event(
+                id = 0L,
+                name = "",
+                dateStart = Calendar.getInstance().time,
+                dateFinish = Calendar.getInstance().time,
+                description = ""
+            )
+            _isEditingLiveData.postValue(true)
+            _editingEventLiveData.postValue(newEvent)
+        }
+        else {
+            viewModelScope.launch(Dispatchers.IO) {
+                interactor.getEventById(id)?.let {
+                    _eventLiveData.postValue(it)
+                } ?: run {
+                    _errorLiveData.postValue(
+                        ViewModelError(
+                            messageRes = R.string.event_not_found, level = ViewModelErrorLevel.Error
+                        )
                     )
-                )
-                closeFragment()
+                    closeFragment()
+                }
             }
         }
         _loadingLiveData.postValue(false)
     }
 
     internal fun deleteEvent() {
+        if (_eventLiveData.value == null) return
+
         viewModelScope.launch {
-            interactor.deleteEventById(id)
+            interactor.deleteEventById(_eventLiveData.value!!.id)
         }
         closeFragment()
     }
 
-    internal fun setEditing(isEditing: Boolean) {
-        if (!isEditing) {
-            val newEvent = _editingEventLiveData.value ?: return
-            if (newEvent.name.isEmpty()) {
-                _errorLiveData.postValue(
-                    ViewModelError(
-                        messageRes = R.string.name_must_be_filled, level = ViewModelErrorLevel.Warn
-                    )
+    internal fun applyChanges() {
+        val newEvent = _editingEventLiveData.value ?: return
+        if (newEvent.name.isEmpty()) {
+            _errorLiveData.postValue(
+                ViewModelError(
+                    messageRes = R.string.name_must_be_filled, level = ViewModelErrorLevel.Warn
                 )
-                return
-            }
-            _eventLiveData.postValue(newEvent)
+            )
+            return
         }
-        _editingEventLiveData.postValue(if (isEditing) _eventLiveData.value else null)
-        _isEditingLiveData.postValue(isEditing)
+
+        if (isCreating) {
+            viewModelScope.launch {
+                val newEventId = interactor.addEvent(newEvent)
+                _eventLiveData.postValue(newEvent.copy(id = newEventId))
+            }
+        } else {
+            viewModelScope.launch {
+                interactor.updateEvent(newEvent)
+                _eventLiveData.postValue(newEvent)
+            }
+        }
+        _isEditingLiveData.postValue(false)
+    }
+
+    internal fun editEvent() {
+        _editingEventLiveData.postValue(_eventLiveData.value)
+        _isEditingLiveData.postValue(true)
     }
 
     internal fun setName(name: String) {
@@ -139,6 +170,6 @@ class EventViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
 
-        fun create(@Assisted("ID") id: Long): EventViewModel
+        fun create(@Assisted("ID") id: Long?): EventViewModel
     }
 }

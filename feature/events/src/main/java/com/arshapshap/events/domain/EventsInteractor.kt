@@ -8,6 +8,14 @@ class EventsInteractor @Inject constructor(
     private val repository: EventsRepository
 ) {
 
+    internal suspend fun addEvent(event: Event): Long {
+        return repository.addEvent(event)
+    }
+
+    internal suspend fun updateEvent(event: Event) {
+        repository.updateEvent(event)
+    }
+
     internal suspend fun getEvents(): List<Event> {
         return repository.getEvents()
     }
