@@ -3,7 +3,7 @@ package com.arshapshap.events.presentation.screens.calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.arshapshap.common.base.BaseViewModel
+import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.domain.models.Event
 import com.arshapshap.events.presentation.screens.EventsFeatureRouter

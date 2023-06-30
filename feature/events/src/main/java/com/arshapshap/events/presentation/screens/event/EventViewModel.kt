@@ -3,9 +3,9 @@ package com.arshapshap.events.presentation.screens.event
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.arshapshap.common.base.BaseViewModel
-import com.arshapshap.common.base.ViewModelError
-import com.arshapshap.common.base.ViewModelErrorLevel
+import com.arshapshap.common_ui.base.BaseViewModel
+import com.arshapshap.common_ui.base.ViewModelError
+import com.arshapshap.common_ui.base.ViewModelErrorLevel
 import com.arshapshap.events.R
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.domain.models.Event
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class EventViewModel @AssistedInject constructor(
-    @Assisted("ID") private val id: Int,
+    @Assisted("ID") private val id: Long,
     private val interactor: EventsInteractor,
     private val router: EventsFeatureRouter
 ) : BaseViewModel() {
@@ -139,6 +139,6 @@ class EventViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
 
-        fun create(@Assisted("ID") id: Int): EventViewModel
+        fun create(@Assisted("ID") id: Long): EventViewModel
     }
 }

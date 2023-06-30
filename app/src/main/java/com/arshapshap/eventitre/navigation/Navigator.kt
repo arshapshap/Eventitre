@@ -21,7 +21,7 @@ class Navigator: EventsFeatureRouter {
         }
     }
 
-    override fun openEvent(id: Int) {
+    override fun openEvent(id: Long) {
         navController?.navigate(
             resId = R.id.action_calendarFragment_to_eventFragment,
             args = bundleOf(EventFragment.EVENT_ID_KEY to id)

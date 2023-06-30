@@ -1,14 +1,16 @@
-package com.arshapshap.events.domain.interfaces
+package com.arshapshap.events.domain.repositories
 
 import com.arshapshap.events.domain.models.Event
 
 interface EventsRepository {
 
+    suspend fun addEvent(event: Event): Long
+
     suspend fun getEvents(): List<Event>
 
     suspend fun getEventsByPredicate(predicate: (Event) -> Boolean): List<Event>
 
-    suspend fun getEventById(id: Int): Event?
+    suspend fun getEventById(id: Long): Event?
 
-    suspend fun deleteEventById(id: Int)
+    suspend fun deleteEventById(id: Long)
 }

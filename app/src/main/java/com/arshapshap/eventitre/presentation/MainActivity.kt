@@ -2,7 +2,7 @@ package com.arshapshap.eventitre.presentation
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.arshapshap.common.base.BaseActivity
+import com.arshapshap.common_ui.base.BaseActivity
 import com.arshapshap.eventitre.App
 import com.arshapshap.eventitre.R
 import com.arshapshap.eventitre.databinding.ActivityMainBinding
