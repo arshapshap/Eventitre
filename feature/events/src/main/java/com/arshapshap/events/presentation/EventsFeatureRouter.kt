@@ -1,4 +1,4 @@
-package com.arshapshap.events.presentation.screens
+package com.arshapshap.events.presentation
 
 interface EventsFeatureRouter {
 

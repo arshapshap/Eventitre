@@ -3,7 +3,7 @@ package com.arshapshap.eventitre.di
 import com.arshapshap.common.di.scopes.ApplicationScope
 import com.arshapshap.eventitre.navigation.Navigator
 import com.arshapshap.eventitre.presentation.MainRouter
-import com.arshapshap.events.presentation.screens.EventsFeatureRouter
+import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.Module
 import dagger.Provides
 

@@ -5,6 +5,7 @@ import com.arshapshap.common.di.scopes.ApplicationScope
 import com.arshapshap.database.di.DatabaseModule
 import com.arshapshap.eventitre.presentation.MainActivity
 import com.arshapshap.events.di.EventsFeatureDependencies
+import com.arshapshap.settings.di.SettingsFeatureDependencies
 import dagger.BindsInstance
 import dagger.Component
 
@@ -12,7 +13,7 @@ import dagger.Component
     modules = [AppModule::class, NavigationModule::class, DatabaseModule::class]
 )
 @ApplicationScope
-interface AppComponent : EventsFeatureDependencies {
+interface AppComponent : EventsFeatureDependencies, SettingsFeatureDependencies {
 
     @Component.Builder
     interface Builder {
