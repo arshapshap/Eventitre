@@ -1,4 +1,4 @@
-package com.arshapshap.common.base
+package com.arshapshap.common_ui.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

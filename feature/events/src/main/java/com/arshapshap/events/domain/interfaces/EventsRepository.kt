@@ -8,7 +8,7 @@ interface EventsRepository {
 
     suspend fun getEventsByPredicate(predicate: (Event) -> Boolean): List<Event>
 
-    suspend fun getEventById(id: Int): Event?
+    suspend fun getEventById(id: Long): Event?
 
-    suspend fun deleteEventById(id: Int)
+    suspend fun deleteEventById(id: Long)
 }

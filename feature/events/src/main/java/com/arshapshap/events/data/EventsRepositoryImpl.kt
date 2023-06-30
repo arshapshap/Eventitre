@@ -1,11 +1,14 @@
 package com.arshapshap.events.data
 
+import com.arshapshap.database.dao.EventDao
 import com.arshapshap.events.domain.interfaces.EventsRepository
 import com.arshapshap.events.domain.models.Event
 import java.util.*
 import javax.inject.Inject
 
-class EventsRepositoryImpl @Inject constructor() : EventsRepository {
+class EventsRepositoryImpl @Inject constructor(
+    private val localSource: EventDao
+) : EventsRepository {
 
     private val list = mutableListOf(
         Event(
@@ -39,11 +42,11 @@ class EventsRepositoryImpl @Inject constructor() : EventsRepository {
         return list.filter(predicate)
     }
 
-    override suspend fun getEventById(id: Int): Event? {
+    override suspend fun getEventById(id: Long): Event? {
         return list.find { it.id == id }
     }
 
-    override suspend fun deleteEventById(id: Int) {
+    override suspend fun deleteEventById(id: Long) {
         list.removeIf { it.id == id }
     }
 }
