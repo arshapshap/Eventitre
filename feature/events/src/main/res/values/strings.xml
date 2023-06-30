@@ -15,4 +15,5 @@
     <string name="event_finish_time">Select the finish time of the event</string>
     <string name="event_start_date">Select the start date of the event</string>
     <string name="event_finish_date">Select the finish date of the event</string>
+    <string name="add_event">Add event</string>
 </resources>

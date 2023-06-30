@@ -13,6 +13,7 @@ object NavigationModule {
     @Provides
     fun provideNavigation(): Navigator = Navigator()
 
+    @ApplicationScope
     @Provides
     fun provideEventsFeatureRouter(navigator: Navigator): EventsFeatureRouter = navigator
 }

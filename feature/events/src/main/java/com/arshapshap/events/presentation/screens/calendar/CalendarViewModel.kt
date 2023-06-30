@@ -32,6 +32,10 @@ class CalendarViewModel @AssistedInject constructor(
         router.openEvent(event.id)
     }
 
+    internal fun openEventCreating() {
+        router.openEventCreating()
+    }
+
     @AssistedFactory
     interface Factory {
 

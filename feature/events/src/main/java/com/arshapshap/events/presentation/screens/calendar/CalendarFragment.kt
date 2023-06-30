@@ -27,6 +27,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             eventsRecyclerView.adapter = EventsRecyclerViewAdapter {
                 viewModel.openEvent(it)
             }
+            addButton.setOnClickListener {
+                viewModel.openEventCreating()
+            }
         }
     }
 
