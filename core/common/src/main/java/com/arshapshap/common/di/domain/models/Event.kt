@@ -1,4 +1,4 @@
-package com.arshapshap.events.domain.models
+package com.arshapshap.common.di.domain.models
 
 import java.util.Date
 

@@ -38,6 +38,8 @@ dependencies {
 
     implementation project(path: ':core:common')
     implementation project(path: ':core:common-ui')
+    implementation project(path: ':core:files')
+    implementation project(path: ':core:database')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
@@ -45,6 +47,7 @@ dependencies {
     implementation libs.android.material
     implementation libs.androidx.recyclerview
     implementation libs.androidx.constraintlayout
+    implementation libs.gson
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.kapt

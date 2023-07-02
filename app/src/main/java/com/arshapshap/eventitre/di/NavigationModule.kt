@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-object NavigationModule {
+class NavigationModule {
 
     @ApplicationScope
     @Provides

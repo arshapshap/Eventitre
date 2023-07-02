@@ -23,5 +23,4 @@ class App : Application() {
         EventsFeatureDependenciesStore.dependencies = appComponent
         SettingsFeatureDependenciesStore.dependencies = appComponent
     }
-
 }

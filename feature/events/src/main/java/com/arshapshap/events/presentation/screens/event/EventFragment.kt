@@ -15,7 +15,7 @@ import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
-import com.arshapshap.events.domain.models.Event
+import com.arshapshap.common.di.domain.models.Event
 import java.util.*
 
 class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
@@ -55,7 +55,7 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             }
             deleteImageView.setOnClickListener {
                 showAlertWithTwoButtons(
-                    title = R.string.confirm_deleting_event,
+                    title = getString(R.string.confirm_deleting_event),
                     onPositiveButtonClick = viewModel::deleteEvent
                 )
             }
@@ -86,11 +86,11 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             when (it.level) {
                 ViewModelErrorLevel.Error ->
                     showAlert(
-                        title = com.arshapshap.common_ui.R.string.error,
-                        message = it.messageRes
+                        title = getString(com.arshapshap.common_ui.R.string.error),
+                        message = getString(it.messageRes)
                     )
                 ViewModelErrorLevel.Warn ->
-                    showToast(message = it.messageRes)
+                    showToast(message = getString(it.messageRes))
             }
         }
         viewModel.loadData()
