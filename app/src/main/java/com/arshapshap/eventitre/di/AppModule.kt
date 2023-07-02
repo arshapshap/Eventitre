@@ -7,8 +7,6 @@ import com.arshapshap.common.di.scopes.ApplicationScope
 import com.arshapshap.files.data.observer.LifecycleObserver
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 
 @Module
 class AppModule {
@@ -18,10 +16,6 @@ class AppModule {
     fun provideContext(application: Application): Context {
         return application
     }
-
-    @ApplicationScope
-    @Provides
-    fun providesApplicationScope() = CoroutineScope(SupervisorJob())
 
     @ApplicationScope
     @Provides

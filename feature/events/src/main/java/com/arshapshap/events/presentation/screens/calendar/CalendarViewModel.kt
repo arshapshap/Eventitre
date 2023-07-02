@@ -21,7 +21,7 @@ class CalendarViewModel @AssistedInject constructor(
     internal val listLiveData: LiveData<List<Event>>
         get() = _listLiveData
 
-    internal fun loadList() {
+    internal fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = interactor.getEvents()
             _listLiveData.postValue(list)

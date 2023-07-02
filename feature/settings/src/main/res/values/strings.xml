@@ -9,4 +9,6 @@
     <string name="add_only_new">Add only new ones</string>
     <string name="imported_events_number">Imported events: %d</string>
     <string name="exported_events_number">Exported events: %d</string>
+    <string name="unexpected_error">An unexpected error has occurred</string>
+    <string name="file_was_not_selected">The file was not selected</string>
 </resources>

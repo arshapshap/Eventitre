@@ -40,6 +40,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     }
 
     override fun subscribe() {
+        super.subscribe()
         with (viewModel) {
             eventsToImportLiveData.observe(viewLifecycleOwner) {
                 if (it.allEvents.isEmpty())

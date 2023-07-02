@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
+import com.arshapshap.common_ui.base.ViewModelError
+import com.arshapshap.common_ui.base.ViewModelErrorLevel
+import com.arshapshap.settings.R
 import com.arshapshap.settings.domain.SettingsInteractor
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import dagger.assisted.AssistedFactory
@@ -28,15 +31,36 @@ class SettingsViewModel @AssistedInject constructor(
 
     internal fun exportEvents() {
         viewModelScope.launch {
-            val result = interactor.exportEvents()
-            _exportedEventsLiveData.postValue(result.exportedNumber)
+            kotlin.runCatching {
+                val result = interactor.exportEvents()
+                _exportedEventsLiveData.postValue(result.exportedNumber)
+            }.onFailure {
+                _errorLiveData.postValue(ViewModelError(
+                    messageRes = R.string.unexpected_error,
+                    level = ViewModelErrorLevel.Warn
+                ))
+            }
         }
     }
 
     internal fun requestImportEvents() {
         viewModelScope.launch {
-            val events = interactor.getEventsFromJson()
-            _eventsToImportLiveData.postValue(events)
+            kotlin.runCatching {
+                val events = interactor.getEventsFromJson()
+                _eventsToImportLiveData.postValue(events)
+            }.onFailure {
+                val error = when (it) {
+                    is java.lang.NullPointerException -> ViewModelError(
+                        messageRes = R.string.file_was_not_selected,
+                        level = ViewModelErrorLevel.Warn
+                    )
+                    else -> ViewModelError(
+                        messageRes = R.string.unexpected_error,
+                        level = ViewModelErrorLevel.Warn
+                    )
+                }
+                _errorLiveData.postValue(error)
+            }
         }
     }
 

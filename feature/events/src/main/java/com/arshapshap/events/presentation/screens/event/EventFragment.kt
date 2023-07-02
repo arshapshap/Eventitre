@@ -7,15 +7,14 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import com.arshapshap.common.di.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
-import com.arshapshap.common_ui.base.ViewModelErrorLevel
 import com.arshapshap.common_ui.extensions.*
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
-import com.arshapshap.common.di.domain.models.Event
 import java.util.*
 
 class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
@@ -63,37 +62,29 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     }
 
     override fun subscribe() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.root.isVisible = !it
-        }
-        viewModel.eventLiveData.observe(viewLifecycleOwner) {
-            with (binding) {
-                nameEditText.setText(it.name)
-                descriptionEditText.setText(it.description)
-                setDescriptionVisibility(it.description.isNotEmpty())
-                setFieldsEditing(false)
-                deleteImageView.isGone = viewModel.isCreating
+        super.subscribe()
+        with (viewModel) {
+            loadingLiveData.observe(viewLifecycleOwner) {
+                binding.root.isVisible = !it
             }
-            setDateTimeFields(event = it)
-        }
-        viewModel.editingEventLiveData.observe(viewLifecycleOwner) {
-            setDateTimeFields(event = it)
-        }
-        viewModel.isEditingLiveData.observe(viewLifecycleOwner) {
-            setFieldsEditing(it)
-        }
-        viewModel.errorLiveData.observe(viewLifecycleOwner) {
-            when (it.level) {
-                ViewModelErrorLevel.Error ->
-                    showAlert(
-                        title = getString(com.arshapshap.common_ui.R.string.error),
-                        message = getString(it.messageRes)
-                    )
-                ViewModelErrorLevel.Warn ->
-                    showToast(message = getString(it.messageRes))
+            eventLiveData.observe(viewLifecycleOwner) {
+                with (binding) {
+                    nameEditText.setText(it.name)
+                    descriptionEditText.setText(it.description)
+                    setDescriptionVisibility(it.description.isNotEmpty())
+                    setFieldsEditing(false)
+                    deleteImageView.isGone = viewModel.isCreating
+                }
+                setDateTimeFields(event = it)
             }
+            editingEventLiveData.observe(viewLifecycleOwner) {
+                setDateTimeFields(event = it)
+            }
+            isEditingLiveData.observe(viewLifecycleOwner) {
+                setFieldsEditing(it)
+            }
+            loadData()
         }
-        viewModel.loadData()
     }
 
     private fun setDateTimeFields(event: Event?) {
