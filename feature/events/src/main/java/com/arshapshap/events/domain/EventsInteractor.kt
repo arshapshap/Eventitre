@@ -1,7 +1,7 @@
 package com.arshapshap.events.domain
 
 import com.arshapshap.events.domain.repositories.EventsRepository
-import com.arshapshap.events.domain.models.Event
+import com.arshapshap.common.di.domain.models.Event
 import javax.inject.Inject
 
 class EventsInteractor @Inject constructor(

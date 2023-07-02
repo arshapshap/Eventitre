@@ -6,8 +6,11 @@ import com.arshapshap.database.models.EventEntity
 @Dao
 abstract class EventDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun add(eventEntity: EventEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun addList(list: List<EventEntity>): List<Long>
 
     @Update
     abstract suspend fun update(eventEntity: EventEntity)

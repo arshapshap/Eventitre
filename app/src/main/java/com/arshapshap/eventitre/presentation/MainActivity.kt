@@ -9,37 +9,34 @@ import com.arshapshap.eventitre.App
 import com.arshapshap.eventitre.R
 import com.arshapshap.eventitre.databinding.ActivityMainBinding
 import com.arshapshap.eventitre.navigation.Navigator
+import com.arshapshap.files.data.observer.LifecycleObserver
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(
     ActivityMainBinding::inflate
 ) {
+
     @Inject
     lateinit var navigator: Navigator
     private var navController: NavController? = null
 
     @Inject
+    lateinit var observerProvider: LifecycleObserver.Provider
+
+    @Inject
     lateinit var router: MainRouter
 
     override fun initViews() {
+        val observer = observerProvider.create(activityResultRegistry)
+        observerProvider.attachObserver(observer)
+        lifecycle.addObserver(observer)
+
         navController =
             (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment).navController
 
         navController?.let {
             navigator.attachNavController(it, R.navigation.nav_graph)
             configureToolbar(it)
-        }
-    }
-
-    private fun configureToolbar(navController: NavController) {
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        with (binding.toolbar) {
-            setupWithNavController(navController, appBarConfiguration)
-
-            menu.getItem(0).setOnMenuItemClickListener { _ ->
-                router.openSettings()
-                true
-            }
         }
     }
 
@@ -54,5 +51,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             navigator.detachNavController(it)
         }
         navController = null
+
+        observerProvider.detachObserver()
+    }
+
+    private fun configureToolbar(navController: NavController) {
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        with (binding.toolbar) {
+            setupWithNavController(navController, appBarConfiguration)
+
+            menu.getItem(0).setOnMenuItemClickListener { _ ->
+                router.openSettings()
+                true
+            }
+        }
     }
 }

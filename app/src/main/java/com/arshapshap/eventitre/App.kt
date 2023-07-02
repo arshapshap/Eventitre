@@ -4,6 +4,7 @@ import android.app.Application
 import com.arshapshap.eventitre.di.AppComponent
 import com.arshapshap.eventitre.di.DaggerAppComponent
 import com.arshapshap.events.di.EventsFeatureDependenciesStore
+import com.arshapshap.settings.di.SettingsFeatureDependenciesStore
 
 class App : Application() {
 
@@ -20,6 +21,6 @@ class App : Application() {
 
     private fun initDependencies() {
         EventsFeatureDependenciesStore.dependencies = appComponent
+        SettingsFeatureDependenciesStore.dependencies = appComponent
     }
-
 }

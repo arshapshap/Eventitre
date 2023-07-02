@@ -1,11 +1,11 @@
 package com.arshapshap.events.data.mappers
 
 import com.arshapshap.database.models.EventEntity
-import com.arshapshap.events.domain.models.Event
+import com.arshapshap.common.di.domain.models.Event
 import java.util.*
 import javax.inject.Inject
 
-class EventMapper @Inject constructor() {
+internal class EventMapper @Inject constructor() {
 
     fun map(eventLocal: EventEntity): Event =
         with (eventLocal) {

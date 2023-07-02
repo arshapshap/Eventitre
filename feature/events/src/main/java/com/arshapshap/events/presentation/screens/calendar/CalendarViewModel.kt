@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
-import com.arshapshap.events.domain.models.Event
-import com.arshapshap.events.presentation.screens.EventsFeatureRouter
+import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers

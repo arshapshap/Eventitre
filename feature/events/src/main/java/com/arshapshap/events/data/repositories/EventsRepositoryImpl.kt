@@ -2,11 +2,11 @@ package com.arshapshap.events.data.repositories
 
 import com.arshapshap.database.dao.EventDao
 import com.arshapshap.events.data.mappers.EventMapper
-import com.arshapshap.events.domain.models.Event
+import com.arshapshap.common.di.domain.models.Event
 import com.arshapshap.events.domain.repositories.EventsRepository
 import javax.inject.Inject
 
-class EventsRepositoryImpl @Inject constructor(
+internal class EventsRepositoryImpl @Inject constructor(
     private val localSource: EventDao,
     private val mapper: EventMapper
 ) : EventsRepository {

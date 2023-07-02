@@ -1,7 +1,7 @@
 package com.arshapshap.events.di
 
 import com.arshapshap.database.dao.EventDao
-import com.arshapshap.events.presentation.screens.EventsFeatureRouter
+import com.arshapshap.events.presentation.EventsFeatureRouter
 
 interface EventsFeatureDependencies {
 
