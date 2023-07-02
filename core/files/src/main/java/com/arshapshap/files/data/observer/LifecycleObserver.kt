@@ -1,10 +1,13 @@
 package com.arshapshap.files.data.observer
 
+import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.arshapshap.files.data.observer.listeners.ActivityResultCreateDocumentListener
+import com.arshapshap.files.data.observer.listeners.ActivityResultGetContentListener
 
 class LifecycleObserver(
     private val registry: ActivityResultRegistry
@@ -31,16 +34,28 @@ class LifecycleObserver(
         }
     }
 
-    private val listeners = mutableListOf<ActivityResultListener>()
+    private val getContentListeners = mutableListOf<ActivityResultGetContentListener>()
+    private val createDocumentListeners = mutableListOf<ActivityResultCreateDocumentListener>()
 
-    lateinit var getContent: ActivityResultLauncher<String>
+    private lateinit var getContent: ActivityResultLauncher<String>
+    private lateinit var createDocument: ActivityResultLauncher<Intent>
 
     override fun onCreate(owner: LifecycleOwner) {
         getContent = registry.register(
-            "key", owner, ActivityResultContracts.GetContent()
+            "key_get_content", owner, ActivityResultContracts.GetContent()
         ) { uri ->
-            listeners.forEach {
-                it.onGetContent(uri)
+            getContentListeners.forEach {
+                it.onContentRecieved(uri)
+            }
+        }
+        createDocument = registry.register(
+            "key_create_document", owner, ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val uri = result.data?.data
+            if (uri != null) {
+                createDocumentListeners.forEach {
+                    it.onDocumentCreated(uri)
+                }
             }
         }
     }
@@ -49,11 +64,29 @@ class LifecycleObserver(
         getContent.launch("application/json")
     }
 
-    fun addListener(listener: ActivityResultListener) {
-        listeners.add(listener)
+    fun exportToJson() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/json"
+            putExtra(Intent.EXTRA_TITLE, "exported_events.json")
+        }
+
+        createDocument.launch(intent)
     }
 
-    fun removeListener(listener: ActivityResultListener) {
-        listeners.remove(listener)
+    fun addListener(listener: ActivityResultGetContentListener) {
+        getContentListeners.add(listener)
+    }
+
+    fun addListener(listener: ActivityResultCreateDocumentListener) {
+        createDocumentListeners.add(listener)
+    }
+
+    fun removeListener(listener: ActivityResultGetContentListener) {
+        getContentListeners.remove(listener)
+    }
+
+    fun removeListener(listener: ActivityResultCreateDocumentListener) {
+        createDocumentListeners.remove(listener)
     }
 }

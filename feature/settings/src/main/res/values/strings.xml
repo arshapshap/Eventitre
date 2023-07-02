@@ -8,4 +8,5 @@
     <string name="no_events_to_import">No events were found for import in this file</string>
     <string name="add_only_new">Add only new ones</string>
     <string name="imported_events_number">Imported events: %d</string>
+    <string name="exported_events_number">Exported events: %d</string>
 </resources>

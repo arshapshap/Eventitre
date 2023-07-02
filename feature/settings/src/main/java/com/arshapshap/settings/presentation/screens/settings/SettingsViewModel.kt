@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.common.di.domain.models.Event
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.settings.domain.SettingsInteractor
+import com.arshapshap.settings.domain.models.EventsExportInfo
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,8 +24,14 @@ class SettingsViewModel @AssistedInject constructor(
     internal val importedEventsLiveData: LiveData<Int>
         get() = _importedEventsLiveData
 
-    internal fun exportEvents() {
+    private val _exportedEventsLiveData = MutableLiveData<Int>()
+    internal val exportedEventsLiveData: LiveData<Int>
+        get() = _exportedEventsLiveData
 
+    internal fun exportEvents() {
+        viewModelScope.launch {
+            interactor.exportEvents(::handleExportResult)
+        }
     }
 
     internal fun requestImportEvents() {
@@ -46,6 +53,10 @@ class SettingsViewModel @AssistedInject constructor(
             val added = interactor.importEvents(list ?: listOf())
             _importedEventsLiveData.postValue(added)
         }
+    }
+
+    private fun handleExportResult(result: EventsExportInfo) {
+        _exportedEventsLiveData.postValue(result.exportedNumber)
     }
 
     private fun recieveEvents(events: EventsImportInfo) {

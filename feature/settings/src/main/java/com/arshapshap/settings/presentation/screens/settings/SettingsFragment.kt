@@ -72,6 +72,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             importedEventsLiveData.observe(viewLifecycleOwner) {
                 showToast(getString(R.string.imported_events_number, it))
             }
+
+            exportedEventsLiveData.observe(viewLifecycleOwner) {
+                showToast(getString(R.string.exported_events_number, it))
+            }
         }
     }
 }

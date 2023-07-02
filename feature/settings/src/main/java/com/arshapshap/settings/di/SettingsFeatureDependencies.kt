@@ -1,7 +1,7 @@
 package com.arshapshap.settings.di
 
 import com.arshapshap.database.dao.EventDao
-import com.arshapshap.files.domain.EventsJsonRepository
+import com.arshapshap.files.domain.repositories.EventsJsonRepository
 
 interface SettingsFeatureDependencies {
 

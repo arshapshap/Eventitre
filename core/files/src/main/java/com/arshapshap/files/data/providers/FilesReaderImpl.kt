@@ -2,20 +2,20 @@ package com.arshapshap.files.data.providers
 
 import android.content.ContentResolver
 import android.net.Uri
-import com.arshapshap.files.data.observer.ActivityResultListener
+import com.arshapshap.files.data.observer.listeners.ActivityResultGetContentListener
 import com.arshapshap.files.data.observer.LifecycleObserver
-import com.arshapshap.files.domain.FilesProvider
+import com.arshapshap.files.domain.FilesReader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class FilesProviderImpl @Inject constructor(
+internal class FilesReaderImpl @Inject constructor(
     private val observer: LifecycleObserver,
     private val contentResolver: ContentResolver,
     private val applicationScope: CoroutineScope
-) : FilesProvider, ActivityResultListener {
+) : FilesReader, ActivityResultGetContentListener {
 
     private var callback: (suspend (String) -> Unit)? = null
 
@@ -25,7 +25,7 @@ internal class FilesProviderImpl @Inject constructor(
         observer.selectJson()
     }
 
-    override fun onGetContent(uri: Uri?) {
+    override fun onContentRecieved(uri: Uri?) {
         observer.removeListener(this)
         val callback = callback!!
         this.callback = null
