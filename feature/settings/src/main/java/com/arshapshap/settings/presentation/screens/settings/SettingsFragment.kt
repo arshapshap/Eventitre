@@ -80,11 +80,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
         }
     }
 
-    internal fun importEventsWithOverwriting() {
+    private fun importEventsWithOverwriting() {
         viewModel.importEvents(withOverwriting = true)
     }
 
-    internal fun importOnlyNewEvents() {
+    private fun importOnlyNewEvents() {
         viewModel.importEvents(withOverwriting = false)
     }
 }

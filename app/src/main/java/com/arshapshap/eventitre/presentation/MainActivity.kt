@@ -1,8 +1,13 @@
 package com.arshapshap.eventitre.presentation
 
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.core.view.MenuProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.arshapshap.common_ui.base.BaseActivity
 import com.arshapshap.eventitre.App
@@ -38,6 +43,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             navigator.attachNavController(it, R.navigation.nav_graph)
             configureToolbar(it)
         }
+
+        addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if (menuItem.itemId == navController?.currentDestination?.id) return true
+                return menuItem.onNavDestinationSelected(navController!!)
+            }
+        })
     }
 
     override fun inject() {
@@ -58,12 +74,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     private fun configureToolbar(navController: NavController) {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         with (binding.toolbar) {
-            setupWithNavController(navController, appBarConfiguration)
+            setSupportActionBar(this)
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                val settingsItem = binding.toolbar.menu.findItem(R.id.settingsFragment)
 
-            menu.getItem(0).setOnMenuItemClickListener { _ ->
-                router.openSettings()
-                true
+                settingsItem.isVisible = destination.id != R.id.settingsFragment
             }
+            setupWithNavController(navController, appBarConfiguration)
         }
     }
 }
