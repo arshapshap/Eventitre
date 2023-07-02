@@ -2,7 +2,7 @@ package com.arshapshap.settings.domain.repositories
 
 import com.arshapshap.common.di.domain.models.Event
 
-interface EventsJsonRepository {
+interface EventsRepository {
 
     suspend fun getEventsFromJson(callback: suspend (List<Event>) -> Unit)
 

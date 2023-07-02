@@ -1,13 +1,13 @@
 package com.arshapshap.settings.di.modules
 
-import com.arshapshap.settings.data.repositories.EventsJsonRepositoryImpl
-import com.arshapshap.settings.domain.repositories.EventsJsonRepository
+import com.arshapshap.settings.data.repositories.EventsRepositoryImpl
+import com.arshapshap.settings.domain.repositories.EventsRepository
 import dagger.Binds
 import dagger.Module
 
-@Module(includes = [DataModule::class])
+@Module
 internal interface SettingsFeatureModule {
 
     @Binds
-    fun bindEventsRepositoryImpl_to_EventsRepository(repositoryImpl: EventsJsonRepositoryImpl): EventsJsonRepository
+    fun bindEventsRepositoryImpl(repositoryImpl: EventsRepositoryImpl): EventsRepository
 }

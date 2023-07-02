@@ -47,7 +47,6 @@ dependencies {
     implementation libs.android.material
     implementation libs.androidx.recyclerview
     implementation libs.androidx.constraintlayout
-    implementation libs.gson
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.kapt

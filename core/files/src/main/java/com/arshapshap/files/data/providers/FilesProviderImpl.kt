@@ -1,4 +1,4 @@
-package com.arshapshap.files.data
+package com.arshapshap.files.data.providers
 
 import android.content.ContentResolver
 import android.net.Uri

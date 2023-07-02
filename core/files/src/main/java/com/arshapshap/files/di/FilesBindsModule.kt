@@ -1,6 +1,8 @@
 package com.arshapshap.files.di
 
-import com.arshapshap.files.data.FilesProviderImpl
+import com.arshapshap.files.data.providers.FilesProviderImpl
+import com.arshapshap.files.data.repositories.EventsJsonRepositoryImpl
+import com.arshapshap.files.domain.EventsJsonRepository
 import com.arshapshap.files.domain.FilesProvider
 import dagger.Binds
 import dagger.Module
@@ -9,5 +11,8 @@ import dagger.Module
 internal interface FilesBindsModule {
 
     @Binds
-    fun bindFilesProviderImpl_to_FilesProvider(filesProviderImpl: FilesProviderImpl): FilesProvider
+    fun bindFilesProviderImpl(filesProviderImpl: FilesProviderImpl): FilesProvider
+
+    @Binds
+    fun bindEventsJsonRepositoryImpl(repositoryImpl: EventsJsonRepositoryImpl): EventsJsonRepository
 }

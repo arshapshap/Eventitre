@@ -1,4 +1,4 @@
-package com.arshapshap.settings.data.models
+package com.arshapshap.files.domain.models
 
 import com.google.gson.annotations.SerializedName
 
