@@ -5,6 +5,7 @@ import com.arshapshap.database.dao.EventDao
 import com.arshapshap.files.domain.repositories.EventsJsonRepository
 import com.arshapshap.settings.data.mappers.EventMapper
 import com.arshapshap.settings.domain.repositories.EventsRepository
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 internal class EventsRepositoryImpl @Inject constructor(
@@ -13,11 +14,16 @@ internal class EventsRepositoryImpl @Inject constructor(
     private val mapper: EventMapper
 ) : EventsRepository {
 
-    override suspend fun getEventsFromJson(callback: suspend (List<Event>) -> Unit) {
-        jsonRepository.getEventsFromJson {
-            val list = mapper.mapListFromJson(it)
-            callback.invoke(list)
-        }
+    override suspend fun getEventsFromJson(): List<Event> = coroutineScope {
+        return@coroutineScope jsonRepository.getEventsFromJson()
+            .filter {
+                it.dateStart != null && it.dateFinish != null && it.name != null
+            }
+            .map { mapper.mapFromJson(it) }
+    }
+
+    override suspend fun exportEventsToJson(list: List<Event>) = coroutineScope {
+        return@coroutineScope jsonRepository.saveEventsInJson(list.map { mapper.mapToJson(it) })
     }
 
     override suspend fun getEvents(): List<Event> {
@@ -30,9 +36,5 @@ internal class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun addEvents(list: List<Event>): List<Long> {
         return localSource.addList(list.map { mapper.mapToLocal(it) })
-    }
-
-    override suspend fun exportEventsToJson(list: List<Event>, callback: () -> Unit) {
-        jsonRepository.saveEventsInJson(mapper.mapListToJson(list), callback)
     }
 }

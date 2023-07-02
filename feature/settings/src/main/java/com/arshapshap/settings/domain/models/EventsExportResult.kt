@@ -1,5 +1,5 @@
 package com.arshapshap.settings.domain.models
 
-data class EventsExportInfo(
+data class EventsExportResult(
     val exportedNumber: Int,
 )

@@ -10,34 +10,34 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 internal class FilesReaderImpl @Inject constructor(
     private val observer: LifecycleObserver,
     private val contentResolver: ContentResolver,
     private val applicationScope: CoroutineScope
-) : FilesReader, ActivityResultGetContentListener {
+) : FilesReader {
 
-    private var callback: (suspend (String) -> Unit)? = null
-
-    override suspend fun getJsonFile(callback: suspend (String) -> Unit) {
-        this.callback = callback
-        observer.addListener(this)
-        observer.selectJson()
-    }
-
-    override fun onContentRecieved(uri: Uri?) {
-        observer.removeListener(this)
-        val callback = callback!!
-        this.callback = null
-        if (uri != null && uri.path != null) {
-            applicationScope.launch {
-                val inputStream = contentResolver.openInputStream(uri)
-                val content = inputStream?.bufferedReader().use { it?.readText() }
-                withContext(Dispatchers.IO) {
-                    inputStream?.close()
+    override suspend fun getJsonFile(): String = suspendCoroutine { continuation ->
+        observer.addListener(object : ActivityResultGetContentListener {
+            override fun onContentRecieved(uri: Uri?) {
+                observer.removeListener(this)
+                if (uri != null && uri.path != null) {
+                    applicationScope.launch {
+                        val inputStream = contentResolver.openInputStream(uri)
+                        val content = inputStream?.bufferedReader().use { it?.readText() }
+                        withContext(Dispatchers.IO) {
+                            inputStream?.close()
+                        }
+                        continuation.resume(content!!)
+                    }
+                } else {
+                    continuation.resumeWithException(NullPointerException("Uri is null"))
                 }
-                callback.invoke(content!!)
             }
-        }
+        })
+        observer.selectJson()
     }
 }

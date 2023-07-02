@@ -30,40 +30,23 @@ internal class EventMapper @Inject constructor() {
             )
         }
 
-    internal fun mapListFromJson(eventsJson: List<EventJson>): List<Event> {
-        return eventsJson
-            .filter {
-                it.dateStart != null && it.dateFinish != null && it.name != null
-            }
-            .map { this.mapFromJson(it) }
-            .toList()
+    internal fun mapToJson(event: Event): EventJson = with (event) {
+        EventJson(
+            id = id,
+            dateStart = (dateStart.time / 1000).toString(),
+            dateFinish = (dateFinish.time / 1000).toString(),
+            name = name,
+            description = description
+        )
     }
 
-    internal fun mapListToJson(events: List<Event>): List<EventJson> {
-        return events.map { this.mapToJson(it) }
-    }
-
-    private fun mapToJson(event: Event): EventJson {
-        return with (event) {
-            EventJson(
-                id = id,
-                dateStart = (dateStart.time / 1000).toString(),
-                dateFinish = (dateFinish.time / 1000).toString(),
-                name = name,
-                description = description
-            )
-        }
-    }
-
-    private fun mapFromJson(eventJson: EventJson): Event {
-        return with (eventJson) {
-            Event(
-                id = id ?: 0,
-                dateStart = Date(dateStart!!.toLong() * 1000),
-                dateFinish = Date(dateFinish!!.toLong() * 1000),
-                name = name!!,
-                description = description ?: ""
-            )
-        }
+    internal fun mapFromJson(eventJson: EventJson): Event = with (eventJson) {
+        Event(
+            id = id ?: 0,
+            dateStart = Date(dateStart!!.toLong() * 1000),
+            dateFinish = Date(dateFinish!!.toLong() * 1000),
+            name = name!!,
+            description = description ?: ""
+        )
     }
 }

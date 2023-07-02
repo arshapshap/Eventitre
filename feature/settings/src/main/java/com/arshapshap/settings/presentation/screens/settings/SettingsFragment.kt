@@ -42,30 +42,30 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     override fun subscribe() {
         with (viewModel) {
             eventsToImportLiveData.observe(viewLifecycleOwner) {
-                if (it.list.isEmpty())
+                if (it.allEvents.isEmpty())
                     showAlert(
                         title = getString(R.string.import_events),
                         message = getString(R.string.no_events_to_import)
                     )
-                else if (it.listWithoutConflicts.isEmpty())
+                else if (it.newEvents.isEmpty())
                     showAlertWithTwoButtons(
                         title = getString(R.string.import_events),
-                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.list.size, it.list.size - it.listWithoutConflicts.size),
-                        onPositiveButtonClick = viewModel::importEventsWithOverwriting
+                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.allEvents.size, it.allEvents.size - it.newEvents.size),
+                        onPositiveButtonClick = ::importEventsWithOverwriting
                     )
-                else if (it.list.size == it.listWithoutConflicts.size)
+                else if (it.allEvents.size == it.newEvents.size)
                     showAlertWithTwoButtons(
                         title = getString(R.string.import_events),
-                        message = getString(R.string.events_prepared_for_import, it.list.size),
-                        onPositiveButtonClick = viewModel::importEventsWithOverwriting
+                        message = getString(R.string.events_prepared_for_import, it.allEvents.size),
+                        onPositiveButtonClick = ::importEventsWithOverwriting
                     )
                 else
                     showAlertWithThreeButtons(
                         title = getString(R.string.import_events),
-                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.list.size, it.listWithoutConflicts.size),
+                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.allEvents.size, it.newEvents.size),
                         neutralButtonText = getString(R.string.add_only_new),
-                        onPositiveButtonClick = viewModel::importEventsWithOverwriting,
-                        onNeutralButtonClick = viewModel::importOnlyNewEvents
+                        onPositiveButtonClick = ::importEventsWithOverwriting,
+                        onNeutralButtonClick = ::importOnlyNewEvents
                     )
             }
 
@@ -77,5 +77,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
                 showToast(getString(R.string.exported_events_number, it))
             }
         }
+    }
+
+    internal fun importEventsWithOverwriting() {
+        viewModel.importEvents(withOverwriting = true)
+    }
+
+    internal fun importOnlyNewEvents() {
+        viewModel.importEvents(withOverwriting = false)
     }
 }

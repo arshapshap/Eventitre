@@ -3,10 +3,8 @@ package com.arshapshap.settings.presentation.screens.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.arshapshap.common.di.domain.models.Event
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.settings.domain.SettingsInteractor
-import com.arshapshap.settings.domain.models.EventsExportInfo
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -30,37 +28,26 @@ class SettingsViewModel @AssistedInject constructor(
 
     internal fun exportEvents() {
         viewModelScope.launch {
-            interactor.exportEvents(::handleExportResult)
+            val result = interactor.exportEvents()
+            _exportedEventsLiveData.postValue(result.exportedNumber)
         }
     }
 
     internal fun requestImportEvents() {
         viewModelScope.launch {
-            interactor.requestImportEvents(::recieveEvents)
+            val events = interactor.getEventsFromJson()
+            _eventsToImportLiveData.postValue(events)
         }
     }
 
-    internal fun importEventsWithOverwriting() {
-        importEvents(eventsToImportLiveData.value?.list)
-    }
+    internal fun importEvents(withOverwriting: Boolean) {
+        val list = if (withOverwriting) eventsToImportLiveData.value?.allEvents
+            else eventsToImportLiveData.value?.newEvents
 
-    internal fun importOnlyNewEvents() {
-        importEvents(eventsToImportLiveData.value?.listWithoutConflicts)
-    }
-
-    private fun importEvents(list: List<Event>?) {
         viewModelScope.launch {
-            val added = interactor.importEvents(list ?: listOf())
-            _importedEventsLiveData.postValue(added)
+            val result = interactor.importEvents(list ?: listOf())
+            _importedEventsLiveData.postValue(result.importedNumber)
         }
-    }
-
-    private fun handleExportResult(result: EventsExportInfo) {
-        _exportedEventsLiveData.postValue(result.exportedNumber)
-    }
-
-    private fun recieveEvents(events: EventsImportInfo) {
-        _eventsToImportLiveData.postValue(events)
     }
 
     @AssistedFactory

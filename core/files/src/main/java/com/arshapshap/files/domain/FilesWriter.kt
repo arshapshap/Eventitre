@@ -2,5 +2,5 @@ package com.arshapshap.files.domain
 
 internal interface FilesWriter {
 
-    suspend fun createJson(json: String, callback: () -> Unit)
+    suspend fun createJson(json: String)
 }
