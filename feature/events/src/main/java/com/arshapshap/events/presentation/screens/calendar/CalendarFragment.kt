@@ -34,8 +34,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     }
 
     override fun subscribe() {
+        super.subscribe()
         with (viewModel) {
-            loadList()
+            loadData()
             listLiveData.observe(viewLifecycleOwner) {
                 getEventsRecyclerViewAdapter().setList(it)
             }

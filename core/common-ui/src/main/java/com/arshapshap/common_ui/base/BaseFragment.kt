@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.arshapshap.common.di.base.BaseFeatureComponent
 import com.arshapshap.common.di.base.BaseFeatureViewModel
+import com.arshapshap.common_ui.extensions.showAlert
+import com.arshapshap.common_ui.extensions.showToast
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -50,7 +52,21 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     abstract fun initViews()
 
-    abstract fun subscribe()
+    open fun subscribe() {
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            when (it.level) {
+                ViewModelErrorLevel.Error ->
+                    showAlert(
+                        title = getString(com.arshapshap.common_ui.R.string.error),
+                        message = getString(it.messageRes)
+                    )
+                ViewModelErrorLevel.Warn ->
+                    showToast(
+                        message = getString(it.messageRes)
+                    )
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

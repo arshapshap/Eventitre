@@ -9,5 +9,5 @@ import dagger.Module
 internal interface EventsFeatureModule {
 
     @Binds
-    fun bindEventsRepositoryImpl_to_EventsRepository(repositoryImpl: EventsRepositoryImpl): EventsRepository
+    fun bindEventsRepositoryImpl(repositoryImpl: EventsRepositoryImpl): EventsRepository
 }

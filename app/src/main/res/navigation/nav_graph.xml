@@ -8,12 +8,18 @@
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.arshapshap.events.presentation.screens.calendar.CalendarFragment"
-        android:label="CalendarFragment"
+        android:label="@string/calendar_fragment_label"
         tools:layout="@layout/fragment_calendar" />
 
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
-        android:label="EventFragment"
+        android:label="@string/event_fragment_label"
         tools:layout="@layout/fragment_event" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.arshapshap.settings.presentation.screens.settings.SettingsFragment"
+        android:label="@string/settings_fragment_label"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

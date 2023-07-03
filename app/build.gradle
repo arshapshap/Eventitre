@@ -41,7 +41,9 @@ dependencies {
     implementation project(path: ':core:common')
     implementation project(path: ':core:common-ui')
     implementation project(path: ':core:database')
+    implementation project(path: ':core:files')
     implementation project(path: ':feature:events')
+    implementation project(path: ':feature:settings')
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

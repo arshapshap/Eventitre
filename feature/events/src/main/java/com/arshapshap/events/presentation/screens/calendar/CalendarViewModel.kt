@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
-import com.arshapshap.events.domain.models.Event
-import com.arshapshap.events.presentation.screens.EventsFeatureRouter
+import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ class CalendarViewModel @AssistedInject constructor(
     internal val listLiveData: LiveData<List<Event>>
         get() = _listLiveData
 
-    internal fun loadList() {
+    internal fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = interactor.getEvents()
             _listLiveData.postValue(list)
