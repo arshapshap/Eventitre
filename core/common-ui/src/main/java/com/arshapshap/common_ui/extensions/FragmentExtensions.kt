@@ -4,11 +4,21 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import com.arshapshap.common_ui.R
 import java.util.*
+
+@ColorInt
+fun Fragment.getColorFromTheme(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
+    activity?.theme?.resolveAttribute(attr, typedValue, true)
+    return typedValue.data
+}
 
 fun Fragment.showToast(message: String) {
     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

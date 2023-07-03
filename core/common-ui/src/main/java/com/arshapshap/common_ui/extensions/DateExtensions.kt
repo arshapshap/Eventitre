@@ -1,11 +1,23 @@
 package com.arshapshap.common_ui.extensions
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
-fun createDate(dayOfMonth: Int, month: Int, year: Int): Date {
-    val calendar = Calendar.getInstance()
-    calendar.set(year, month, dayOfMonth)
+fun Date.toLocalDate(): LocalDate {
+    return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+}
+
+fun Date.updateTime(date: Date): Date {
+    val calendar = this.toCalendar()
+
+    val currentTime = date.toCalendar()
+    calendar.set(Calendar.HOUR_OF_DAY, currentTime.get(Calendar.HOUR_OF_DAY))
+    calendar.set(Calendar.MINUTE, currentTime.get(Calendar.MINUTE))
+    calendar.set(Calendar.SECOND, currentTime.get(Calendar.SECOND))
+    calendar.set(Calendar.MILLISECOND, currentTime.get(Calendar.MILLISECOND))
+
     return calendar.time
 }
 

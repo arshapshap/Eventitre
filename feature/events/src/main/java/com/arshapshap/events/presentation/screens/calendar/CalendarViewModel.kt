@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common_ui.extensions.updateTime
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,7 +24,11 @@ class CalendarViewModel @AssistedInject constructor(
     internal val listLiveData: LiveData<List<Event>>
         get() = _listLiveData
 
-    private val _selectedDateLiveData = MutableLiveData<Date>()
+    private val _unselectedDateLiveData = MutableLiveData<Date>()
+    internal val unselectedDateLiveData: LiveData<Date>
+        get() = _unselectedDateLiveData
+
+    private val _selectedDateLiveData = MutableLiveData(Calendar.getInstance().time)
     internal val selectedDateLiveData: LiveData<Date>
         get() = _selectedDateLiveData
 
@@ -39,11 +44,12 @@ class CalendarViewModel @AssistedInject constructor(
     }
 
     internal fun openEventCreating() {
-        router.openEventCreating(selectedDateLiveData.value ?: Calendar.getInstance().time)
+        router.openEventCreating(selectedDateLiveData.value!!.updateTime(Calendar.getInstance().time))
     }
 
-    internal fun loadEventsByDate(date: Date) {
+    internal fun selectDate(date: Date) {
         viewModelScope.launch(Dispatchers.IO) {
+            _unselectedDateLiveData.postValue(selectedDateLiveData.value)
             _selectedDateLiveData.postValue(date)
             val list = interactor.getEventsByDate(date)
             _listLiveData.postValue(list)

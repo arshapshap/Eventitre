@@ -40,12 +40,13 @@ dependencies {
     implementation project(path: ':core:common-ui')
     implementation project(path: ':core:database')
 
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.fragment.ktx
     implementation libs.android.material
-    implementation libs.androidx.recyclerview
+    implementation libs.androidx.appcompat
     implementation libs.androidx.constraintlayout
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.recyclerview
+    implementation libs.fragment.ktx
+    implementation libs.calendar.view
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.kapt
