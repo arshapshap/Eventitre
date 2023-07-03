@@ -1,6 +1,7 @@
 package com.arshapshap.events.presentation.screens.calendar
 
 import com.arshapshap.common_ui.base.BaseFragment
+import com.arshapshap.common_ui.extensions.createDate
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
@@ -30,6 +31,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             addButton.setOnClickListener {
                 viewModel.openEventCreating()
             }
+            calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+                viewModel.loadEventsByDate(createDate(dayOfMonth, month, year))
+            }
         }
     }
 
@@ -39,6 +43,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             loadData()
             listLiveData.observe(viewLifecycleOwner) {
                 getEventsRecyclerViewAdapter().setList(it)
+            }
+            selectedDateLiveData.observe(viewLifecycleOwner) {
+                with (binding.calendarView) {
+                    if (this.date != it.time)
+                        this.date = it.time
+                }
             }
         }
     }

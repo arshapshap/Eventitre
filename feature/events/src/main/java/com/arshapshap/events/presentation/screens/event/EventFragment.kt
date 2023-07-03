@@ -23,20 +23,27 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     companion object {
 
-        fun createBundle(eventId: Long?): Bundle {
+        fun createBundle(eventId: Long): Bundle {
             return bundleOf(EVENT_ID_KEY to eventId)
         }
 
+        fun createBundle(date: Date): Bundle {
+            return bundleOf(DATE_KEY to date)
+        }
+
         private const val EVENT_ID_KEY = "EVENT_ID_KEY"
+        private const val DATE_KEY = "DATE_KEY"
     }
 
     private val component by lazy {
         getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>()
     }
 
+    @Suppress("DEPRECATION")
     override val viewModel: EventViewModel by lazyViewModel {
         component.eventViewModel().create(
-            arguments?.getLong(EVENT_ID_KEY)
+            id = arguments?.getLong(EVENT_ID_KEY),
+            date = arguments?.getSerializable(DATE_KEY) as? Date
         )
     }
 

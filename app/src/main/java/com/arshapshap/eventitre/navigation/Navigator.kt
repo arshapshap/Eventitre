@@ -5,6 +5,7 @@ import com.arshapshap.eventitre.R
 import com.arshapshap.eventitre.presentation.MainRouter
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import com.arshapshap.events.presentation.screens.event.EventFragment
+import java.util.Date
 
 class Navigator: MainRouter, EventsFeatureRouter {
 
@@ -29,8 +30,8 @@ class Navigator: MainRouter, EventsFeatureRouter {
         navController?.navigate(R.id.eventFragment, EventFragment.createBundle(id))
     }
 
-    override fun openEventCreating() {
-        navController?.navigate(R.id.eventFragment)
+    override fun openEventCreating(date: Date) {
+        navController?.navigate(R.id.eventFragment, EventFragment.createBundle(date))
     }
 
     override fun openSettings() {
