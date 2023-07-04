@@ -23,11 +23,14 @@ class EventsInteractor @Inject constructor(
         val result = mutableMapOf<Date, List<Event>>()
         var date = dateStart
         while (date < dateFinish) {
-            result[date] = repository.getEventsByPredicate {
+            val list = repository.getEventsByPredicate {
                 date.isDateInRange(
                     it.dateStart, it.dateFinish
                 )
             }
+            if (list.isNotEmpty())
+                result[date] = list
+
             date = date.addHours(24)
         }
         return result

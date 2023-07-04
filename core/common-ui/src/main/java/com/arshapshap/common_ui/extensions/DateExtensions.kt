@@ -80,3 +80,14 @@ fun Date.formatTimeToString(): String {
     val outputDateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return outputDateFormatter.format(this)
 }
+
+fun Date.roundToDay(): Date {
+    val calendar = Calendar.getInstance().apply {
+        time = this@roundToDay
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+    return calendar.time
+}
