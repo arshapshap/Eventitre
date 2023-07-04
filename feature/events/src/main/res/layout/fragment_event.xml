@@ -15,7 +15,7 @@
 
         <EditText
             android:id="@+id/name_edit_text"
-            style="@style/Text.Title"
+            style="@style/Text.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
