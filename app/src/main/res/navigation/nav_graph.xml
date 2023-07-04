@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_event" />
 
     <fragment
+        android:id="@+id/newEventFragment"
+        android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
+        android:label="@string/new_event_fragment_label"
+        tools:layout="@layout/fragment_event" />
+
+    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.arshapshap.settings.presentation.screens.settings.SettingsFragment"
         android:label="@string/settings_fragment_label"

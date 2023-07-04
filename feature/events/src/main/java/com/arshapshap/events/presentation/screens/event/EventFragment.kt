@@ -83,6 +83,8 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                     deleteImageView.isGone = viewModel.isCreating
                 }
                 setDateTimeFields(event = it)
+                if (it != null)
+                    requireActivity().setTitle(R.string.event_fragment_label)
             }
             editingEventLiveData.observe(viewLifecycleOwner) {
                 setDateTimeFields(event = it)

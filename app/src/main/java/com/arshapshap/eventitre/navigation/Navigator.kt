@@ -31,7 +31,7 @@ class Navigator: MainRouter, EventsFeatureRouter {
     }
 
     override fun openEventCreating(date: Date) {
-        navController?.navigate(R.id.eventFragment, EventFragment.createBundle(date))
+        navController?.navigate(R.id.newEventFragment, EventFragment.createBundle(date))
     }
 
     override fun openSettings() {
