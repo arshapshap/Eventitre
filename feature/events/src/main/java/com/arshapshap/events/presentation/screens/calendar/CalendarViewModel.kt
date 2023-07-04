@@ -20,6 +20,10 @@ class CalendarViewModel @AssistedInject constructor(
     private val router: EventsFeatureRouter
 ) : BaseViewModel() {
 
+    private val _eventsLiveData = MutableLiveData<Map<Date, List<Event>>>(mapOf())
+    internal val eventsLiveData: LiveData<Map<Date, List<Event>>>
+        get() = _eventsLiveData
+
     private val _listLiveData = MutableLiveData<List<Event>>(listOf())
     internal val listLiveData: LiveData<List<Event>>
         get() = _listLiveData
@@ -32,11 +36,13 @@ class CalendarViewModel @AssistedInject constructor(
     internal val selectedDateLiveData: LiveData<Date>
         get() = _selectedDateLiveData
 
-    internal fun loadData() {
+    internal fun loadData(dateStart: Date, dateFinish: Date) {
+        _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-//            val list = interactor.getEvents()
-//            _listLiveData.postValue(list)
+            val events = interactor.getEventsByDateRange(dateStart, dateFinish)
+            _eventsLiveData.postValue(events)
         }
+        _loadingLiveData.postValue(false)
     }
 
     internal fun openEvent(event: Event) {
@@ -51,8 +57,7 @@ class CalendarViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _unselectedDateLiveData.postValue(selectedDateLiveData.value)
             _selectedDateLiveData.postValue(date)
-            val list = interactor.getEventsByDate(date)
-            _listLiveData.postValue(list)
+            _listLiveData.postValue(eventsLiveData.value?.get(date) ?: listOf())
         }
     }
 

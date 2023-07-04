@@ -1,18 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frame_layout"
+<com.arshapshap.events.presentation.screens.calendar.calendarview.CalendarDayView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendar_day"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:background="@drawable/bg_circle"
-    android:padding="4dp"
-    android:layout_margin="1dp">
-
-    <TextView
-        android:id="@+id/calendar_day_text_view"
-        style="@style/Text.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        tools:text="22" />
-</FrameLayout>
+    android:layout_margin="2dp" />

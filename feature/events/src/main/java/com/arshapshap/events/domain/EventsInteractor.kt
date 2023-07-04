@@ -2,6 +2,7 @@ package com.arshapshap.events.domain
 
 import com.arshapshap.events.domain.repositories.EventsRepository
 import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common_ui.extensions.addHours
 import com.arshapshap.common_ui.extensions.isDateInRange
 import java.util.Date
 import javax.inject.Inject
@@ -18,12 +19,18 @@ class EventsInteractor @Inject constructor(
         repository.updateEvent(event)
     }
 
-    internal suspend fun getEvents(): List<Event> {
-        return repository.getEvents()
-    }
-
-    internal suspend fun getEventsByDate(date: Date): List<Event> {
-        return repository.getEventsByPredicate { date.isDateInRange(it.dateStart, it.dateFinish) }
+    internal suspend fun getEventsByDateRange(dateStart: Date, dateFinish: Date): Map<Date, List<Event>> {
+        val result = mutableMapOf<Date, List<Event>>()
+        var date = dateStart
+        while (date < dateFinish) {
+            result[date] = repository.getEventsByPredicate {
+                date.isDateInRange(
+                    it.dateStart, it.dateFinish
+                )
+            }
+            date = date.addHours(24)
+        }
+        return result
     }
 
     internal suspend fun getEventById(id: Long): Event? {

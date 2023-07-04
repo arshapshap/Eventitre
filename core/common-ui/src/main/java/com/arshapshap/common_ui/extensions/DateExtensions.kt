@@ -52,6 +52,12 @@ fun Date.addHours(hours: Int): Date {
     return calendar.time
 }
 
+fun Date.addMonths(months: Int): Date {
+    val calendar = this.toCalendar()
+    calendar.add(Calendar.MONTH, months)
+    return calendar.time
+}
+
 fun Date.formatDateTimeToString(): String {
     val timeString = this.formatTimeToString()
     val dateString = this.formatDateToString()

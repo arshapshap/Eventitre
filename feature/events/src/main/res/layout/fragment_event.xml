@@ -172,7 +172,7 @@
         app:layout_constraintEnd_toStartOf="@id/delete_image_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_guideline"
-        app:tint="@color/blue" />
+        app:tint="?attr/colorSecondary" />
 
     <ImageView
         android:id="@+id/delete_image_view"

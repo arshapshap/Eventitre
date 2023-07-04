@@ -1,4 +1,4 @@
-package com.arshapshap.events.presentation.screens.calendar
+package com.arshapshap.events.presentation.screens.calendar.calendarview
 
 import android.view.View
 import com.arshapshap.events.databinding.CalendarMonthLayoutBinding

@@ -1,4 +1,4 @@
-package com.arshapshap.events.presentation.screens.calendar
+package com.arshapshap.events.presentation.screens.calendar.calendarview
 
 import android.view.View
 import com.arshapshap.events.databinding.CalendarDayLayoutBinding
@@ -11,7 +11,7 @@ class DayViewContainer(
 ) : ViewContainer(view) {
 
     lateinit var date: LocalDate
-    val binding = CalendarDayLayoutBinding.bind(view)
+    val calendarDay = CalendarDayLayoutBinding.bind(view).calendarDay
 
     init {
         view.setOnClickListener {
