@@ -22,8 +22,9 @@ class EventsInteractor @Inject constructor(
     internal suspend fun getEventsByDateRange(dateStart: Date, dateFinish: Date): Map<Date, List<Event>> {
         val result = mutableMapOf<Date, List<Event>>()
         var date = dateStart
+        val events = repository.getEvents()
         while (date < dateFinish) {
-            val list = repository.getEventsByPredicate {
+            val list = events.filter {
                 date.isDateInRange(
                     it.dateStart, it.dateFinish
                 )
