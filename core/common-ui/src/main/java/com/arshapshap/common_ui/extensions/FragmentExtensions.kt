@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -135,4 +136,9 @@ fun Fragment.showDatePickerDialog(
 fun Fragment.hideKeyboard() {
     val imm = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view?.windowToken, 0)
+}
+
+fun Fragment.showKeyboard(editText: EditText) {
+    val imm = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 }

@@ -115,6 +115,11 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             setInputFieldEditing(descriptionEditText, isEditing)
             setDescriptionVisibility(isEditing || !descriptionEditText.text.isNullOrEmpty())
 
+            if (viewModel.isCreating) {
+                nameEditText.requestFocus()
+                showKeyboard(nameEditText)
+            }
+
             setDateTimeFieldEditing(timeStartTextView, isEditing) {
                 showTimePickerDialog(
                     message = getString(R.string.event_start_time),

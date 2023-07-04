@@ -12,7 +12,7 @@ fun YearMonth.formatToString(): String {
             SimpleDateFormat("LLLL", Locale.getDefault())
         else
             SimpleDateFormat("LLLL yyyy", Locale.getDefault())
-    return outputDateFormatter.format(this.toDate())
+    return outputDateFormatter.format(this.toDate()).replaceFirstChar(Char::titlecase)
 }
 
 fun YearMonth.toDate(): Date {
