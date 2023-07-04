@@ -73,6 +73,8 @@ class CalendarDayView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         circlePaint.color = contentColor
         circlePaint.alpha = (contentAlpha * 255).toInt()
+
+        circleCount = if (circleCount < 6) circleCount else 15
         when (circleCount) {
             0 -> { }
             1 -> {
@@ -92,10 +94,8 @@ class CalendarDayView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 val rightCircleX = centerX + distanceBetweenCircles * 3
                 val distance = (rightCircleX - leftCircleX) / (circleCount - 1)
 
-                canvas.drawCircle(leftCircleX, centerY, radius, circlePaint)
-                for (i in 1..circleCount-2)
+                for (i in 0 until circleCount)
                     canvas.drawCircle(leftCircleX + distance * i, centerY, radius, circlePaint)
-                canvas.drawCircle(rightCircleX, centerY, radius, circlePaint)
             }
         }
     }
