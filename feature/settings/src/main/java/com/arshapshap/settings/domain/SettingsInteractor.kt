@@ -28,6 +28,8 @@ class SettingsInteractor @Inject constructor(
 
     internal suspend fun exportEvents(): EventsExportResult = coroutineScope {
         val events = repository.getEvents()
+        if (events.isEmpty()) return@coroutineScope EventsExportResult(0)
+
         repository.exportEventsToJson(events)
         return@coroutineScope EventsExportResult(
             exportedNumber = events.size

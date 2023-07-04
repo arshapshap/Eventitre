@@ -75,7 +75,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             }
 
             exportedEventsLiveData.observe(viewLifecycleOwner) {
-                showToast(getString(R.string.exported_events_number, it))
+                if (it > 0)
+                    showToast(getString(R.string.exported_events_number, it))
+                else
+                    showToast(getString(R.string.nothing_to_export))
             }
         }
     }
