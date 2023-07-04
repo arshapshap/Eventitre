@@ -115,7 +115,7 @@ class EventViewModel @AssistedInject constructor(
     internal fun setName(name: String) {
         if (isEditingLiveData.value != true) return
         val event = _editingEventLiveData.value?.copy(
-            name = name
+            name = name.trim()
         )
         _editingEventLiveData.postValue(event)
     }
@@ -123,7 +123,7 @@ class EventViewModel @AssistedInject constructor(
     internal fun setDescription(description: String) {
         if (isEditingLiveData.value != true) return
         val event = _editingEventLiveData.value?.copy(
-            description = description
+            description = description.trim()
         )
         _editingEventLiveData.postValue(event)
     }
