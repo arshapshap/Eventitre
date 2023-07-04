@@ -1,6 +1,5 @@
 package com.arshapshap.common_ui.extensions
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -9,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.arshapshap.common_ui.R
 import java.util.*
