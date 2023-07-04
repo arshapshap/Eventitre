@@ -48,7 +48,6 @@ class CalendarDayView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         textView.gravity = Gravity.CENTER
         addView(textView)
 
-
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CalendarDayView)
         circleCount = typedArray.getInt(R.styleable.CalendarDayView_circleCount, 0)
         contentColor = typedArray.getColor(R.styleable.CalendarDayView_circleColor, 0)

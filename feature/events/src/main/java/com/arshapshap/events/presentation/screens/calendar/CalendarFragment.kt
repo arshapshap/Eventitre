@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.extensions.*
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
@@ -14,10 +15,7 @@ import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
 import com.arshapshap.events.presentation.screens.calendar.calendarview.DayViewContainer
 import com.arshapshap.events.presentation.screens.calendar.calendarview.MonthViewContainer
-import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.DayPosition
-import com.kizitonwose.calendar.core.daysOfWeek
+import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
@@ -56,9 +54,14 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
         }
     }
 
+    private var firstOpenning = true
+
     override fun subscribe() {
         super.subscribe()
         with (viewModel) {
+            loadingLiveData.observe(viewLifecycleOwner) {
+                binding.loadingProgressBar.isVisible = it
+            }
             eventsLiveData.observe(viewLifecycleOwner) {
                 it.keys.forEach {
                     binding.calendarView.notifyDateChangedEverywhere(it.toLocalDate())
@@ -72,14 +75,17 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             }
             selectedDateLiveData.observe(viewLifecycleOwner) {
                 binding.calendarView.notifyDateChangedEverywhere(it.toLocalDate())
-                binding.calendarView.scrollToDate(it.toLocalDate())
+                if (firstOpenning) {
+                    firstOpenning = false
+                    binding.calendarView.scrollToDate(it.toLocalDate())
+                }
             }
         }
     }
 
     private fun loadData() {
-        val dateStart = binding.calendarView.findFirstVisibleDay()?.date?.toDate()?.addMonths(-1) ?: return
-        val dateFinish = binding.calendarView.findLastVisibleDay()?.date?.toDate()?.addMonths(1) ?: return
+        val dateStart = binding.calendarView.findFirstVisibleDay()?.date?.toDate()?.addMonths(-3) ?: return
+        val dateFinish = binding.calendarView.findLastVisibleDay()?.date?.toDate()?.addMonths(3) ?: return
         viewModel.loadData(
             dateStart = dateStart,
             dateFinish = dateFinish
@@ -90,11 +96,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
         binding.eventsRecyclerView.adapter as EventsRecyclerViewAdapter
 
     private fun configureCalendarView() {
-        with (binding) {
-            calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
+        with (binding.calendarView) {
+            dayBinder = object : MonthDayBinder<DayViewContainer> {
 
                 override fun create(view: View) = DayViewContainer(view) {
                     viewModel.selectDate(date = it.toDate())
+                    smoothScrollToDate(it)
                 }
 
                 override fun bind(container: DayViewContainer, data: CalendarDay) {
@@ -117,7 +124,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                 }
             }
 
-            calendarView.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
+            monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
 
                 override fun create(view: View) = MonthViewContainer(view)
 
@@ -133,17 +140,18 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                 }
             }
 
-            calendarView.monthScrollListener = object : MonthScrollListener {
-                override fun invoke(p1: CalendarMonth) {
+            monthScrollListener = object : MonthScrollListener {
+                override fun invoke(calendarMonth: CalendarMonth) {
                     loadData()
                 }
             }
 
-            val startMonth = YearMonth.of(1970, 1)
-            val endMonth = YearMonth.of(2099, 12)
-
-            calendarView.setup(startMonth, endMonth, daysOfWeek().first())
-            calendarView.scrollToMonth(YearMonth.now())
+            outDateStyle = OutDateStyle.EndOfGrid
+            setup(
+                startMonth = YearMonth.of(1970, 1),
+                endMonth = YearMonth.of(2099, 12),
+                firstDayOfWeek = daysOfWeek().first()
+            )
         }
     }
 

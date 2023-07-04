@@ -37,12 +37,11 @@ class CalendarViewModel @AssistedInject constructor(
         get() = _selectedDateLiveData
 
     internal fun loadData(dateStart: Date, dateFinish: Date) {
-        _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             val events = interactor.getEventsByDateRange(dateStart, dateFinish)
             _eventsLiveData.postValue(events)
+            _loadingLiveData.postValue(false)
         }
-        _loadingLiveData.postValue(false)
     }
 
     internal fun openEvent(event: Event) {
