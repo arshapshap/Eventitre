@@ -23,20 +23,27 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
 
     companion object {
 
-        fun createBundle(eventId: Long?): Bundle {
+        fun createBundle(eventId: Long): Bundle {
             return bundleOf(EVENT_ID_KEY to eventId)
         }
 
+        fun createBundle(date: Date): Bundle {
+            return bundleOf(DATE_KEY to date)
+        }
+
         private const val EVENT_ID_KEY = "EVENT_ID_KEY"
+        private const val DATE_KEY = "DATE_KEY"
     }
 
     private val component by lazy {
         getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>()
     }
 
+    @Suppress("DEPRECATION")
     override val viewModel: EventViewModel by lazyViewModel {
         component.eventViewModel().create(
-            arguments?.getLong(EVENT_ID_KEY)
+            id = arguments?.getLong(EVENT_ID_KEY),
+            date = arguments?.getSerializable(DATE_KEY) as? Date
         )
     }
 
@@ -64,9 +71,6 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     override fun subscribe() {
         super.subscribe()
         with (viewModel) {
-            loadingLiveData.observe(viewLifecycleOwner) {
-                binding.root.isVisible = !it
-            }
             eventLiveData.observe(viewLifecycleOwner) {
                 with (binding) {
                     nameEditText.setText(it.name)
@@ -76,6 +80,8 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                     deleteImageView.isGone = viewModel.isCreating
                 }
                 setDateTimeFields(event = it)
+                if (it != null)
+                    requireActivity().setTitle(R.string.event_fragment_label)
             }
             editingEventLiveData.observe(viewLifecycleOwner) {
                 setDateTimeFields(event = it)
@@ -108,6 +114,11 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             setInputFieldEditing(nameEditText, isEditing)
             setInputFieldEditing(descriptionEditText, isEditing)
             setDescriptionVisibility(isEditing || !descriptionEditText.text.isNullOrEmpty())
+
+            if (viewModel.isCreating) {
+                nameEditText.requestFocus()
+                showKeyboard(nameEditText)
+            }
 
             setDateTimeFieldEditing(timeStartTextView, isEditing) {
                 showTimePickerDialog(

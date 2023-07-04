@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/events_header_height"
+    android:orientation="vertical"
+    android:background="?attr/colorSecondary">
+
+    <TextView
+        android:id="@+id/calendar_month_text_view"
+        android:textColor="?attr/colorOnSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        style="@style/Text.Medium"
+        android:padding="15dp"
+        tools:text="июль"/>
+
+    <LinearLayout
+        android:id="@+id/day_titles_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="7"
+        android:paddingBottom="10dp">
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+        <include layout="@layout/calendar_day_title_text" />
+
+    </LinearLayout>
+</LinearLayout>

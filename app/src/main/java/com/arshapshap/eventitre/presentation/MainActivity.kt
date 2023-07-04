@@ -28,9 +28,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     @Inject
     lateinit var observerProvider: LifecycleObserver.Provider
 
-    @Inject
-    lateinit var router: MainRouter
-
     override fun initViews() {
         val observer = observerProvider.create(activityResultRegistry)
         observerProvider.attachObserver(observer)

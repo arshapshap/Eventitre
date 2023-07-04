@@ -2,6 +2,7 @@
 <resources>
     <string name="calendar_fragment_label">Calendar</string>
     <string name="event_fragment_label">Event</string>
+    <string name="new_event_fragment_label">New event</string>
     <string name="event_not_found">Event not found</string>
     <string name="start">Start</string>
     <string name="finish">Finish</string>

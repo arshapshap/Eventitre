@@ -1,12 +1,13 @@
 package com.arshapshap.eventitre.navigation
 
 import androidx.navigation.NavController
+import androidx.navigation.navOptions
 import com.arshapshap.eventitre.R
-import com.arshapshap.eventitre.presentation.MainRouter
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import com.arshapshap.events.presentation.screens.event.EventFragment
+import java.util.*
 
-class Navigator: MainRouter, EventsFeatureRouter {
+class Navigator: EventsFeatureRouter {
 
     private var navController: NavController? = null
 
@@ -26,14 +27,19 @@ class Navigator: MainRouter, EventsFeatureRouter {
     }
 
     override fun openEvent(id: Long) {
-        navController?.navigate(R.id.eventFragment, EventFragment.createBundle(id))
+        navController?.navigate(R.id.eventFragment, EventFragment.createBundle(id), navOptionsWithAnimations)
     }
 
-    override fun openEventCreating() {
-        navController?.navigate(R.id.eventFragment)
+    override fun openEventCreating(date: Date) {
+        navController?.navigate(R.id.newEventFragment, EventFragment.createBundle(date), navOptionsWithAnimations)
     }
 
-    override fun openSettings() {
-        navController?.navigate(R.id.settingsFragment)
+    private val navOptionsWithAnimations = navOptions {
+        anim {
+            enter = R.anim.slide_in_right
+            exit = R.anim.slide_out_left
+            popExit = R.anim.slide_out_right
+            popEnter = R.anim.slide_in_left
+        }
     }
 }

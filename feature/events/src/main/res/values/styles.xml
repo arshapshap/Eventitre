@@ -5,24 +5,8 @@
         <item name="android:alpha">0.5</item>
     </style>
 
-    <style name="Text.Title" parent="Text.Medium">
-        <item name="fontFamily">sans-serif-medium</item>
-    </style>
-
     <style name="Text.Subtitle" parent="Text.Small">
         <item name="android:padding">10dp</item>
         <item name="android:layout_margin">2dp</item>
-    </style>
-
-    <style name="Text.Subtitle.Clickable">
-        <item name="android:background">@drawable/bg_clickable</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
-
-    <style name="Text.Title.Clickable">
-        <item name="android:background">@drawable/bg_clickable</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
     </style>
 </resources>

@@ -9,16 +9,19 @@ import com.arshapshap.common_ui.base.ViewModelErrorLevel
 import com.arshapshap.events.R
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common_ui.extensions.addHours
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class EventViewModel @AssistedInject constructor(
     @Assisted("ID") private val id: Long?,
+    @Assisted("DATE") private val date: Date?,
     private val interactor: EventsInteractor,
     private val router: EventsFeatureRouter
 ) : BaseViewModel() {
@@ -40,12 +43,12 @@ class EventViewModel @AssistedInject constructor(
 
     internal fun loadData() {
         _loadingLiveData.postValue(true)
-        if (id == null) {
+        if (id == null || id == 0L) {
             val newEvent = Event(
                 id = 0L,
                 name = "",
-                dateStart = Calendar.getInstance().time,
-                dateFinish = Calendar.getInstance().time,
+                dateStart = date ?: Calendar.getInstance().time,
+                dateFinish = (date ?: Calendar.getInstance().time).addHours(1),
                 description = ""
             )
             _isEditingLiveData.postValue(true)
@@ -61,7 +64,9 @@ class EventViewModel @AssistedInject constructor(
                             messageRes = R.string.event_not_found, level = ViewModelErrorLevel.Error
                         )
                     )
-                    closeFragment()
+                    withContext(Dispatchers.Main) {
+                        closeFragment()
+                    }
                 }
             }
         }
@@ -110,7 +115,7 @@ class EventViewModel @AssistedInject constructor(
     internal fun setName(name: String) {
         if (isEditingLiveData.value != true) return
         val event = _editingEventLiveData.value?.copy(
-            name = name
+            name = name.trim()
         )
         _editingEventLiveData.postValue(event)
     }
@@ -118,7 +123,7 @@ class EventViewModel @AssistedInject constructor(
     internal fun setDescription(description: String) {
         if (isEditingLiveData.value != true) return
         val event = _editingEventLiveData.value?.copy(
-            description = description
+            description = description.trim()
         )
         _editingEventLiveData.postValue(event)
     }
@@ -170,6 +175,6 @@ class EventViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
 
-        fun create(@Assisted("ID") id: Long?): EventViewModel
+        fun create(@Assisted("ID") id: Long?, @Assisted("DATE") date: Date?): EventViewModel
     }
 }

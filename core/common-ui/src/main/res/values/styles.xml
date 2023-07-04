@@ -18,4 +18,12 @@
     <style name="Text.Large">
         <item name="android:textSize">70sp</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/colorSecondary</item>
+    </style>
+
+    <style name="DateTimePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/colorSecondary</item>
+    </style>
 </resources>
