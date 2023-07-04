@@ -71,9 +71,6 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     override fun subscribe() {
         super.subscribe()
         with (viewModel) {
-            loadingLiveData.observe(viewLifecycleOwner) {
-                binding.root.isVisible = !it
-            }
             eventLiveData.observe(viewLifecycleOwner) {
                 with (binding) {
                     nameEditText.setText(it.name)
