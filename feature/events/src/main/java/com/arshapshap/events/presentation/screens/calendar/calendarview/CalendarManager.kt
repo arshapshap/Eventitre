@@ -58,6 +58,8 @@ internal class CalendarManager(
             field = value
         }
 
+    private var animator: ValueAnimator? = null
+
     fun setup() {
         configureCalendarView()
         configureWeekCalendarView()
@@ -148,6 +150,9 @@ internal class CalendarManager(
 
     private fun changeCalendarViewWithAnimation(weekToMonth: Boolean)
     {
+        if (animator != null) {
+            animator?.cancel()
+        }
         val headerHeight = context.resources.getDimension(R.dimen.events_header_height).toInt()
         val dayHeight = context.resources.getDimension(R.dimen.calendar_day_size).toInt()
 
@@ -157,8 +162,8 @@ internal class CalendarManager(
         val oldHeight = if (weekToMonth) weekCalendarViewHeight else monthCalendarViewHeight
         val newHeight = if (weekToMonth) monthCalendarViewHeight else weekCalendarViewHeight
 
-        val animator = ValueAnimator.ofInt(oldHeight, newHeight)
-        animator.addUpdateListener { anim ->
+        animator = ValueAnimator.ofInt(oldHeight, newHeight)
+        animator?.addUpdateListener { anim ->
             monthCalendarView.updateLayoutParams {
                 height = anim.animatedValue as Int
             }
@@ -167,19 +172,19 @@ internal class CalendarManager(
             }
         }
 
-        animator.doOnStart {
+        animator?.doOnStart {
             if (weekToMonth) {
                 weekCalendarView.isVisible = false
                 monthCalendarView.isVisible = true
             }
         }
-        animator.doOnEnd {
+        animator?.doOnEnd {
             if (!weekToMonth) {
                 weekCalendarView.isVisible = true
                 monthCalendarView.isVisible = false
             }
         }
-        animator.start()
+        animator?.start()
     }
 
     @ColorInt

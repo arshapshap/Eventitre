@@ -89,7 +89,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                     calendarManager.smoothScrollToDate(it)
                 }
 
-                animateShowTodayButton(!it.isSameDay(LocalDate.now().toDate()))
+                animateShowTodayButton(it.isSameDay(LocalDate.now().toDate()))
             }
             isCalendarExpandedLiveData.observe(viewLifecycleOwner) {
                 calendarManager.isCalendarExpanded = it
