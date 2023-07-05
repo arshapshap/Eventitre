@@ -44,6 +44,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_toolbar, menu)
+                val settingsItem = menu.findItem(R.id.settingsFragment)
+                settingsItem.isVisible = navController?.currentDestination?.id == R.id.calendarFragment
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -72,11 +74,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         with (binding.toolbar) {
             setSupportActionBar(this)
-            navController.addOnDestinationChangedListener { _, destination, _ ->
-                val settingsItem = binding.toolbar.menu.findItem(R.id.settingsFragment)
-
-                settingsItem.isVisible = destination.id != R.id.settingsFragment
-            }
             setupWithNavController(navController, appBarConfiguration)
         }
     }

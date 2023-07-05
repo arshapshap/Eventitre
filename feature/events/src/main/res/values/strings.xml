@@ -19,4 +19,5 @@
     <string name="event_start_date">Select the start date of the event</string>
     <string name="event_finish_date">Select the finish date of the event</string>
     <string name="add_event">Add event</string>
+    <string name="action_export">Export event</string>
 </resources>

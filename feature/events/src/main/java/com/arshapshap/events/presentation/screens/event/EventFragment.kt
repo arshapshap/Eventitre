@@ -115,7 +115,7 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             setInputFieldEditing(descriptionEditText, isEditing)
             setDescriptionVisibility(isEditing || !descriptionEditText.text.isNullOrEmpty())
 
-            if (viewModel.isCreating) {
+            if (viewModel.isCreating && isEditing) {
                 nameEditText.requestFocus()
                 showKeyboard(nameEditText)
             }

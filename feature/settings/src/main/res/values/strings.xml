@@ -11,4 +11,5 @@
     <string name="exported_events_number">Exported events: %d</string>
     <string name="unexpected_error">An unexpected error has occurred</string>
     <string name="file_was_not_selected">The file was not selected</string>
+    <string name="nothing_to_export">Nothing to export</string>
 </resources>
