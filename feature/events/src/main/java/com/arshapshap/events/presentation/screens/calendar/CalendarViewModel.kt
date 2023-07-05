@@ -7,12 +7,15 @@ import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.extensions.roundToDay
+import com.arshapshap.common_ui.extensions.toDate
 import com.arshapshap.common_ui.extensions.updateTime
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.Year
 import java.util.Calendar
 import java.util.Date
 
@@ -21,7 +24,11 @@ class CalendarViewModel @AssistedInject constructor(
     private val router: EventsFeatureRouter
 ) : BaseViewModel() {
 
-    private val _eventsLiveData = MutableLiveData<Map<Date, List<Event>>>(mapOf())
+    private var _loadedYears = mutableSetOf(Year.now())
+    val loadedYears: List<Year>
+        get() = _loadedYears.toList()
+
+    private val _eventsLiveData = MutableLiveData<Map<Date, List<Event>>>()
     internal val eventsLiveData: LiveData<Map<Date, List<Event>>>
         get() = _eventsLiveData
 
@@ -41,9 +48,21 @@ class CalendarViewModel @AssistedInject constructor(
     internal val selectedDateLiveData: LiveData<Date>
         get() = _selectedDateLiveData
 
-    internal fun loadData(dateStart: Date, dateFinish: Date) {
+    private val _isCalendarExpandedLiveData = MutableLiveData(true)
+    internal val isCalendarExpandedLiveData: LiveData<Boolean>
+        get() = _isCalendarExpandedLiveData
+
+    internal fun loadDataInitial() {
+        _loadingLiveData.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            val events = interactor.getEventsByDateRange(dateStart, dateFinish)
+            val events = mutableMapOf<Date, List<Event>>()
+            loadedYears.forEach {
+                val dateStart = LocalDate.ofYearDay(it.value, 1).toDate()
+                val dateFinish = LocalDate.ofYearDay(it.value+1, 1).toDate()
+
+                events += interactor.getEventsByDateRange(dateStart, dateFinish)
+            }
+
             eventsLiveData.value?.let {
                 val changed = compareEventMaps(it, events)
                 _changedLiveData.postValue(changed)
@@ -51,6 +70,22 @@ class CalendarViewModel @AssistedInject constructor(
             _eventsLiveData.postValue(events)
             _listLiveData.postValue(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
             _loadingLiveData.postValue(false)
+        }
+    }
+
+    internal fun loadDataAdditional(year: Year) {
+        if (_loadedYears.contains(year)) return
+
+        _loadingLiveData.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            val dateStart = LocalDate.ofYearDay(year.value, 1).toDate()
+            val dateFinish = LocalDate.ofYearDay(year.value+1, 1).toDate()
+
+            val events = interactor.getEventsByDateRange(dateStart, dateFinish) + (eventsLiveData.value ?: mapOf())
+            _eventsLiveData.postValue(events)
+            _listLiveData.postValue(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            _loadingLiveData.postValue(false)
+            _loadedYears.add(year)
         }
     }
 
@@ -70,7 +105,12 @@ class CalendarViewModel @AssistedInject constructor(
         }
     }
 
-    fun compareEventMaps(old: Map<Date, List<Event>>, new: Map<Date, List<Event>>): List<Date> {
+    internal fun changeCalendarView() {
+        val isCalendarExpanded = isCalendarExpandedLiveData.value ?: return
+        _isCalendarExpandedLiveData.postValue(!isCalendarExpanded)
+    }
+
+    private fun compareEventMaps(old: Map<Date, List<Event>>, new: Map<Date, List<Event>>): List<Date> {
         val changedDates = mutableListOf<Date>()
 
         for ((date, oldEvents) in old) {

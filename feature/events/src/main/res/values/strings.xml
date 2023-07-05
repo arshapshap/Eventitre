@@ -23,4 +23,5 @@
     <string name="export_event_confirm">Export the event in json format?</string>
     <string name="successfully_exported">Successfully exported</string>
     <string name="two_months_placeholder">%s - %s</string>
+    <string name="change_calendar_view">Change the calendar view</string>
 </resources>

@@ -1,23 +1,32 @@
 package com.arshapshap.events.presentation.screens.calendar.calendarview
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.view.children
-import androidx.core.view.isGone
-import com.arshapshap.common_ui.extensions.addMonths
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.arshapshap.common_ui.extensions.formatToString
 import com.arshapshap.common_ui.extensions.formatToStringWithYear
 import com.arshapshap.common_ui.extensions.getColorAttributeFromTheme
 import com.arshapshap.common_ui.extensions.isSameDay
 import com.arshapshap.common_ui.extensions.toDate
+import com.arshapshap.common_ui.extensions.toLocalDate
 import com.arshapshap.events.R
 import com.arshapshap.events.presentation.screens.calendar.CalendarViewModel
+import com.arshapshap.events.presentation.screens.calendar.calendarview.containers.DayViewContainer
+import com.arshapshap.events.presentation.screens.calendar.calendarview.containers.CalendarHeaderContainer
+import com.arshapshap.events.presentation.screens.calendar.calendarview.customview.CalendarDayView
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
+import com.kizitonwose.calendar.core.OutDateStyle
 import com.kizitonwose.calendar.core.Week
 import com.kizitonwose.calendar.core.WeekDay
 import com.kizitonwose.calendar.core.daysOfWeek
@@ -33,19 +42,19 @@ import com.kizitonwose.calendar.view.WeekScrollListener
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Year
+import java.time.YearMonth
 import java.util.Date
 
 internal class CalendarManager(
     private val context: Context,
     private val viewModel: CalendarViewModel,
-    private val calendarView: CalendarView,
+    private val monthCalendarView: CalendarView,
     private val weekCalendarView: WeekCalendarView
 ) {
 
-    var isMonthCalendarOnScreen: Boolean = true
+    var isCalendarExpanded: Boolean = false
         set(value) {
-            calendarView.isGone = !value
-            weekCalendarView.isGone = value
+            changeCalendarViewWithAnimation(value)
             field = value
         }
 
@@ -54,80 +63,52 @@ internal class CalendarManager(
         configureWeekCalendarView()
     }
 
-    fun notifyDateChanged(date: LocalDate) {
-        calendarView.notifyDateChangedEverywhere(date)
-        weekCalendarView.notifyDateChanged(date)
+    fun notifyDateChanged(date: Date) {
+        monthCalendarView.notifyDateChanged(date.toLocalDate(), DayPosition.InDate)
+        monthCalendarView.notifyDateChanged(date.toLocalDate(), DayPosition.MonthDate)
+        monthCalendarView.notifyDateChanged(date.toLocalDate(), DayPosition.OutDate)
+        weekCalendarView.notifyDateChanged(date.toLocalDate())
     }
 
-    fun scrollToDate(date: LocalDate) {
-        calendarView.scrollToDate(date)
-        weekCalendarView.scrollToDate(date)
+    fun scrollToDate(date: Date) {
+        monthCalendarView.scrollToDate(date.toLocalDate())
+        weekCalendarView.scrollToDate(date.toLocalDate())
+    }
+
+    fun smoothScrollToDate(date: Date) {
+        monthCalendarView.smoothScrollToDate(date.toLocalDate())
+        weekCalendarView.smoothScrollToDate(date.toLocalDate())
+    }
+
+    private fun configureCalendarView() {
+        with (monthCalendarView) {
+            dayBinder = getMonthDayBinder()
+            monthHeaderBinder = getMonthHeaderBinder()
+            monthScrollListener = object : MonthScrollListener {
+
+                override fun invoke(month: CalendarMonth) {
+                    viewModel.loadDataAdditional(Year.of(month.yearMonth.year))
+                }
+            }
+
+            outDateStyle = OutDateStyle.EndOfGrid
+            setup(
+                startMonth = YearMonth.of(1970, 1),
+                endMonth = YearMonth.of(2099, 12),
+                firstDayOfWeek = daysOfWeek().first()
+            )
+        }
     }
 
     private fun configureWeekCalendarView() {
         with (weekCalendarView) {
-            dayBinder = object : WeekDayBinder<DayViewContainer> {
-
-                override fun create(view: View) = DayViewContainer(view) {
-                    viewModel.selectDate(date = it.toDate())
-                    smoothScrollToDate(it)
-                }
-
-                override fun bind(container: DayViewContainer, data: WeekDay) {
-                    container.date = data.date
-                    with (container.calendarDay) {
-                        circleCount = viewModel.eventsLiveData.value?.get(data.date.toDate())?.size ?: 0
-
-                        text = data.date.dayOfMonth.toString()
-                        contentColor = getContentColorForDay(
-                            date = data.date,
-                            selectedDate = viewModel.selectedDateLiveData.value!!
-                        )
-                        background = getBackgroundForDay(
-                            date = data.date,
-                            selectedDate = viewModel.selectedDateLiveData.value!!
-                        )
-                    }
-                }
-            }
-
-            weekHeaderBinder = object : WeekHeaderFooterBinder<MonthViewContainer> {
-
-                override fun create(view: View) = MonthViewContainer(view)
-
-                override fun bind(container: MonthViewContainer, data: Week) {
-                    with (container.binding) {
-                        val month1 = data.days.first().date.yearMonth
-                        val month2 = data.days.last().date.yearMonth
-                        if (month1 == month2)
-                            calendarMonthTextView.text = month1.formatToString()
-                        else {
-                            if (month1.year == month2.year && month1.year == Year.now().value)
-                                calendarMonthTextView.text = context.getString(
-                                    R.string.two_months_placeholder,
-                                    month1.formatToString(),
-                                    month2.formatToString()
-                                )
-                            else
-                                calendarMonthTextView.text = context.getString(
-                                    R.string.two_months_placeholder,
-                                    month1.formatToStringWithYear(shortMonth = true),
-                                    month2.formatToStringWithYear(shortMonth = true)
-                                )
-                        }
-
-                        dayTitlesContainer.children.map { it as TextView }.forEachIndexed { index, textView ->
-                            val dayOfWeek = daysOfWeek()[index]
-                            val title = dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault())
-                            textView.text = title
-                        }
-                    }
-                }
-            }
-
+            dayBinder = getWeekDayBinder()
+            weekHeaderBinder = getWeekHeaderBinder()
             weekScrollListener = object : WeekScrollListener {
+
                 override fun invoke(week: Week) {
-                    loadData()
+                    val year = week.days.last().date.yearMonth.year
+                    viewModel.loadDataAdditional(Year.of(year))
                 }
             }
 
@@ -139,85 +120,66 @@ internal class CalendarManager(
         }
     }
 
-    private fun configureCalendarView() {
-        with (calendarView) {
-            dayBinder = object : MonthDayBinder<DayViewContainer> {
+    private fun configureDayTitlesContainer(dayTitlesContainer: LinearLayout) {
+        dayTitlesContainer.children.map { it as TextView }.forEachIndexed { index, textView ->
+            val dayOfWeek = daysOfWeek()[index]
+            val title = dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault())
+            textView.text = title
+        }
+    }
 
-                override fun create(view: View) = DayViewContainer(view) {
-                    viewModel.selectDate(date = it.toDate())
-                    smoothScrollToDate(it)
-                }
+    private fun configureCalendarDayView(binding: CalendarDayView, date: LocalDate, position: DayPosition? = null) {
+        with (binding) {
+            circleCount = viewModel.eventsLiveData.value?.get(date.toDate())?.size ?: 0
 
-                override fun bind(container: DayViewContainer, data: CalendarDay) {
-                    container.date = data.date
-                    with (container.calendarDay) {
-                        circleCount = viewModel.eventsLiveData.value?.get(data.date.toDate())?.size ?: 0
-
-                        contentAlpha = if (data.position == DayPosition.MonthDate) 1f else 0.5f
-                        text = data.date.dayOfMonth.toString()
-                        contentColor = getContentColorForDay(
-                            date = data.date,
-                            selectedDate = viewModel.selectedDateLiveData.value!!,
-                            inMonth = data.position == DayPosition.MonthDate
-                        )
-                        background = getBackgroundForDay(
-                            date = data.date,
-                            selectedDate = viewModel.selectedDateLiveData.value!!
-                        )
-                    }
-                }
-            }
-
-            monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
-
-                override fun create(view: View) = MonthViewContainer(view)
-
-                override fun bind(container: MonthViewContainer, data: CalendarMonth) {
-                    with (container.binding) {
-                        calendarMonthTextView.text = data.yearMonth.formatToString()
-                        dayTitlesContainer.children.map { it as TextView }.forEachIndexed { index, textView ->
-                            val dayOfWeek = daysOfWeek()[index]
-                            val title = dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault())
-                            textView.text = title
-                        }
-                    }
-                }
-            }
-
-            monthScrollListener = object : MonthScrollListener {
-                override fun invoke(calendarMonth: CalendarMonth) {
-                    loadData()
-                }
-            }
-
-            outDateStyle = com.kizitonwose.calendar.core.OutDateStyle.EndOfGrid
-            setup(
-                startMonth = java.time.YearMonth.of(1970, 1),
-                endMonth = java.time.YearMonth.of(2099, 12),
-                firstDayOfWeek = daysOfWeek().first()
+            contentAlpha = if (position == DayPosition.MonthDate || position == null) 1f else 0.5f
+            text = date.dayOfMonth.toString()
+            contentColor = getContentColorForDay(
+                date = date,
+                selectedDate = viewModel.selectedDateLiveData.value!!,
+                inMonth = position == DayPosition.MonthDate || position == null
+            )
+            background = getBackgroundForDay(
+                date = date,
+                selectedDate = viewModel.selectedDateLiveData.value!!
             )
         }
     }
 
-    private fun loadData() {
-        val dateStart =
-            if (isMonthCalendarOnScreen)
-                calendarView.findFirstVisibleDay()?.date
-            else
-                weekCalendarView.findFirstVisibleDay()?.date
-        val dateFinish =
-            if (isMonthCalendarOnScreen)
-                calendarView.findLastVisibleDay()?.date
-            else
-                weekCalendarView.findLastVisibleDay()?.date
-        viewModel.loadData(
-            dateStart = dateStart?.toDate()?.addMonths(-2)
-                ?: viewModel.selectedDateLiveData.value
-                ?: LocalDate.now().toDate(),
-            dateFinish = dateFinish?.toDate()?.addMonths(2)
-                ?: viewModel.selectedDateLiveData.value
-                ?: LocalDate.now().toDate()
-        )
+    private fun changeCalendarViewWithAnimation(weekToMonth: Boolean)
+    {
+        val headerHeight = context.resources.getDimension(R.dimen.events_header_height).toInt()
+        val dayHeight = context.resources.getDimension(R.dimen.calendar_day_size).toInt()
+
+        val weekCalendarViewHeight = headerHeight + dayHeight
+        val monthCalendarViewHeight = headerHeight + dayHeight * 6
+
+        val oldHeight = if (weekToMonth) weekCalendarViewHeight else monthCalendarViewHeight
+        val newHeight = if (weekToMonth) monthCalendarViewHeight else weekCalendarViewHeight
+
+        val animator = ValueAnimator.ofInt(oldHeight, newHeight)
+        animator.addUpdateListener { anim ->
+            monthCalendarView.updateLayoutParams {
+                height = anim.animatedValue as Int
+            }
+            monthCalendarView.children.forEach { child ->
+                child.requestLayout()
+            }
+        }
+
+        animator.doOnStart {
+            if (weekToMonth) {
+                weekCalendarView.isVisible = false
+                monthCalendarView.isVisible = true
+            }
+        }
+        animator.doOnEnd {
+            if (!weekToMonth) {
+                weekCalendarView.isVisible = true
+                monthCalendarView.isVisible = false
+            }
+        }
+        animator.start()
     }
 
     @ColorInt
@@ -231,7 +193,6 @@ internal class CalendarManager(
         else
             context.getColorAttributeFromTheme(com.google.android.material.R.attr.colorOnBackground)
 
-
     private fun getBackgroundForDay(date: LocalDate, selectedDate: Date) =
         if (selectedDate.isSameDay(date.toDate()) && date == LocalDate.now())
             AppCompatResources.getDrawable(context, R.drawable.bg_circle_filled)
@@ -239,9 +200,72 @@ internal class CalendarManager(
             AppCompatResources.getDrawable(context, R.drawable.bg_circle)
         else null
 
-    private fun CalendarView.notifyDateChangedEverywhere(localDate: LocalDate) {
-        this.notifyDateChanged(localDate, DayPosition.InDate)
-        this.notifyDateChanged(localDate, DayPosition.MonthDate)
-        this.notifyDateChanged(localDate, DayPosition.OutDate)
-    }
+    private fun getMonthHeaderText(month1: YearMonth, month2: YearMonth): String =
+        if (month1 == month2)
+            month1.formatToString()
+        else if (month1.year == month2.year && month1.year == Year.now().value)
+            context.getString(
+                R.string.two_months_placeholder, month1.formatToString(), month2.formatToString()
+            )
+        else
+            context.getString(
+                R.string.two_months_placeholder,
+                month1.formatToStringWithYear(shortMonth = true),
+                month2.formatToStringWithYear(shortMonth = true)
+            )
+
+    private fun getMonthDayBinder(): MonthDayBinder<DayViewContainer> =
+        object : MonthDayBinder<DayViewContainer> {
+
+            override fun create(view: View) = DayViewContainer(view) {
+                viewModel.selectDate(date = it.toDate())
+            }
+
+            override fun bind(container: DayViewContainer, data: CalendarDay) {
+                container.date = data.date
+                configureCalendarDayView(container.calendarDay, data.date, data.position)
+            }
+        }
+
+    private fun getWeekDayBinder(): WeekDayBinder<DayViewContainer> =
+        object : WeekDayBinder<DayViewContainer> {
+
+            override fun create(view: View) = DayViewContainer(view) {
+                viewModel.selectDate(date = it.toDate())
+            }
+
+            override fun bind(container: DayViewContainer, data: WeekDay) {
+                container.date = data.date
+                configureCalendarDayView(container.calendarDay, data.date)
+            }
+        }
+
+    private fun getMonthHeaderBinder(): MonthHeaderFooterBinder<CalendarHeaderContainer> =
+        object : MonthHeaderFooterBinder<CalendarHeaderContainer> {
+
+            override fun create(view: View) = CalendarHeaderContainer(view)
+
+            override fun bind(container: CalendarHeaderContainer, data: CalendarMonth) {
+                with(container.binding) {
+                    calendarMonthTextView.text = data.yearMonth.formatToString()
+                    configureDayTitlesContainer(dayTitlesContainer)
+                }
+            }
+        }
+
+    private fun getWeekHeaderBinder(): WeekHeaderFooterBinder<CalendarHeaderContainer> =
+        object : WeekHeaderFooterBinder<CalendarHeaderContainer> {
+
+            override fun create(view: View) = CalendarHeaderContainer(view)
+
+            override fun bind(container: CalendarHeaderContainer, data: Week) {
+                with(container.binding) {
+                    calendarMonthTextView.text = getMonthHeaderText(
+                        month1 = data.days.first().date.yearMonth,
+                        month2 = data.days.last().date.yearMonth
+                    )
+                    configureDayTitlesContainer(dayTitlesContainer)
+                }
+            }
+        }
 }

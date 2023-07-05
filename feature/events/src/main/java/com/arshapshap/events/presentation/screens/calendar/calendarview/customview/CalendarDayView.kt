@@ -1,4 +1,4 @@
-package com.arshapshap.events.presentation.screens.calendar.calendarview
+package com.arshapshap.events.presentation.screens.calendar.calendarview.customview
 
 import android.content.Context
 import android.graphics.Canvas

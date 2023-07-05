@@ -15,9 +15,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.kizitonwose.calendar.view.CalendarView
-            android:id="@+id/calendar_view"
+            android:id="@+id/month_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:cv_dayViewResource="@layout/calendar_day_layout"
             app:cv_monthHeaderResource="@layout/calendar_header_layout" />
 
@@ -25,7 +26,6 @@
             android:id="@+id/week_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:cv_dayViewResource="@layout/calendar_day_layout"
             app:cv_weekHeaderResource="@layout/calendar_header_layout" />
     </FrameLayout>
@@ -57,12 +57,25 @@
         tools:listitem="@layout/item_event" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/change_calendar_view_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/change_calendar_view"
+        android:src="@drawable/ic_expand"
+        app:fabCustomSize="@dimen/fab_size_small"
+        app:layout_constraintBottom_toTopOf="@id/add_button"
+        app:layout_constraintEnd_toEndOf="@+id/add_button"
+        app:layout_constraintStart_toStartOf="@+id/add_button" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_event"
         android:src="@drawable/ic_add"
+        app:fabCustomSize="@dimen/fab_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

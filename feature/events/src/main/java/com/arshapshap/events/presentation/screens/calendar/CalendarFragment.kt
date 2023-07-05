@@ -1,8 +1,8 @@
 package com.arshapshap.events.presentation.screens.calendar
 
+import android.widget.ImageButton
 import androidx.core.view.isVisible
 import com.arshapshap.common_ui.base.BaseFragment
-import com.arshapshap.common_ui.extensions.toLocalDate
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
@@ -29,7 +29,10 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     private val calendarManager: CalendarManager
         get() = _calendarManager!!
 
+    private var firstOpening = true
+
     override fun initViews() {
+        firstOpening = true
         with (binding) {
             eventsRecyclerView.adapter = EventsRecyclerViewAdapter {
                 viewModel.openEvent(it)
@@ -37,43 +40,51 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             addButton.setOnClickListener {
                 viewModel.openEventCreating()
             }
+            changeCalendarViewButton.setOnClickListener {
+                viewModel.changeCalendarView()
+            }
 
-            _calendarManager = CalendarManager(requireContext(), viewModel, calendarView, weekCalendarView)
-            calendarManager.isMonthCalendarOnScreen = false
+            _calendarManager = CalendarManager(requireContext(), viewModel, monthCalendarView, weekCalendarView)
             calendarManager.setup()
         }
     }
 
-    private var firstOpenning = true
-
     override fun subscribe() {
         super.subscribe()
         with (viewModel) {
+            loadDataInitial()
             loadingLiveData.observe(viewLifecycleOwner) {
                 binding.loadingProgressBar.isVisible = it
             }
             eventsLiveData.observe(viewLifecycleOwner) {
                 it.keys.forEach {
-                    calendarManager.notifyDateChanged(it.toLocalDate())
+                    calendarManager.notifyDateChanged(it)
                 }
             }
             changedLiveData.observe(viewLifecycleOwner) {
                 it.forEach {
-                    calendarManager.notifyDateChanged(it.toLocalDate())
+                    calendarManager.notifyDateChanged(it)
                 }
             }
             listLiveData.observe(viewLifecycleOwner) {
                 getEventsRecyclerViewAdapter().setList(it)
             }
             unselectedDateLiveData.observe(viewLifecycleOwner) {
-                calendarManager.notifyDateChanged(it.toLocalDate())
+                calendarManager.notifyDateChanged(it)
             }
             selectedDateLiveData.observe(viewLifecycleOwner) {
-                calendarManager.notifyDateChanged(it.toLocalDate())
-                if (firstOpenning) {
-                    firstOpenning = false
-                    calendarManager.scrollToDate(it.toLocalDate())
+                calendarManager.notifyDateChanged(it)
+                if (firstOpening) {
+                    firstOpening = false
+                    calendarManager.scrollToDate(it)
                 }
+                else {
+                    calendarManager.smoothScrollToDate(it)
+                }
+            }
+            isCalendarExpandedLiveData.observe(viewLifecycleOwner) {
+                calendarManager.isCalendarExpanded = it
+                binding.changeCalendarViewButton.rotate(it)
             }
         }
     }
@@ -81,8 +92,14 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun onDestroyView() {
         super.onDestroyView()
         _calendarManager = null
+        firstOpening = true
     }
 
     private fun getEventsRecyclerViewAdapter(): EventsRecyclerViewAdapter =
         binding.eventsRecyclerView.adapter as EventsRecyclerViewAdapter
+
+    private fun ImageButton.rotate(isExpanded: Boolean) {
+        val angle = if (isExpanded) 0F else 180F
+        this.animate().rotation(angle).start()
+    }
 }
