@@ -9,7 +9,9 @@
     <string name="add_only_new">Add only new ones</string>
     <string name="imported_events_number">Imported events: %d</string>
     <string name="exported_events_number">Exported events: %d</string>
-    <string name="unexpected_error">An unexpected error has occurred</string>
-    <string name="file_was_not_selected">The file was not selected</string>
+    <string name="no_file_was_selected">No file was selected</string>
     <string name="nothing_to_export">Nothing to export</string>
+    <string name="action_export">Export</string>
+    <string name="export_all_events_confirm">Export all events in json format?</string>
+    <string name="select_json_file">Select a file in json format</string>
 </resources>

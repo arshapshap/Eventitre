@@ -1,6 +1,6 @@
 package com.arshapshap.settings.data.repositories
 
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.database.dao.EventDao
 import com.arshapshap.files.domain.repositories.EventsJsonRepository
 import com.arshapshap.settings.data.mappers.EventMapper
@@ -14,6 +14,11 @@ internal class EventsRepositoryImpl @Inject constructor(
     private val mapper: EventMapper
 ) : EventsRepository {
 
+    companion object {
+
+        private const val EXPORTED_JSON_FILE_NAME = "exported_events"
+    }
+
     override suspend fun getEventsFromJson(): List<Event> = coroutineScope {
         return@coroutineScope jsonRepository.getEventsFromJson()
             .filter {
@@ -23,7 +28,10 @@ internal class EventsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun exportEventsToJson(list: List<Event>) = coroutineScope {
-        return@coroutineScope jsonRepository.saveEventsInJson(list.map { mapper.mapToJson(it) })
+        return@coroutineScope jsonRepository.saveEventsInJson(
+            events = list.map { mapper.mapToJson(it) },
+            fileName = EXPORTED_JSON_FILE_NAME
+        )
     }
 
     override suspend fun getEvents(): List<Event> {

@@ -30,11 +30,15 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     override fun initViews() {
         with (binding) {
             exportButton.setOnClickListener {
-                viewModel.exportEvents()
+                showAlertBeforeExport()
             }
 
             importButton.setOnClickListener {
                 viewModel.requestImportEvents()
+                showToast(
+                    message = getString(R.string.select_json_file),
+                    longLength = true
+                )
             }
         }
     }
@@ -81,6 +85,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
                     showToast(getString(R.string.nothing_to_export))
             }
         }
+    }
+
+    private fun showAlertBeforeExport() {
+        showAlertWithTwoButtons(
+            title = getString(R.string.action_export),
+            message = getString(R.string.export_all_events_confirm),
+            onPositiveButtonClick = viewModel::exportEvents
+        )
     }
 
     private fun importEventsWithOverwriting() {

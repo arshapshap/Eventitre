@@ -13,7 +13,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.extensions.*
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
@@ -133,7 +133,7 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     private fun showAlertBeforeExport() {
         showAlertWithTwoButtons(
             title = getString(R.string.action_export),
-            message = getString(R.string.export_event_message),
+            message = getString(R.string.export_event_confirm),
             onPositiveButtonClick = viewModel::exportEvent
         )
     }

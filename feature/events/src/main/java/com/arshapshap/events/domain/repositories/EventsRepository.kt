@@ -1,6 +1,6 @@
 package com.arshapshap.events.domain.repositories
 
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 
 interface EventsRepository {
 
@@ -15,4 +15,6 @@ interface EventsRepository {
     suspend fun getEventById(id: Long): Event?
 
     suspend fun deleteEventById(id: Long)
+
+    suspend fun exportEventToJson(event: Event)
 }

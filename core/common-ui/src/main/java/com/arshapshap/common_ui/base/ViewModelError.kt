@@ -9,5 +9,5 @@ data class ViewModelError(
 
 enum class ViewModelErrorLevel {
     Error,
-    Warn
+    Message
 }

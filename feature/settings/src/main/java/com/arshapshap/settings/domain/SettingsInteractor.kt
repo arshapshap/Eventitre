@@ -1,6 +1,6 @@
 package com.arshapshap.settings.domain
 
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.settings.domain.models.EventsExportResult
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import com.arshapshap.settings.domain.models.EventsImportResult

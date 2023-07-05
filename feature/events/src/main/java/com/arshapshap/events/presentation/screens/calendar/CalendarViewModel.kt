@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.extensions.roundToDay
 import com.arshapshap.common_ui.extensions.updateTime
 import com.arshapshap.events.presentation.EventsFeatureRouter

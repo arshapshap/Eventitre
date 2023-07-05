@@ -64,11 +64,11 @@ class LifecycleObserver(
         getContent.launch("application/json")
     }
 
-    fun exportJson() {
+    fun exportJson(fileName: String) {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "application/json"
-            putExtra(Intent.EXTRA_TITLE, "exported_events.json")
+            putExtra(Intent.EXTRA_TITLE, fileName)
         }
 
         createDocument.launch(intent)

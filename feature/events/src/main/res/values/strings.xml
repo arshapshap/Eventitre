@@ -20,5 +20,6 @@
     <string name="event_finish_date">Select the finish date of the event</string>
     <string name="add_event">Add event</string>
     <string name="action_export">Export</string>
-    <string name="export_event_message">Export the event in json format?</string>
+    <string name="export_event_confirm">Export the event in json format?</string>
+    <string name="successfully_exported">Successfully exported</string>
 </resources>

@@ -15,7 +15,7 @@ class FilesWriterImpl @Inject constructor(
     private val contentResolver: ContentResolver
 ) : FilesWriter {
 
-    override suspend fun createJson(json: String) = suspendCoroutine { continuation ->
+    override suspend fun createJson(json: String, fileName: String) = suspendCoroutine { continuation ->
         observer.addListener(object : ActivityResultCreateDocumentListener {
             override fun onDocumentCreated(uri: Uri?) {
                 observer.removeListener(this)
@@ -30,6 +30,6 @@ class FilesWriterImpl @Inject constructor(
                 }
             }
         })
-        observer.exportJson()
+        observer.exportJson(fileName)
     }
 }

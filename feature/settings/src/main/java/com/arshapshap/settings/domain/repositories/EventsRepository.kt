@@ -1,6 +1,6 @@
 package com.arshapshap.settings.domain.repositories
 
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 
 interface EventsRepository {
 
