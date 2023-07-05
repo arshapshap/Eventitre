@@ -15,9 +15,9 @@ import com.arshapshap.common_ui.R
 import java.util.*
 
 @ColorInt
-fun Fragment.getColorAttributeFromTheme(@AttrRes attr: Int): Int {
+fun Context.getColorAttributeFromTheme(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
-    activity?.theme?.resolveAttribute(attr, typedValue, true)
+    theme?.resolveAttribute(attr, typedValue, true)
     return typedValue.data
 }
 
