@@ -1,12 +1,18 @@
 package com.arshapshap.events.presentation.screens.event
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Lifecycle
 import com.arshapshap.common.di.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.extensions.*
@@ -38,6 +44,8 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
     private val component by lazy {
         getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>()
     }
+
+    private var menuProvider: MenuProvider? = null
 
     @Suppress("DEPRECATION")
     override val viewModel: EventViewModel by lazyViewModel {
@@ -88,9 +96,46 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             }
             isEditingLiveData.observe(viewLifecycleOwner) {
                 setFieldsEditing(it)
+                configureToolbar()
             }
             loadData()
         }
+    }
+
+    private fun configureToolbar() {
+        val menuHost = requireActivity() as MenuHost
+        menuHost.invalidateMenu()
+        menuProvider?.let {
+            menuHost.removeMenuProvider(it)
+        }
+        menuProvider = object : MenuProvider {
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar_on_event_fragment, menu)
+                menu.findItem(R.id.exportAction).isVisible = viewModel.isEditingLiveData.value == false
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.exportAction -> {
+                        showAlertBeforeExport()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+        menuProvider?.let {
+            menuHost.addMenuProvider(it, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
+    }
+
+    private fun showAlertBeforeExport() {
+        showAlertWithTwoButtons(
+            title = getString(R.string.action_export),
+            message = getString(R.string.export_event_message),
+            onPositiveButtonClick = viewModel::exportEvent
+        )
     }
 
     private fun setDateTimeFields(event: Event?) {

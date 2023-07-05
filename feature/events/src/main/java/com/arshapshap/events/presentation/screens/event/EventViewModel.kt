@@ -33,7 +33,7 @@ class EventViewModel @AssistedInject constructor(
     internal val eventLiveData: LiveData<Event>
         get() = _eventLiveData
 
-    private val _isEditingLiveData = MutableLiveData(false)
+    private val _isEditingLiveData = MutableLiveData<Boolean>()
     internal val isEditingLiveData: LiveData<Boolean>
         get() = _isEditingLiveData
 
@@ -68,9 +68,14 @@ class EventViewModel @AssistedInject constructor(
                         closeFragment()
                     }
                 }
+                _isEditingLiveData.postValue(false)
             }
         }
         _loadingLiveData.postValue(false)
+    }
+
+    internal fun exportEvent() {
+
     }
 
     internal fun deleteEvent() {
