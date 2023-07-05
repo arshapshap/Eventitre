@@ -1,6 +1,6 @@
 package com.arshapshap.settings.domain
 
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.settings.domain.models.EventsExportResult
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import com.arshapshap.settings.domain.models.EventsImportResult
@@ -28,6 +28,8 @@ class SettingsInteractor @Inject constructor(
 
     internal suspend fun exportEvents(): EventsExportResult = coroutineScope {
         val events = repository.getEvents()
+        if (events.isEmpty()) return@coroutineScope EventsExportResult(0)
+
         repository.exportEventsToJson(events)
         return@coroutineScope EventsExportResult(
             exportedNumber = events.size

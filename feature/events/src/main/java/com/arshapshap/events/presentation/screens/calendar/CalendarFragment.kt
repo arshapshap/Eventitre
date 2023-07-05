@@ -67,6 +67,11 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                     binding.calendarView.notifyDateChangedEverywhere(it.toLocalDate())
                 }
             }
+            changedLiveData.observe(viewLifecycleOwner) {
+                it.forEach {
+                    binding.calendarView.notifyDateChangedEverywhere(it.toLocalDate())
+                }
+            }
             listLiveData.observe(viewLifecycleOwner) {
                 getEventsRecyclerViewAdapter().setList(it)
             }
@@ -84,8 +89,10 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     }
 
     private fun loadData() {
-        val dateStart = binding.calendarView.findFirstVisibleDay()?.date?.toDate()?.addMonths(-3) ?: return
-        val dateFinish = binding.calendarView.findLastVisibleDay()?.date?.toDate()?.addMonths(3) ?: return
+        val dateStart = binding.calendarView.findFirstVisibleDay()?.date?.toDate()?.addMonths(-2)
+            ?: viewModel.selectedDateLiveData.value ?: LocalDate.now().toDate()
+        val dateFinish = binding.calendarView.findLastVisibleDay()?.date?.toDate()?.addMonths(2)
+            ?: viewModel.selectedDateLiveData.value ?: LocalDate.now().toDate()
         viewModel.loadData(
             dateStart = dateStart,
             dateFinish = dateFinish

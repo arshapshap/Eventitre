@@ -6,5 +6,5 @@ interface EventsJsonRepository {
 
     suspend fun getEventsFromJson(): List<EventJson>
 
-    suspend fun saveEventsInJson(events: List<EventJson>)
+    suspend fun saveEventsInJson(events: List<EventJson>, fileName: String)
 }

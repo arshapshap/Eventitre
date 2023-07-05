@@ -36,8 +36,8 @@ class SettingsViewModel @AssistedInject constructor(
                 _exportedEventsLiveData.postValue(result.exportedNumber)
             }.onFailure {
                 _errorLiveData.postValue(ViewModelError(
-                    messageRes = R.string.unexpected_error,
-                    level = ViewModelErrorLevel.Warn
+                    messageRes = com.arshapshap.common_ui.R.string.unexpected_error,
+                    level = ViewModelErrorLevel.Message
                 ))
             }
         }
@@ -51,12 +51,12 @@ class SettingsViewModel @AssistedInject constructor(
             }.onFailure {
                 val error = when (it) {
                     is java.lang.NullPointerException -> ViewModelError(
-                        messageRes = R.string.file_was_not_selected,
-                        level = ViewModelErrorLevel.Warn
+                        messageRes = R.string.no_file_was_selected,
+                        level = ViewModelErrorLevel.Message
                     )
                     else -> ViewModelError(
-                        messageRes = R.string.unexpected_error,
-                        level = ViewModelErrorLevel.Warn
+                        messageRes = com.arshapshap.common_ui.R.string.unexpected_error,
+                        level = ViewModelErrorLevel.Message
                     )
                 }
                 _errorLiveData.postValue(error)

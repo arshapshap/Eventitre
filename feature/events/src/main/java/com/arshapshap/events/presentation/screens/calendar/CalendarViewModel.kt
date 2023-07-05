@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.events.domain.EventsInteractor
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.extensions.roundToDay
 import com.arshapshap.common_ui.extensions.updateTime
 import com.arshapshap.events.presentation.EventsFeatureRouter
@@ -25,6 +25,10 @@ class CalendarViewModel @AssistedInject constructor(
     internal val eventsLiveData: LiveData<Map<Date, List<Event>>>
         get() = _eventsLiveData
 
+    private val _changedLiveData = MutableLiveData<List<Date>>()
+    internal val changedLiveData: LiveData<List<Date>>
+        get() = _changedLiveData
+
     private val _listLiveData = MutableLiveData<List<Event>>()
     internal val listLiveData: LiveData<List<Event>>
         get() = _listLiveData
@@ -40,6 +44,10 @@ class CalendarViewModel @AssistedInject constructor(
     internal fun loadData(dateStart: Date, dateFinish: Date) {
         viewModelScope.launch(Dispatchers.IO) {
             val events = interactor.getEventsByDateRange(dateStart, dateFinish)
+            eventsLiveData.value?.let {
+                val changed = compareEventMaps(it, events)
+                _changedLiveData.postValue(changed)
+            }
             _eventsLiveData.postValue(events)
             _listLiveData.postValue(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
             _loadingLiveData.postValue(false)
@@ -60,6 +68,19 @@ class CalendarViewModel @AssistedInject constructor(
             _selectedDateLiveData.postValue(date)
             _listLiveData.postValue(eventsLiveData.value?.get(date) ?: listOf())
         }
+    }
+
+    fun compareEventMaps(old: Map<Date, List<Event>>, new: Map<Date, List<Event>>): List<Date> {
+        val changedDates = mutableListOf<Date>()
+
+        for ((date, oldEvents) in old) {
+            val newEvents = new[date]
+            if (newEvents == null || !oldEvents.containsAll(newEvents)) {
+                changedDates.add(date)
+            }
+        }
+
+        return changedDates
     }
 
     @AssistedFactory

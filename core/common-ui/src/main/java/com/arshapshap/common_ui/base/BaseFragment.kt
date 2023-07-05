@@ -60,7 +60,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
                         title = getString(com.arshapshap.common_ui.R.string.error),
                         message = getString(it.messageRes)
                     )
-                ViewModelErrorLevel.Warn ->
+                ViewModelErrorLevel.Message ->
                     showToast(
                         message = getString(it.messageRes)
                     )

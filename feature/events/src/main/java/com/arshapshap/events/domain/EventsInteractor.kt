@@ -1,9 +1,10 @@
 package com.arshapshap.events.domain
 
 import com.arshapshap.events.domain.repositories.EventsRepository
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.extensions.addHours
 import com.arshapshap.common_ui.extensions.isDateInRange
+import kotlinx.coroutines.coroutineScope
 import java.util.Date
 import javax.inject.Inject
 
@@ -22,8 +23,9 @@ class EventsInteractor @Inject constructor(
     internal suspend fun getEventsByDateRange(dateStart: Date, dateFinish: Date): Map<Date, List<Event>> {
         val result = mutableMapOf<Date, List<Event>>()
         var date = dateStart
+        val events = repository.getEvents()
         while (date < dateFinish) {
-            val list = repository.getEventsByPredicate {
+            val list = events.filter {
                 date.isDateInRange(
                     it.dateStart, it.dateFinish
                 )
@@ -42,5 +44,12 @@ class EventsInteractor @Inject constructor(
 
     internal suspend fun deleteEventById(id: Long) {
         repository.deleteEventById(id)
+    }
+
+    internal suspend fun exportEvent(id: Long): Boolean = coroutineScope {
+        val event = repository.getEventById(id) ?: return@coroutineScope false
+
+        repository.exportEventToJson(event)
+        return@coroutineScope true
     }
 }

@@ -8,7 +8,7 @@ import com.arshapshap.common_ui.base.ViewModelError
 import com.arshapshap.common_ui.base.ViewModelErrorLevel
 import com.arshapshap.events.R
 import com.arshapshap.events.domain.EventsInteractor
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.extensions.addHours
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.Assisted
@@ -33,7 +33,7 @@ class EventViewModel @AssistedInject constructor(
     internal val eventLiveData: LiveData<Event>
         get() = _eventLiveData
 
-    private val _isEditingLiveData = MutableLiveData(false)
+    private val _isEditingLiveData = MutableLiveData<Boolean>()
     internal val isEditingLiveData: LiveData<Boolean>
         get() = _isEditingLiveData
 
@@ -68,15 +68,34 @@ class EventViewModel @AssistedInject constructor(
                         closeFragment()
                     }
                 }
+                _isEditingLiveData.postValue(false)
             }
         }
         _loadingLiveData.postValue(false)
     }
 
+    internal fun exportEvent() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val event = _eventLiveData.value ?: return@launch
+            kotlin.runCatching {
+                interactor.exportEvent(event.id)
+                _errorLiveData.postValue(ViewModelError(
+                    messageRes = R.string.successfully_exported,
+                    level = ViewModelErrorLevel.Message
+                ))
+            }.onFailure {
+                _errorLiveData.postValue(ViewModelError(
+                    messageRes = com.arshapshap.common_ui.R.string.unexpected_error,
+                    level = ViewModelErrorLevel.Message
+                ))
+            }
+        }
+    }
+
     internal fun deleteEvent() {
         if (_eventLiveData.value == null) return
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             interactor.deleteEventById(_eventLiveData.value!!.id)
         }
         closeFragment()
@@ -87,19 +106,19 @@ class EventViewModel @AssistedInject constructor(
         if (newEvent.name.isEmpty()) {
             _errorLiveData.postValue(
                 ViewModelError(
-                    messageRes = R.string.name_must_be_filled, level = ViewModelErrorLevel.Warn
+                    messageRes = R.string.name_must_be_filled, level = ViewModelErrorLevel.Message
                 )
             )
             return
         }
 
         if (isCreating) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 val newEventId = interactor.addEvent(newEvent)
                 _eventLiveData.postValue(newEvent.copy(id = newEventId))
             }
         } else {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 interactor.updateEvent(newEvent)
                 _eventLiveData.postValue(newEvent)
             }
@@ -136,7 +155,7 @@ class EventViewModel @AssistedInject constructor(
             _errorLiveData.postValue(
                 ViewModelError(
                     messageRes = R.string.start_date_later_than_finish_error,
-                    level = ViewModelErrorLevel.Warn
+                    level = ViewModelErrorLevel.Message
                 )
             )
             return
@@ -156,7 +175,7 @@ class EventViewModel @AssistedInject constructor(
             _errorLiveData.postValue(
                 ViewModelError(
                     messageRes = R.string.start_date_later_than_finish_error,
-                    level = ViewModelErrorLevel.Warn
+                    level = ViewModelErrorLevel.Message
                 )
             )
             return

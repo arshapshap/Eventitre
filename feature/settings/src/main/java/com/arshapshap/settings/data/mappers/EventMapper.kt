@@ -1,7 +1,7 @@
 package com.arshapshap.settings.data.mappers
 
 import com.arshapshap.database.models.EventEntity
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.files.domain.models.EventJson
 import java.util.*
 import javax.inject.Inject

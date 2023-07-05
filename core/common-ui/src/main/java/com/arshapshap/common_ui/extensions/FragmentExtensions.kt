@@ -21,8 +21,8 @@ fun Fragment.getColorAttributeFromTheme(@AttrRes attr: Int): Int {
     return typedValue.data
 }
 
-fun Fragment.showToast(message: String) {
-    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+fun Fragment.showToast(message: String, longLength: Boolean = false) {
+    Toast.makeText(requireContext(), message, if (longLength) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
 fun Fragment.showAlert(title: String, message: String, onClick: () -> Unit = { }) {

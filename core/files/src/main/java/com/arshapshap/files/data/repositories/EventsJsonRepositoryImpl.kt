@@ -19,7 +19,10 @@ internal class EventsJsonRepositoryImpl @Inject constructor(
         return@coroutineScope mapper.mapFromJsonString(json)
     }
 
-    override suspend fun saveEventsInJson(events: List<EventJson>) = coroutineScope {
-        return@coroutineScope filesWriter.createJson(mapper.mapToJsonString(events))
+    override suspend fun saveEventsInJson(events: List<EventJson>, fileName: String) = coroutineScope {
+        return@coroutineScope filesWriter.createJson(
+            json = mapper.mapToJsonString(events),
+            fileName = "$fileName.json"
+        )
     }
 }

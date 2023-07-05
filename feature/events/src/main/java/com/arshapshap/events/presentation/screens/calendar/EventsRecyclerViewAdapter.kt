@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arshapshap.common_ui.extensions.formatDateTimeToString
 import com.arshapshap.events.databinding.ItemEventBinding
-import com.arshapshap.common.di.domain.models.Event
+import com.arshapshap.common.domain.models.Event
 
 internal class EventsRecyclerViewAdapter(
     private var list: List<Event> = listOf(),
