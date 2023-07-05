@@ -3,11 +3,14 @@ package com.arshapshap.events.presentation.screens.calendar
 import android.widget.ImageButton
 import androidx.core.view.isVisible
 import com.arshapshap.common_ui.base.BaseFragment
+import com.arshapshap.common_ui.extensions.isSameDay
+import com.arshapshap.common_ui.extensions.toDate
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
 import com.arshapshap.events.presentation.screens.calendar.calendarview.CalendarManager
+import java.time.LocalDate
 
 class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel>(
     FragmentCalendarBinding::inflate
@@ -34,8 +37,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun initViews() {
         firstOpening = true
         with (binding) {
+            todayTextView.text = LocalDate.now().dayOfMonth.toString()
             eventsRecyclerView.adapter = EventsRecyclerViewAdapter {
                 viewModel.openEvent(it)
+            }
+            showTodayButton.setOnClickListener {
+                viewModel.selectDate(LocalDate.now().toDate())
             }
             addButton.setOnClickListener {
                 viewModel.openEventCreating()
@@ -81,6 +88,8 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                 else {
                     calendarManager.smoothScrollToDate(it)
                 }
+
+                animateShowTodayButton(!it.isSameDay(LocalDate.now().toDate()))
             }
             isCalendarExpandedLiveData.observe(viewLifecycleOwner) {
                 calendarManager.isCalendarExpanded = it
@@ -101,5 +110,10 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     private fun ImageButton.rotate(isExpanded: Boolean) {
         val angle = if (isExpanded) 0F else 180F
         this.animate().rotation(angle).start()
+    }
+
+    private fun animateShowTodayButton(isToday: Boolean) {
+        binding.showTodayButton.isVisible = !isToday
+        binding.todayTextView.isVisible = !isToday
     }
 }

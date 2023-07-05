@@ -56,6 +56,29 @@
         app:layout_constraintTop_toBottomOf="@id/divider_view"
         tools:listitem="@layout/item_event" />
 
+    <TextView
+        android:id="@+id/today_text_view"
+        style="@style/Text.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:textColor="?attr/colorOnSecondary"
+        app:layout_constraintTop_toTopOf="@id/show_today_button"
+        app:layout_constraintEnd_toEndOf="@id/show_today_button"
+        app:layout_constraintStart_toStartOf="@id/show_today_button"
+        app:layout_constraintBottom_toBottomOf="@id/show_today_button"
+        tools:text="24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/show_today_button"
+        android:layout_width="@dimen/fab_size_small"
+        android:layout_height="@dimen/fab_size_small"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/change_calendar_view"
+        app:layout_constraintBottom_toBottomOf="@+id/add_button"
+        app:layout_constraintEnd_toStartOf="@+id/add_button"
+        app:layout_constraintTop_toTopOf="@+id/add_button" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/change_calendar_view_button"
         android:layout_width="wrap_content"
@@ -65,8 +88,8 @@
         android:src="@drawable/ic_expand"
         app:fabCustomSize="@dimen/fab_size_small"
         app:layout_constraintBottom_toTopOf="@id/add_button"
-        app:layout_constraintEnd_toEndOf="@+id/add_button"
-        app:layout_constraintStart_toStartOf="@+id/add_button" />
+        app:layout_constraintEnd_toEndOf="@id/add_button"
+        app:layout_constraintStart_toStartOf="@id/add_button"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
