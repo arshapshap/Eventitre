@@ -78,8 +78,13 @@ internal class CalendarManager(
     }
 
     fun smoothScrollToDate(date: Date) {
-        monthCalendarView.smoothScrollToDate(date.toLocalDate())
-        weekCalendarView.smoothScrollToDate(date.toLocalDate())
+        if (isCalendarExpanded) {
+            monthCalendarView.smoothScrollToDate(date.toLocalDate())
+            weekCalendarView.scrollToDate(date.toLocalDate())
+        } else {
+            weekCalendarView.smoothScrollToDate(date.toLocalDate())
+            monthCalendarView.scrollToDate(date.toLocalDate())
+        }
     }
 
     private fun configureCalendarView() {
@@ -90,6 +95,8 @@ internal class CalendarManager(
 
                 override fun invoke(month: CalendarMonth) {
                     viewModel.loadDataAdditional(Year.of(month.yearMonth.year))
+
+                    viewModel.openMonth(month.yearMonth)
                 }
             }
 
@@ -111,6 +118,8 @@ internal class CalendarManager(
                 override fun invoke(week: Week) {
                     val year = week.days.last().date.yearMonth.year
                     viewModel.loadDataAdditional(Year.of(year))
+
+                    viewModel.openWeek(week)
                 }
             }
 
@@ -134,7 +143,7 @@ internal class CalendarManager(
         with (binding) {
             circleCount = viewModel.eventsLiveData.value?.get(date.toDate())?.size ?: 0
 
-            contentAlpha = if (position == DayPosition.MonthDate || position == null) 1f else 0.5f
+            alpha = if (position == DayPosition.MonthDate || position == null) 1f else 0.5f
             text = date.dayOfMonth.toString()
             contentColor = getContentColorForDay(
                 date = date,
@@ -153,6 +162,14 @@ internal class CalendarManager(
         if (animator != null) {
             animator?.cancel()
         }
+
+        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
+        if (!weekToMonth) {
+            weekCalendarView.scrollToDate(selectedDate)
+        } else {
+            monthCalendarView.scrollToDate(selectedDate)
+        }
+
         val headerHeight = context.resources.getDimension(R.dimen.events_header_height).toInt()
         val dayHeight = context.resources.getDimension(R.dimen.calendar_day_size).toInt()
 

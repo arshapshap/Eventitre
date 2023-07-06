@@ -3,19 +3,22 @@ package com.arshapshap.events.presentation.screens.calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.arshapshap.common_ui.base.BaseViewModel
-import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.common.domain.models.Event
+import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.common_ui.extensions.roundToDay
 import com.arshapshap.common_ui.extensions.toDate
+import com.arshapshap.common_ui.extensions.toLocalDate
 import com.arshapshap.common_ui.extensions.updateTime
+import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.presentation.EventsFeatureRouter
+import com.kizitonwose.calendar.core.Week
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Year
+import java.time.YearMonth
 import java.util.Calendar
 import java.util.Date
 
@@ -103,6 +106,17 @@ class CalendarViewModel @AssistedInject constructor(
             _selectedDateLiveData.postValue(date)
             _listLiveData.postValue(eventsLiveData.value?.get(date) ?: listOf())
         }
+    }
+
+    internal fun openMonth(month: YearMonth) {
+        val date = selectedDateLiveData.value?.toLocalDate()?.withMonth(month.monthValue)?.withYear(month.year) ?: return
+        selectDate(date.toDate())
+    }
+
+    internal fun openWeek(week: Week) {
+        val weekDay = selectedDateLiveData.value?.toLocalDate()?.dayOfWeek ?: return
+        val date = week.days[weekDay.value - 1].date
+        selectDate(date.toDate())
     }
 
     internal fun changeCalendarView() {
