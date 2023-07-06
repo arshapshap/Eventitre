@@ -104,7 +104,9 @@ class CalendarViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _unselectedDateLiveData.postValue(selectedDateLiveData.value)
             _selectedDateLiveData.postValue(date)
-            _listLiveData.postValue(eventsLiveData.value?.get(date) ?: listOf())
+            eventsLiveData.value?.get(date)?.let {
+                _listLiveData.postValue(it)
+            }
         }
     }
 
