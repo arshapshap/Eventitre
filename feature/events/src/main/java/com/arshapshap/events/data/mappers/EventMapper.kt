@@ -30,7 +30,7 @@ internal class EventMapper @Inject constructor() {
             )
         }
 
-    internal fun mapToJson(event: Event): EventJson = with (event) {
+    fun mapToJson(event: Event): EventJson = with (event) {
         EventJson(
             id = id,
             dateStart = (dateStart.time / 1000).toString(),

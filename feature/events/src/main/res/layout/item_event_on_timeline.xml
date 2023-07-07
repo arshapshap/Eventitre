@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/timeline_event_width"
     android:layout_height="wrap_content"
-    android:background="?attr/colorSecondary"
+    android:background="@drawable/bg_event_on_timeline"
     android:foreground="?selectableItemBackground"
     android:gravity="center|top"
     android:orientation="vertical"
@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/colorOnBackground"
         tools:text="12:20" />
 
     <TextView
@@ -23,7 +23,7 @@
         style="@style/Text.Small"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/colorOnBackground"
         tools:text="Name"
         android:layout_weight="1"/>
 
@@ -33,6 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/colorOnBackground"
         tools:text="15:40" />
 </LinearLayout>

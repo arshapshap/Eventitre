@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/DateTimePickerDialogTheme</item>
