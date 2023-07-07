@@ -17,7 +17,7 @@ internal class EventsRepositoryImpl @Inject constructor(
 
     companion object {
 
-        private const val EXPORTED_JSON_FILE_NAME = "exported_events"
+        internal const val EXPORTED_JSON_FILE_NAME = "exported_events"
     }
 
     override suspend fun getEventsFromJson(): List<Event> = coroutineScope {

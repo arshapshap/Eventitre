@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.Date
 
-class SettingsInteractorTest {
+internal class SettingsInteractorTest {
     private lateinit var repository: EventsRepository
     private lateinit var interactor: SettingsInteractor
 
