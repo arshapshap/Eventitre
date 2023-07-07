@@ -43,18 +43,18 @@ internal class EventsRepositoryImplTest {
         // Arrange
         val expectedId = 123L
         val event = Event(
-            name = "Event",
+            id = expectedId,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = expectedId
+            name = "Event",
+            description = "Description"
         )
         val eventLocal = EventEntity(
-            name = "Event",
+            id = expectedId,
             dateStartInMilliseconds = 1688737200000,
             dateFinishInMilliseconds = 1688742000000,
-            description = "Description",
-            id = expectedId
+            name = "Event",
+            description = "Description"
         )
         every { mapper.mapToLocal(event) } returns eventLocal
         coEvery { localSource.add(eventLocal) } returns expectedId
@@ -76,18 +76,18 @@ internal class EventsRepositoryImplTest {
         val dateStartInMilliseconds = 1688737200000
         val dateFinishInMilliseconds = 1688742000000
         val event = Event(
-            name = name,
+            id = id,
             dateStart = Date(dateStartInMilliseconds),
             dateFinish = Date(dateFinishInMilliseconds),
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         val eventLocal = EventEntity(
-            name = name,
+            id = id,
             dateStartInMilliseconds = dateStartInMilliseconds,
             dateFinishInMilliseconds = dateFinishInMilliseconds,
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         every { mapper.mapToLocal(event) } returns eventLocal
 
@@ -107,18 +107,18 @@ internal class EventsRepositoryImplTest {
         val dateStartInMilliseconds1 = 1688737200000
         val dateFinishInMilliseconds1 = 1688742000000
         val eventLocal1 = EventEntity(
-            name = name1,
+            id = id1,
             dateStartInMilliseconds = dateStartInMilliseconds1,
             dateFinishInMilliseconds = dateFinishInMilliseconds1,
-            description = description1,
-            id = id1
+            name = name1,
+            description = description1
         )
         val event1 = Event(
-            name = name1,
+            id = id1,
             dateStart = Date(dateStartInMilliseconds1),
             dateFinish = Date(dateFinishInMilliseconds1),
-            description = description1,
-            id = id1
+            name = name1,
+            description = description1
         )
 
         val id2 = 2L
@@ -127,18 +127,18 @@ internal class EventsRepositoryImplTest {
         val dateStartInMilliseconds2 = 1688937200000
         val dateFinishInMilliseconds2 = 1688942000000
         val eventLocal2 = EventEntity(
-            name = name2,
+            id = id2,
             dateStartInMilliseconds = dateStartInMilliseconds2,
             dateFinishInMilliseconds = dateFinishInMilliseconds2,
-            description = description2,
-            id = id2
+            name = name2,
+            description = description2
         )
         val event2 =Event(
-            name = name2,
+            id = id2,
             dateStart = Date(dateStartInMilliseconds2),
             dateFinish = Date(dateFinishInMilliseconds2),
-            description = description2,
-            id = id2
+            name = name2,
+            description = description2
         )
         val eventLocalList = listOf(eventLocal1, eventLocal2)
         coEvery { localSource.getAll() } returns eventLocalList
@@ -162,18 +162,18 @@ internal class EventsRepositoryImplTest {
         val dateStartInMilliseconds = 1688737200000
         val dateFinishInMilliseconds = 1688742000000
         val event = Event(
-            name = name,
+            id = id,
             dateStart = Date(dateStartInMilliseconds),
             dateFinish = Date(dateFinishInMilliseconds),
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         val eventLocal = EventEntity(
-            name = name,
+            id = id,
             dateStartInMilliseconds = dateStartInMilliseconds,
             dateFinishInMilliseconds = dateFinishInMilliseconds,
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         coEvery { localSource.getById(id) } returns eventLocal
         every { mapper.mapFromLocal(eventLocal) } returns event
@@ -207,25 +207,25 @@ internal class EventsRepositoryImplTest {
         val dateStartInMilliseconds = 1688737200000
         val dateFinishInMilliseconds = 1688742000000
         val event = Event(
-            name = name,
+            id = id,
             dateStart = Date(dateStartInMilliseconds),
             dateFinish = Date(dateFinishInMilliseconds),
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         val eventLocal = EventEntity(
-            name = name,
+            id = id,
             dateStartInMilliseconds = dateStartInMilliseconds,
             dateFinishInMilliseconds = dateFinishInMilliseconds,
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         val eventJson = EventJson(
-            name = name,
+            id = id,
             dateStart = (dateStartInMilliseconds / 1000).toString(),
             dateFinish = (dateFinishInMilliseconds / 1000).toString(),
-            description = description,
-            id = id
+            name = name,
+            description = description
         )
         val expectedFileName = event.name
         every { mapper.mapToLocal(event) } returns eventLocal

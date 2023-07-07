@@ -33,11 +33,11 @@ class EventsInteractorTest {
     fun `addEvent should call repository's addEvent method and return added event's id`() = runBlocking {
         // Arrange
         val event = Event(
-            name = "Event",
+            id = 123L,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = 123L
+            name = "Event",
+            description = "Description"
         )
         val expectedId = 123L
         coEvery { eventsRepository.addEvent(event) } returns expectedId
@@ -54,11 +54,11 @@ class EventsInteractorTest {
     fun `updateEvent should call repository's updateEvent method`() = runBlocking {
         // Arrange
         val event = Event(
-            name = "Event",
+            id = 123L,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = 123L
+            name = "Event",
+            description = "Description"
         )
 
         // Act
@@ -74,11 +74,11 @@ class EventsInteractorTest {
         val dateStart = Date()
         val dateFinish = Date()
         val events = listOf(Event(
-            name = "Event",
+            id = 123L,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = 123L
+            name = "Event",
+            description = "Description"
         ))
         val expectedResult = mutableMapOf<Date, List<Event>>()
         coEvery { eventsRepository.getEvents() } returns events
@@ -96,11 +96,11 @@ class EventsInteractorTest {
         // Arrange
         val id = 123L
         val expectedEvent = Event(
-            name = "Event",
+            id = id,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = id
+            name = "Event",
+            description = "Description"
         )
         coEvery { eventsRepository.getEventById(id) } returns expectedEvent
 
@@ -129,11 +129,11 @@ class EventsInteractorTest {
         // Arrange
         val id = 123L
         val event = Event(
-            name = "Event",
+            id = id,
             dateStart = Date(1688737200000),
             dateFinish = Date(1688742000000),
-            description = "Description",
-            id = id
+            name = "Event",
+            description = "Description"
         )
         coEvery { eventsRepository.getEventById(id) } returns event
         coEvery { eventsRepository.exportEventToJson(event) } just runs
