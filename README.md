@@ -22,3 +22,4 @@
 * Testing (JUnit5, Mockk)
 * Gson
 * ContentResolver (Работа с внешним файловым менеджером)
+* CustomView
