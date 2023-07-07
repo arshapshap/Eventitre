@@ -23,4 +23,5 @@
     <string name="export_event_confirm">Экспортировать событие в json-формате?</string>
     <string name="successfully_exported">Успешно экспортировано</string>
     <string name="change_calendar_view">Изменить вид календаря</string>
+    <string name="event_deleted">Событие удалено</string>
 </resources>

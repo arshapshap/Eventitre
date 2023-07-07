@@ -24,4 +24,5 @@
     <string name="successfully_exported">Successfully exported</string>
     <string name="two_months_placeholder" translatable="false">%s - %s</string>
     <string name="change_calendar_view">Change the calendar view</string>
+    <string name="event_deleted">Event deleted</string>
 </resources>

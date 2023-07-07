@@ -35,4 +35,8 @@ class SettingsInteractor @Inject constructor(
             exportedNumber = events.size
         )
     }
+
+    internal suspend fun clearAllData() {
+       repository.deleteAllEvents()
+    }
 }

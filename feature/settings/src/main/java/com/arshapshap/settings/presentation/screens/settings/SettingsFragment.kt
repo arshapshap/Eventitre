@@ -32,12 +32,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             exportButton.setOnClickListener {
                 showAlertBeforeExport()
             }
-
             importButton.setOnClickListener {
                 viewModel.requestImportEvents()
                 showToast(
                     message = getString(R.string.select_json_file),
                     longLength = true
+                )
+            }
+            clearDataButton.setOnClickListener {
+                showAlertWithTwoButtons(
+                    title = getString(R.string.clearing_data),
+                    message = getString(R.string.clearing_data_warning),
+                    positiveButtonText = getString(R.string.delete),
+                    onPositiveButtonClick = {
+                        viewModel.clearAllData()
+                        showToast(getString(R.string.data_cleared))
+                    }
                 )
             }
         }

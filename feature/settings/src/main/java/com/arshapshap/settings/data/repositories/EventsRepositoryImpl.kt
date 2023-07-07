@@ -47,4 +47,8 @@ internal class EventsRepositoryImpl @Inject constructor(
     override suspend fun addEvents(list: List<Event>): List<Long> {
         return localSource.addList(list.map { mapper.mapToLocal(it) })
     }
+
+    override suspend fun deleteAllEvents() {
+        localSource.deleteAll()
+    }
 }

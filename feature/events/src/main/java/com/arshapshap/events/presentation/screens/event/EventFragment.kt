@@ -80,7 +80,10 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
             deleteImageView.setOnClickListener {
                 showAlertWithTwoButtons(
                     title = getString(R.string.confirm_deleting_event),
-                    onPositiveButtonClick = viewModel::deleteEvent
+                    onPositiveButtonClick = {
+                        viewModel.deleteEvent()
+                        showToast(getString(R.string.event_deleted))
+                    }
                 )
             }
         }

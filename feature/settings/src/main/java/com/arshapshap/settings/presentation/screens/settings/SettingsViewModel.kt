@@ -11,6 +11,7 @@ import com.arshapshap.settings.domain.SettingsInteractor
 import com.arshapshap.settings.domain.models.EventsImportInfo
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsViewModel @AssistedInject constructor(
@@ -30,7 +31,7 @@ class SettingsViewModel @AssistedInject constructor(
         get() = _exportedEventsLiveData
 
     internal fun exportEvents() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val result = interactor.exportEvents()
                 _exportedEventsLiveData.postValue(result.exportedNumber)
@@ -44,7 +45,7 @@ class SettingsViewModel @AssistedInject constructor(
     }
 
     internal fun requestImportEvents() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val events = interactor.getEventsFromJson()
                 _eventsToImportLiveData.postValue(events)
@@ -68,9 +69,15 @@ class SettingsViewModel @AssistedInject constructor(
         val list = if (withOverwriting) eventsToImportLiveData.value?.allEvents
             else eventsToImportLiveData.value?.newEvents
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = interactor.importEvents(list ?: listOf())
             _importedEventsLiveData.postValue(result.importedNumber)
+        }
+    }
+
+    internal fun clearAllData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            interactor.clearAllData()
         }
     }
 

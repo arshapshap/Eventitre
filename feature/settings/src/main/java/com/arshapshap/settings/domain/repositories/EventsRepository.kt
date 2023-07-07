@@ -13,4 +13,6 @@ interface EventsRepository {
     suspend fun getEventById(id: Long): Event?
 
     suspend fun addEvents(list: List<Event>): List<Long>
+
+    suspend fun deleteAllEvents()
 }

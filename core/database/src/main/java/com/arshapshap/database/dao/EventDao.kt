@@ -18,6 +18,9 @@ abstract class EventDao {
     @Query("DELETE FROM Event WHERE event_id = :id")
     abstract suspend fun deleteById(id: Long)
 
+    @Query("DELETE FROM Event")
+    abstract suspend fun deleteAll()
+
     @Query("SELECT * FROM Event")
     abstract suspend fun getAll(): List<EventEntity>
 
