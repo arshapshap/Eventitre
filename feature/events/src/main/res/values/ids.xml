@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="horizontal_scroll_view_id" type="id"/>
+    <item name="timeline_layout_group_id" type="id"/>
+</resources>

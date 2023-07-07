@@ -42,7 +42,6 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun initViews() {
         firstOpening = true
         with (binding) {
-            eventsTimeline.isSaveFromParentEnabled = false
             todayTextView.text = LocalDate.now().dayOfMonth.toString()
             showTodayButton.setOnClickListener {
                 viewModel.selectDate(LocalDate.now().toDate())
@@ -108,7 +107,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
 
     private fun addEventToTimeline(event: Event) {
         val model = EventTimelineModel(event, viewModel.selectedDateLiveData.value!!)
-        val myEventView = EventView(requireContext(),
+        val eventView = EventView(requireContext(),
             model,
             layoutResourceId = R.layout.item_event_on_timeline,
             setupView = { view ->
@@ -116,12 +115,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                 view.findViewById<TextView>(R.id.time_start_text_view).text = model.startTimeString
                 view.findViewById<TextView>(R.id.time_finish_text_view).text = model.endTimeString
             },
-            onItemClick = { _ ->
+            onItemClick = {
                 viewModel.openEvent(event)
             }
         )
 
-        binding.eventsTimeline.addEvent(myEventView)
+        binding.eventsTimeline.addEvent(eventView)
     }
 
     private fun ImageButton.rotate(isExpanded: Boolean) {
