@@ -53,22 +53,7 @@ import com.arshapshap.events.R
         //if user not set any divider array
         dividerTitles = mutableListOf()
         for (i in 0 until numberOfRows step 1) {
-            dividerTitles.add(
-                    when (i) {
-                        in 0 until 12 -> {
-                            "$i am"
-                        }
-                        12 -> {
-                            "12 pm"
-                        }
-                        in 12 .. 24->{
-                            "${i-12} pm"
-                        }
-                        else -> {
-                            ""
-                        }
-                    }
-            )
+            dividerTitles.add("$i:00")
         }
 
 

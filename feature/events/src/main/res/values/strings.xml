@@ -14,40 +14,14 @@
     <string name="event_name">Event name</string>
     <string name="event_description">Event description</string>
     <string name="start_date_must_be_earlier_than_finish_error">The start date must be earlier than the finish date</string>
-    <string name="event_start_time">Select the start time of the event</string>
-    <string name="event_finish_time">Select the finish time of the event</string>
-    <string name="event_start_date">Select the start date of the event</string>
-    <string name="event_finish_date">Select the finish date of the event</string>
+    <string name="event_start_time">Start time of the event</string>
+    <string name="event_finish_time">Finish time of the event</string>
+    <string name="event_start_date">Start date of the event</string>
+    <string name="event_finish_date">Finish date of the event</string>
     <string name="add_event">Add event</string>
     <string name="action_export">Export</string>
     <string name="export_event_confirm">Export the event in json format?</string>
     <string name="successfully_exported">Successfully exported</string>
-    <string name="two_months_placeholder">%s - %s</string>
+    <string name="two_months_placeholder" translatable="false">%s - %s</string>
     <string name="change_calendar_view">Change the calendar view</string>
-    <string-array name="timeline_titles">
-        <item>0:00</item>
-        <item>1:00</item>
-        <item>2:00</item>
-        <item>3:00</item>
-        <item>4:00</item>
-        <item>5:00</item>
-        <item>6:00</item>
-        <item>7:00</item>
-        <item>8:00</item>
-        <item>9:00</item>
-        <item>10:00</item>
-        <item>11:00</item>
-        <item>12:00</item>
-        <item>13:00</item>
-        <item>14:00</item>
-        <item>15:00</item>
-        <item>16:00</item>
-        <item>17:00</item>
-        <item>18:00</item>
-        <item>19:00</item>
-        <item>20:00</item>
-        <item>21:00</item>
-        <item>22:00</item>
-        <item>23:00</item>
-    </string-array>
 </resources>
