@@ -35,6 +35,7 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment-ktx" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 kotlinx-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinx-test-junit" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
@@ -57,5 +58,5 @@ dagger = ["dagger", "dagger-android"]
 dagger-kapt = ["dagger-compiler", "dagger-android-processor"]
 navigation = ["navigation-runtime-ktx", "navigation-fragment-ktx", "navigation-ui-ktx"]
 room = ["room-runtime", "room-ktx"]
-tests = ["junit","kotlinx-coroutines-test", "kotlinx-test-junit", "mockk"]
+tests = ["junit", "junit-jupiter","kotlinx-coroutines-test", "kotlinx-test-junit", "mockk"]
 tests-android = ["androidx-test-espresso-core", "androidx-test-ext-junit", "mockk-android"]
