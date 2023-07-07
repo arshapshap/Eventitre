@@ -6,14 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.kizitonwose.calendar.view.CalendarView
-        android:id="@+id/calendar_view"
+    <FrameLayout
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:cv_dayViewResource="@layout/calendar_day_layout"
-        app:cv_monthHeaderResource="@layout/calendar_month_layout"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.kizitonwose.calendar.view.CalendarView
+            android:id="@+id/month_calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cv_dayViewResource="@layout/calendar_day_layout"
+            app:cv_monthHeaderResource="@layout/calendar_header_layout" />
+
+        <com.kizitonwose.calendar.view.WeekCalendarView
+            android:id="@+id/week_calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cv_dayViewResource="@layout/calendar_day_layout"
+            app:cv_weekHeaderResource="@layout/calendar_header_layout" />
+    </FrameLayout>
 
     <View
         android:id="@+id/divider_view"
@@ -21,14 +38,7 @@
         android:layout_height="1dp"
         android:alpha="0.2"
         android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toBottomOf="@id/guideline" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintTop_toBottomOf="@id/calendar" />
 
     <ProgressBar
         android:id="@+id/loading_progress_bar"
@@ -37,16 +47,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/divider_view" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/events_recycler_view"
+    <com.arshapshap.events.presentation.screens.calendar.timelinelayout.TimeLineLayout
+        android:id="@+id/events_timeline"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:dividerColor="@color/color_on_background_20"
+        app:dividerTextColor="?attr/colorOnBackground"
+        app:eachRowHeight="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        tools:listitem="@layout/item_event" />
+        app:layout_constraintTop_toBottomOf="@id/divider_view" />
+
+    <TextView
+        android:id="@+id/today_text_view"
+        style="@style/Text.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="7dp"
+        android:textColor="?attr/colorOnSecondary"
+        app:layout_constraintTop_toTopOf="@id/show_today_button"
+        app:layout_constraintEnd_toEndOf="@id/show_today_button"
+        app:layout_constraintStart_toStartOf="@id/show_today_button"
+        app:layout_constraintBottom_toBottomOf="@id/show_today_button"
+        tools:text="24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/show_today_button"
+        android:layout_width="@dimen/fab_size_small"
+        android:layout_height="@dimen/fab_size_small"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/change_calendar_view"
+        app:layout_constraintBottom_toBottomOf="@+id/add_button"
+        app:layout_constraintEnd_toStartOf="@+id/add_button"
+        app:layout_constraintTop_toTopOf="@+id/add_button" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/change_calendar_view_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/change_calendar_view"
+        android:src="@drawable/ic_expand"
+        app:fabCustomSize="@dimen/fab_size_small"
+        app:layout_constraintBottom_toTopOf="@id/add_button"
+        app:layout_constraintEnd_toEndOf="@id/add_button"
+        app:layout_constraintStart_toStartOf="@id/add_button"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
@@ -55,6 +101,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/add_event"
         android:src="@drawable/ic_add"
+        app:fabCustomSize="@dimen/fab_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

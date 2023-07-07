@@ -1,4 +1,4 @@
-package com.arshapshap.common_ui.extensions
+package com.arshapshap.common.extensions
 
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -7,6 +7,14 @@ import java.util.*
 
 fun Date.toLocalDate(): LocalDate {
     return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+}
+
+fun Date.getTimeInFloat(): Float {
+    val calendar = this.toCalendar()
+    val hours = calendar.get(Calendar.HOUR_OF_DAY)
+    val minutes = calendar.get(Calendar.MINUTE)
+
+    return hours.toFloat() + minutes.toFloat() / 60
 }
 
 fun Date.updateTime(date: Date): Date {
@@ -49,12 +57,6 @@ fun Date.isSameDay(date: Date): Boolean {
 fun Date.addHours(hours: Int): Date {
     val calendar = this.toCalendar()
     calendar.add(Calendar.HOUR_OF_DAY, hours)
-    return calendar.time
-}
-
-fun Date.addMonths(months: Int): Date {
-    val calendar = this.toCalendar()
-    calendar.add(Calendar.MONTH, months)
     return calendar.time
 }
 

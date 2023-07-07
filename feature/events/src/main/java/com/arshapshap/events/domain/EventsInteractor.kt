@@ -2,8 +2,8 @@ package com.arshapshap.events.domain
 
 import com.arshapshap.events.domain.repositories.EventsRepository
 import com.arshapshap.common.domain.models.Event
-import com.arshapshap.common_ui.extensions.addHours
-import com.arshapshap.common_ui.extensions.isDateInRange
+import com.arshapshap.common.extensions.addHours
+import com.arshapshap.common.extensions.isDateInRange
 import kotlinx.coroutines.coroutineScope
 import java.util.Date
 import javax.inject.Inject

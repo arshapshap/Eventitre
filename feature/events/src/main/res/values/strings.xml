@@ -13,13 +13,15 @@
     <string name="name_must_be_filled">The name must be filled</string>
     <string name="event_name">Event name</string>
     <string name="event_description">Event description</string>
-    <string name="start_date_later_than_finish_error">The start date cannot be later than the finish date</string>
-    <string name="event_start_time">Select the start time of the event</string>
-    <string name="event_finish_time">Select the finish time of the event</string>
-    <string name="event_start_date">Select the start date of the event</string>
-    <string name="event_finish_date">Select the finish date of the event</string>
+    <string name="start_date_must_be_earlier_than_finish_error">The start date must be earlier than the finish date</string>
+    <string name="event_start_time">Start time of the event</string>
+    <string name="event_finish_time">Finish time of the event</string>
+    <string name="event_start_date">Start date of the event</string>
+    <string name="event_finish_date">Finish date of the event</string>
     <string name="add_event">Add event</string>
     <string name="action_export">Export</string>
     <string name="export_event_confirm">Export the event in json format?</string>
     <string name="successfully_exported">Successfully exported</string>
+    <string name="two_months_placeholder" translatable="false">%s - %s</string>
+    <string name="change_calendar_view">Change the calendar view</string>
 </resources>

@@ -21,6 +21,16 @@ import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentEventBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
+import com.arshapshap.common.domain.Constants
+import com.arshapshap.common.extensions.formatDateToString
+import com.arshapshap.common.extensions.formatTimeToString
+import com.arshapshap.common_ui.extensions.hideKeyboard
+import com.arshapshap.common_ui.extensions.showAlertWithTwoButtons
+import com.arshapshap.common_ui.extensions.showDatePickerDialog
+import com.arshapshap.common_ui.extensions.showKeyboard
+import com.arshapshap.common_ui.extensions.showTimePickerDialog
+import com.arshapshap.common.extensions.toCalendar
+import com.arshapshap.common.extensions.toDate
 import java.util.*
 
 class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
@@ -183,14 +193,18 @@ class EventFragment : BaseFragment<FragmentEventBinding, EventViewModel>(
                 showDatePickerDialog(
                     message = getString(R.string.event_start_date),
                     getCurrent = ::getCurrentDateStart,
-                    onDateSet = viewModel::setDateStart
+                    onDateSet = viewModel::setDateStart,
+                    minDate = Constants.MIN_DATE.toDate().time,
+                    maxDate = Constants.MAX_DATE.toDate().time
                 )
             }
             setDateTimeFieldEditing(dateFinishTextView, isEditing) {
                 showDatePickerDialog(
                     message = getString(R.string.event_finish_date),
                     getCurrent = ::getCurrentDateFinish,
-                    onDateSet = viewModel::setDateFinish
+                    onDateSet = viewModel::setDateFinish,
+                    minDate = Constants.MIN_DATE.toDate().time,
+                    maxDate = Constants.MAX_DATE.toDate().time
                 )
             }
 

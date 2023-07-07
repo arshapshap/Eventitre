@@ -4,7 +4,7 @@
     <string name="import_events">Import events</string>
     <string name="export_events">Export events</string>
     <string name="events_prepared_for_import">Events prepared for import: %d</string>
-    <string name="events_prepared_for_import_with_conflicts">Events prepared for import: %1$d.\n%2$d of them already exist in the database and will be overwritten.</string>
+    <string name="events_prepared_for_import_with_conflicts">Events prepared for import: %1$d.\n%2$d of them already exist in the database and will be overwritten</string>
     <string name="no_events_to_import">No events were found for import in this file</string>
     <string name="add_only_new">Add only new ones</string>
     <string name="imported_events_number">Imported events: %d</string>
