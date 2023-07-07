@@ -9,7 +9,8 @@ import com.arshapshap.common_ui.base.ViewModelErrorLevel
 import com.arshapshap.events.R
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.common.domain.models.Event
-import com.arshapshap.common_ui.extensions.addHours
+import com.arshapshap.common.domain.models.EventValidator
+import com.arshapshap.common.extensions.addHours
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -151,10 +152,10 @@ class EventViewModel @AssistedInject constructor(
         if (isEditingLiveData.value != true) return
 
         val currentDateFinish = _editingEventLiveData.value?.dateFinish ?: return
-        if (calendar.time.after(currentDateFinish)) {
+        if (!EventValidator.validateDates(calendar.time, currentDateFinish)) {
             _errorLiveData.postValue(
                 ViewModelError(
-                    messageRes = R.string.start_date_later_than_finish_error,
+                    messageRes = R.string.start_date_must_be_earlier_than_finish_error,
                     level = ViewModelErrorLevel.Message
                 )
             )
@@ -171,10 +172,10 @@ class EventViewModel @AssistedInject constructor(
         if (isEditingLiveData.value != true) return
 
         val currentDateStart = _editingEventLiveData.value?.dateStart ?: return
-        if (calendar.time.before(currentDateStart)) {
+        if (!EventValidator.validateDates(currentDateStart, calendar.time)) {
             _errorLiveData.postValue(
                 ViewModelError(
-                    messageRes = R.string.start_date_later_than_finish_error,
+                    messageRes = R.string.start_date_must_be_earlier_than_finish_error,
                     level = ViewModelErrorLevel.Message
                 )
             )

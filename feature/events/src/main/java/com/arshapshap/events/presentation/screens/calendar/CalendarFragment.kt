@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
-import com.arshapshap.common_ui.extensions.isSameDay
-import com.arshapshap.common_ui.extensions.toDate
+import com.arshapshap.common.extensions.isSameDay
+import com.arshapshap.common.extensions.toDate
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentCalendarBinding

@@ -1,10 +1,10 @@
 package com.arshapshap.events.presentation.screens.calendar.timelinelayout
 
 import com.arshapshap.common.domain.models.Event
-import com.arshapshap.common_ui.extensions.addHours
-import com.arshapshap.common_ui.extensions.formatDateTimeToString
-import com.arshapshap.common_ui.extensions.formatTimeToString
-import com.arshapshap.common_ui.extensions.getTimeInFloat
+import com.arshapshap.common.extensions.addHours
+import com.arshapshap.common.extensions.formatDateTimeToString
+import com.arshapshap.common.extensions.formatTimeToString
+import com.arshapshap.common.extensions.getTimeInFloat
 import java.util.Date
 
 

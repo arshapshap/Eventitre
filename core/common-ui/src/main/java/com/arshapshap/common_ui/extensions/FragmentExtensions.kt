@@ -110,7 +110,9 @@ fun Fragment.showDatePickerDialog(
     title: String = "",
     message: String = "",
     getCurrent: () -> Calendar,
-    onDateSet: (Calendar) -> Unit
+    onDateSet: (Calendar) -> Unit,
+    minDate: Long? = null,
+    maxDate: Long? = null
 ) {
     val current = getCurrent()
     val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
@@ -130,6 +132,12 @@ fun Fragment.showDatePickerDialog(
         dialog.setTitle(title)
     if (message.isNotEmpty())
         dialog.setMessage(message)
+    minDate?.let {
+        dialog.datePicker.minDate = it
+    }
+    maxDate?.let {
+        dialog.datePicker.maxDate = it
+    }
     dialog.show()
 }
 

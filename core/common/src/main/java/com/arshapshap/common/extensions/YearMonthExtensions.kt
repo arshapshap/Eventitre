@@ -1,4 +1,4 @@
-package com.arshapshap.common_ui.extensions
+package com.arshapshap.common.extensions
 
 import java.text.SimpleDateFormat
 import java.time.YearMonth

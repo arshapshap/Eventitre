@@ -12,13 +12,14 @@ import androidx.core.animation.doOnStart
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import com.arshapshap.common_ui.extensions.formatToString
-import com.arshapshap.common_ui.extensions.formatToStringWithYear
+import com.arshapshap.common.extensions.formatToString
+import com.arshapshap.common.extensions.formatToStringWithYear
 import com.arshapshap.common_ui.extensions.getColorAttributeFromTheme
-import com.arshapshap.common_ui.extensions.isSameDay
-import com.arshapshap.common_ui.extensions.toDate
-import com.arshapshap.common_ui.extensions.toLocalDate
+import com.arshapshap.common.extensions.isSameDay
+import com.arshapshap.common.extensions.toDate
+import com.arshapshap.common.extensions.toLocalDate
 import com.arshapshap.events.R
+import com.arshapshap.common.domain.Constants
 import com.arshapshap.events.presentation.screens.calendar.CalendarViewModel
 import com.arshapshap.events.presentation.screens.calendar.calendarview.containers.DayViewContainer
 import com.arshapshap.events.presentation.screens.calendar.calendarview.containers.CalendarHeaderContainer
@@ -124,8 +125,8 @@ internal class CalendarManager(
             }
 
             setup(
-                startDate = LocalDate.of(1970, 1, 1),
-                endDate = LocalDate.of(2099, 12, 31),
+                startDate = Constants.MIN_DATE,
+                endDate = Constants.MAX_DATE,
                 firstDayOfWeek = daysOfWeek().first()
             )
         }

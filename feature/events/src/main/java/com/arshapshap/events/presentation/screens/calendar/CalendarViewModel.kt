@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.base.BaseViewModel
-import com.arshapshap.common_ui.extensions.roundToDay
-import com.arshapshap.common_ui.extensions.toDate
-import com.arshapshap.common_ui.extensions.toLocalDate
-import com.arshapshap.common_ui.extensions.updateTime
+import com.arshapshap.common.extensions.roundToDay
+import com.arshapshap.common.extensions.toDate
+import com.arshapshap.common.extensions.toLocalDate
+import com.arshapshap.common.extensions.updateTime
 import com.arshapshap.common_ui.viewmodel.LiveDataEvent
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.presentation.EventsFeatureRouter

@@ -1,6 +1,7 @@
 package com.arshapshap.settings.data.repositories
 
 import com.arshapshap.common.domain.models.Event
+import com.arshapshap.common.domain.models.EventValidator
 import com.arshapshap.database.dao.EventDao
 import com.arshapshap.files.domain.repositories.EventsJsonRepository
 import com.arshapshap.settings.data.mappers.EventMapper
@@ -25,6 +26,7 @@ internal class EventsRepositoryImpl @Inject constructor(
                 it.dateStart != null && it.dateFinish != null && it.name != null
             }
             .map { mapper.mapFromJson(it) }
+            .filter { EventValidator.validateDates(it.dateStart, it.dateFinish) }
     }
 
     override suspend fun exportEventsToJson(list: List<Event>) = coroutineScope {
