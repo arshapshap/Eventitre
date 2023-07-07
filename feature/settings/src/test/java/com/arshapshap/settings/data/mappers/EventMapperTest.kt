@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
 
-class EventMapperTest {
+internal class EventMapperTest {
     private val mapper = EventMapper()
 
     @Test
