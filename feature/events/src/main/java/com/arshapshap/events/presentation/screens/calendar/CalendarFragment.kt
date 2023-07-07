@@ -64,6 +64,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             loadDataInitial()
             loadingLiveData.observe(viewLifecycleOwner) {
                 binding.loadingProgressBar.isVisible = it
+                binding.eventsTimeline.isVisible = !it
             }
             changedDatesLiveData.observe(viewLifecycleOwner) {
                 it.forEach {
