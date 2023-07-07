@@ -133,7 +133,7 @@ internal class EventsRepositoryImplTest {
             name = name2,
             description = description2
         )
-        val event2 =Event(
+        val event2 = Event(
             id = id2,
             dateStart = Date(dateStartInMilliseconds2),
             dateFinish = Date(dateFinishInMilliseconds2),
