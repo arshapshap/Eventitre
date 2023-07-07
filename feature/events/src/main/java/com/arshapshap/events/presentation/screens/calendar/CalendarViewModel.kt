@@ -9,6 +9,7 @@ import com.arshapshap.common_ui.extensions.roundToDay
 import com.arshapshap.common_ui.extensions.toDate
 import com.arshapshap.common_ui.extensions.toLocalDate
 import com.arshapshap.common_ui.extensions.updateTime
+import com.arshapshap.common_ui.viewmodel.LiveDataEvent
 import com.arshapshap.events.domain.EventsInteractor
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import com.kizitonwose.calendar.core.Week
@@ -28,26 +29,26 @@ class CalendarViewModel @AssistedInject constructor(
 ) : BaseViewModel() {
 
     private var _loadedYears = mutableSetOf(Year.now())
-    val loadedYears: List<Year>
+    private val loadedYears: List<Year>
         get() = _loadedYears.toList()
 
     private val _eventsLiveData = MutableLiveData<Map<Date, List<Event>>>()
     internal val eventsLiveData: LiveData<Map<Date, List<Event>>>
         get() = _eventsLiveData
 
-    private val _changedLiveData = MutableLiveData<List<Date>>()
-    internal val changedLiveData: LiveData<List<Date>>
-        get() = _changedLiveData
+    private val _changedDatesLiveData = MutableLiveData<List<Date>>()
+    internal val changedDatesLiveData: LiveData<List<Date>>
+        get() = _changedDatesLiveData
 
-    private val _listLiveData = MutableLiveData<List<Event>>()
-    internal val listLiveData: LiveData<List<Event>>
+    private val _listLiveData = MutableLiveData<LiveDataEvent<List<Event>>>()
+    internal val listLiveData: LiveData<LiveDataEvent<List<Event>>>
         get() = _listLiveData
 
     private val _unselectedDateLiveData = MutableLiveData<Date>()
     internal val unselectedDateLiveData: LiveData<Date>
         get() = _unselectedDateLiveData
 
-    private val _selectedDateLiveData = MutableLiveData(Calendar.getInstance().time)
+    private val _selectedDateLiveData = MutableLiveData(LocalDate.now().toDate())
     internal val selectedDateLiveData: LiveData<Date>
         get() = _selectedDateLiveData
 
@@ -68,10 +69,12 @@ class CalendarViewModel @AssistedInject constructor(
 
             eventsLiveData.value?.let {
                 val changed = compareEventMaps(it, events)
-                _changedLiveData.postValue(changed)
-            }
+                _changedDatesLiveData.postValue(changed + events.keys)
+            } ?: _changedDatesLiveData.postValue(events.keys.toList())
             _eventsLiveData.postValue(events)
-            _listLiveData.postValue(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+
+            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            _listLiveData.postValue(liveDataEvent)
             _loadingLiveData.postValue(false)
         }
     }
@@ -84,9 +87,12 @@ class CalendarViewModel @AssistedInject constructor(
             val dateStart = LocalDate.ofYearDay(year.value, 1).toDate()
             val dateFinish = LocalDate.ofYearDay(year.value+1, 1).toDate()
 
-            val events = interactor.getEventsByDateRange(dateStart, dateFinish) + (eventsLiveData.value ?: mapOf())
+            val events = (eventsLiveData.value ?: mapOf()) + interactor.getEventsByDateRange(dateStart, dateFinish)
             _eventsLiveData.postValue(events)
-            _listLiveData.postValue(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            _changedDatesLiveData.postValue(events.keys.toList())
+
+            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            _listLiveData.postValue(liveDataEvent)
             _loadingLiveData.postValue(false)
             _loadedYears.add(year)
         }
@@ -104,8 +110,10 @@ class CalendarViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _unselectedDateLiveData.postValue(selectedDateLiveData.value)
             _selectedDateLiveData.postValue(date)
-            eventsLiveData.value?.get(date)?.let {
-                _listLiveData.postValue(it)
+            if (_loadingLiveData.value == true) return@launch
+            eventsLiveData.value?.let {
+                val liveDataEvent = LiveDataEvent(it[date] ?: listOf())
+                _listLiveData.postValue(liveDataEvent)
             }
         }
     }

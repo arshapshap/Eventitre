@@ -4,4 +4,5 @@
     <dimen name="calendar_day_size">60dp</dimen>
     <dimen name="fab_size_small">54dp</dimen>
     <dimen name="fab_size">75dp</dimen>
+    <dimen name="timeline_event_width">60dp</dimen>
 </resources>

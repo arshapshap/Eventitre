@@ -4,4 +4,13 @@
         <attr name="circleCount" format="integer" />
         <attr name="circleColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="TimeLineLayout">
+        <attr name="numberOfRows" format="integer"/>
+        <attr name="eachRowHeight" format="dimension"/>
+        <attr name="minimumPercentage" format="float"/>
+        <attr name="dividerColor" format="color"/>
+        <attr name="dividerTextColor" format="color"/>
+        <attr name="dividerTitles" format="reference"/>
+        <attr name="dividerStartOffset" format="dimension"/>
+    </declare-styleable>
 </resources>

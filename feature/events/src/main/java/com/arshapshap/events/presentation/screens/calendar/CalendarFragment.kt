@@ -1,15 +1,20 @@
 package com.arshapshap.events.presentation.screens.calendar
 
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.view.isVisible
+import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.extensions.isSameDay
 import com.arshapshap.common_ui.extensions.toDate
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
+import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentCalendarBinding
 import com.arshapshap.events.di.EventsFeatureComponent
 import com.arshapshap.events.di.EventsFeatureViewModel
 import com.arshapshap.events.presentation.screens.calendar.calendarview.CalendarManager
+import com.arshapshap.events.presentation.screens.calendar.timelinelayout.EventTimelineModel
+import com.arshapshap.events.presentation.screens.calendar.timelinelayout.EventView
 import java.time.LocalDate
 
 class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel>(
@@ -37,10 +42,8 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun initViews() {
         firstOpening = true
         with (binding) {
+            eventsTimeline.isSaveFromParentEnabled = false
             todayTextView.text = LocalDate.now().dayOfMonth.toString()
-            eventsRecyclerView.adapter = EventsRecyclerViewAdapter {
-                viewModel.openEvent(it)
-            }
             showTodayButton.setOnClickListener {
                 viewModel.selectDate(LocalDate.now().toDate())
             }
@@ -63,18 +66,18 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             loadingLiveData.observe(viewLifecycleOwner) {
                 binding.loadingProgressBar.isVisible = it
             }
-            eventsLiveData.observe(viewLifecycleOwner) {
-                it.keys.forEach {
-                    calendarManager.notifyDateChanged(it)
-                }
-            }
-            changedLiveData.observe(viewLifecycleOwner) {
+            changedDatesLiveData.observe(viewLifecycleOwner) {
                 it.forEach {
                     calendarManager.notifyDateChanged(it)
                 }
             }
             listLiveData.observe(viewLifecycleOwner) {
-                getEventsRecyclerViewAdapter().setList(it)
+                binding.eventsTimeline.clearEvents()
+                it.getContentIfNotHandled()?.let { list ->
+                    list.forEach { event ->
+                        addEventToTimeline(event)
+                    }
+                }
             }
             unselectedDateLiveData.observe(viewLifecycleOwner) {
                 calendarManager.notifyDateChanged(it)
@@ -101,11 +104,25 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun onDestroyView() {
         super.onDestroyView()
         _calendarManager = null
-        firstOpening = true
     }
 
-    private fun getEventsRecyclerViewAdapter(): EventsRecyclerViewAdapter =
-        binding.eventsRecyclerView.adapter as EventsRecyclerViewAdapter
+    private fun addEventToTimeline(event: Event) {
+        val model = EventTimelineModel(event, viewModel.selectedDateLiveData.value!!)
+        val myEventView = EventView(requireContext(),
+            model,
+            layoutResourceId = R.layout.item_event_on_timeline,
+            setupView = { view ->
+                view.findViewById<TextView>(R.id.name_text_view).text = model.title
+                view.findViewById<TextView>(R.id.time_start_text_view).text = model.startTimeString
+                view.findViewById<TextView>(R.id.time_finish_text_view).text = model.endTimeString
+            },
+            onItemClick = { _ ->
+                viewModel.openEvent(event)
+            }
+        )
+
+        binding.eventsTimeline.addEvent(myEventView)
+    }
 
     private fun ImageButton.rotate(isExpanded: Boolean) {
         val angle = if (isExpanded) 0F else 180F
