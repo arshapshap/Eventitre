@@ -39,22 +39,7 @@ internal class EventsJsonRepositoryImplTest {
     @Test
     fun `getEventsFromJson should return mapped events from filesReader`() = runBlocking {
         // Arrange
-        val jsonString = """[
-  {
-    "id":1,
-    "date_start": "1688737200",
-    "date_finish": "1688742000",
-    "name": "Event 1",
-    "description": "Description 1"
-  },
-  {
-    "id":2,
-    "date_start": "1688937200",
-    "date_finish": "1688942000",
-    "name": "Event 2",
-    "description": "Description 2"
-  }
-]"""
+        val jsonString = """[{"id":1,"date_start":"1688737200","date_finish":"1688742000","name":"Event 1","description":"Description 1"},{"id":2,"date_start":"1688937200","date_finish":"1688942000","name":"Event 2","description":"Description 2"}]"""
         val eventJson1 = EventJson(
             id = 1L,
             dateStart = "1688737200",
@@ -100,22 +85,7 @@ internal class EventsJsonRepositoryImplTest {
             description = "Description 2"
         )
         val events = listOf(eventJson1, eventJson2)
-        val jsonString = """[
-  {
-    "id":1,
-    "date_start": "1688737200",
-    "date_finish": "1688742000",
-    "name": "Event 1",
-    "description": "Description 1"
-  },
-  {
-    "id":2,
-    "date_start": "1688937200",
-    "date_finish": "1688942000",
-    "name": "Event 2",
-    "description": "Description 2"
-  }
-]"""
+        val jsonString = """[{"id":1,"date_start":"1688737200","date_finish":"1688742000","name":"Event 1","description":"Description 1"},{"id":2,"date_start":"1688937200","date_finish":"1688942000","name":"Event 2","description":"Description 2"}]"""
         val fileName = "exported_events"
         every { mapper.mapToJsonString(events) } returns jsonString
         coEvery { filesWriter.createJson(jsonString, "$fileName.json") } just runs
