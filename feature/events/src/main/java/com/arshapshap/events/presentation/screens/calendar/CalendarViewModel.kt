@@ -107,6 +107,7 @@ class CalendarViewModel @AssistedInject constructor(
     }
 
     internal fun selectDate(date: Date) {
+        if (selectedDateLiveData.value == date) return
         viewModelScope.launch(Dispatchers.IO) {
             _unselectedDateLiveData.postValue(selectedDateLiveData.value)
             _selectedDateLiveData.postValue(date)
