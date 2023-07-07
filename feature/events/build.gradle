@@ -51,4 +51,7 @@ dependencies {
 
     implementation libs.bundles.dagger
     kapt libs.bundles.dagger.kapt
+
+    testImplementation libs.bundles.tests
+    androidTestImplementation libs.bundles.tests.android
 }

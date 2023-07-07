@@ -9,12 +9,15 @@ androidx-test-ext-junit = "1.1.5"
 calendar-view = "2.3.0"
 dagger = "2.45"
 fragment-ktx = "1.5.6"
+gson = "2.8.8"
 jetbrains-kotlin-android = "1.8.0"
 junit = "4.13.2"
+kotlinx-coroutines-test = "1.6.4"
+kotlinx-test-junit = "1.8.10"
+mockk = "1.13.5"
 navigation = "2.5.3"
 recycler-view = "1.2.1"
 room = "2.5.1"
-gson = "2.8.8"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
@@ -32,6 +35,10 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment-ktx" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+kotlinx-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinx-test-junit" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
@@ -50,3 +57,5 @@ dagger = ["dagger", "dagger-android"]
 dagger-kapt = ["dagger-compiler", "dagger-android-processor"]
 navigation = ["navigation-runtime-ktx", "navigation-fragment-ktx", "navigation-ui-ktx"]
 room = ["room-runtime", "room-ktx"]
+tests = ["junit","kotlinx-coroutines-test", "kotlinx-test-junit", "mockk"]
+tests-android = ["androidx-test-espresso-core", "androidx-test-ext-junit", "mockk-android"]
