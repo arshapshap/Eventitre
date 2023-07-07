@@ -42,72 +42,57 @@ internal class EventsRepositoryImplTest {
     @Test
     fun `getEventsFromJson should return filtered and mapped events from jsonRepository`() = runBlocking {
         // Arrange
-        val id1 = 1L
-        val name1 = "Event 1"
-        val description1 = "Description 1"
-        val dateStartInMilliseconds1 = 1688737200000
-        val dateFinishInMilliseconds1 = 1688742000000
         val eventJson1 = EventJson(
-            id = id1,
-            dateStart = (dateStartInMilliseconds1 / 1000).toString(),
-            dateFinish = (dateFinishInMilliseconds1 / 1000).toString(),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = "1688737200",
+            dateFinish = "1688742000",
+            name = "Event 1",
+            description = "Description 1"
         )
         val event1 = Event(
-            id = id1,
-            dateStart = Date(dateStartInMilliseconds1),
-            dateFinish = Date(dateFinishInMilliseconds1),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = Date(1688737200000),
+            dateFinish = Date(1688742000000),
+            name = "Event 1",
+            description = "Description 1"
         )
 
-        val id2 = 2L
-        val name2 = "Event 2"
-        val description2 = "Description 2"
-        val dateStartInMilliseconds2 = 1688937200000
-        val dateFinishInMilliseconds2 = 1688942000000
         val eventJson2 = EventJson(
-            id = id2,
-            dateStart = (dateStartInMilliseconds2 / 1000).toString(),
-            dateFinish = (dateFinishInMilliseconds2 / 1000).toString(),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = "1688937200",
+            dateFinish = "1688942000",
+            name = "Event 2",
+            description = "Description 2"
         )
         val event2 = Event(
-            id = id2,
-            dateStart = Date(dateStartInMilliseconds2),
-            dateFinish = Date(dateFinishInMilliseconds2),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = Date(1688937200000),
+            dateFinish = Date(1688942000000),
+            name = "Event 2",
+            description = "Description 2"
         )
 
-        val id3 = 3L
-        val name3 = "Event with wrong dates"
-        val description3 = "Description 3"
-        val dateStartInMilliseconds3 = 1688937200000
-        val dateFinishInMilliseconds3 = 1688937200000
         val eventJsonWithWrongDates = EventJson(
-            id = id3,
-            dateStart = (dateStartInMilliseconds3 / 1000).toString(),
-            dateFinish = (dateFinishInMilliseconds3 / 1000).toString(),
-            name = name3,
-            description = description3
+            id = 3L,
+            dateStart = "1688937200",
+            dateFinish = "1688937200",
+            name = "Event with wrong dates",
+            description = "Description 3"
         )
         val eventWithWrongDates = Event(
-            id = id3,
-            dateStart = Date(dateStartInMilliseconds3),
-            dateFinish = Date(dateFinishInMilliseconds3),
-            name = name3,
-            description = description3
+            id = 3L,
+            dateStart = Date(1688937200000),
+            dateFinish = Date(1688937200000),
+            name = "Event with wrong dates",
+            description = "Description 3"
         )
 
         val eventJsonWithNull = EventJson(
             id = 4L,
             dateStart = null,
-            dateFinish = (dateFinishInMilliseconds1 / 1000).toString(),
+            dateFinish = "1688742000",
             name = "Event with null date start",
-            description = description1
+            description = "Description 1"
         )
         val jsonEvents = listOf(eventJson1, eventJson2, eventJsonWithWrongDates, eventJsonWithNull)
         val correctJsonEvents = listOf(eventJson1, eventJson2, eventJsonWithWrongDates)
@@ -130,44 +115,34 @@ internal class EventsRepositoryImplTest {
     @Test
     fun `exportEventsToJson should call jsonRepository's saveEventsInJson method with the correct arguments`() = runBlocking {
         // Arrange
-        val id1 = 1L
-        val name1 = "Event 1"
-        val description1 = "Description 1"
-        val dateStartInMilliseconds1 = 1688737200000
-        val dateFinishInMilliseconds1 = 1688742000000
         val event1 = Event(
-            id = id1,
-            dateStart = Date(dateStartInMilliseconds1),
-            dateFinish = Date(dateFinishInMilliseconds1),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = Date(1688737200000),
+            dateFinish = Date(1688742000000),
+            name = "Event 1",
+            description = "Description 1"
         )
         val eventJson1 = EventJson(
-            id = id1,
-            dateStart = (dateStartInMilliseconds1 / 1000).toString(),
-            dateFinish = (dateFinishInMilliseconds1 / 1000).toString(),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = "1688737200",
+            dateFinish = "1688742000",
+            name = "Event 1",
+            description = "Description 1"
         )
 
-        val id2 = 2L
-        val name2 = "Event 2"
-        val description2 = "Description 2"
-        val dateStartInMilliseconds2 = 1688937200000
-        val dateFinishInMilliseconds2 = 1688942000000
         val event2 = Event(
-            id = id2,
-            dateStart = Date(dateStartInMilliseconds2),
-            dateFinish = Date(dateFinishInMilliseconds2),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = Date(1688937200000),
+            dateFinish = Date(1688942000000),
+            name = "Event 2",
+            description = "Description 2"
         )
         val eventJson2 = EventJson(
-            id = id2,
-            dateStart = (dateStartInMilliseconds2 / 1000).toString(),
-            dateFinish = (dateFinishInMilliseconds2 / 1000).toString(),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = "1688937200",
+            dateFinish = "1688942000",
+            name = "Event 2",
+            description = "Description 2"
         )
         val events = listOf(event1, event2)
         val eventJsons = listOf(eventJson1, eventJson2)
@@ -184,44 +159,34 @@ internal class EventsRepositoryImplTest {
     @Test
     fun `getEvents should return mapped events from localSource`() = runBlocking {
         // Arrange
-        val id1 = 1L
-        val name1 = "Event 1"
-        val description1 = "Description 1"
-        val dateStartInMilliseconds1 = 1688737200000
-        val dateFinishInMilliseconds1 = 1688742000000
         val event1 = Event(
-            id = id1,
-            dateStart = Date(dateStartInMilliseconds1),
-            dateFinish = Date(dateFinishInMilliseconds1),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = Date(1688737200000),
+            dateFinish = Date(1688742000000),
+            name = "Event 1",
+            description = "Description 1"
         )
         val eventLocal1 = EventEntity(
-            id = id1,
-            dateStartInMilliseconds = dateStartInMilliseconds1,
-            dateFinishInMilliseconds = dateFinishInMilliseconds1,
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStartInMilliseconds = 1688737200000,
+            dateFinishInMilliseconds = 1688742000000,
+            name = "Event 1",
+            description = "Description 1"
         )
 
-        val id2 = 2L
-        val name2 = "Event 2"
-        val description2 = "Description 2"
-        val dateStartInMilliseconds2 = 1688937200000
-        val dateFinishInMilliseconds2 = 1688942000000
         val event2 = Event(
-            id = id2,
-            dateStart = Date(dateStartInMilliseconds2),
-            dateFinish = Date(dateFinishInMilliseconds2),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = Date(1688937200000),
+            dateFinish = Date(1688942000000),
+            name = "Event 2",
+            description = "Description 2"
         )
         val eventLocal2 = EventEntity(
-            id = id2,
-            dateStartInMilliseconds = dateStartInMilliseconds2,
-            dateFinishInMilliseconds = dateFinishInMilliseconds2,
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStartInMilliseconds = 1688937200000,
+            dateFinishInMilliseconds = 1688942000000,
+            name = "Event 2",
+            description = "Description 2"
         )
         val eventEntities = listOf(eventLocal1, eventLocal2)
         val mappedEvents = listOf(event1, event2)
@@ -243,23 +208,19 @@ internal class EventsRepositoryImplTest {
     fun `getEventById should return mapped event from localSource`() = runBlocking {
         // Arrange
         val id = 123L
-        val name = "Event"
-        val description = "Description"
-        val dateStartInMilliseconds = 1688737200000
-        val dateFinishInMilliseconds = 1688742000000
         val eventEntity = EventEntity(
             id = id,
-            dateStartInMilliseconds = dateStartInMilliseconds,
-            dateFinishInMilliseconds = dateFinishInMilliseconds,
-            name = name,
-            description = description
+            dateStartInMilliseconds = 1688737200000,
+            dateFinishInMilliseconds = 1688742000000,
+            name = "Event",
+            description = "Description"
         )
         val mappedEvent = Event(
             id = id,
-            dateStart = Date(dateStartInMilliseconds),
-            dateFinish = Date(dateFinishInMilliseconds),
-            name = name,
-            description = description
+            dateStart = Date(1688737200000),
+            dateFinish = Date(1688742000000),
+            name = "Event",
+            description = "Description"
         )
         coEvery { localSource.getById(id) } returns eventEntity
         every { mapper.mapFromLocal(eventEntity) } returns mappedEvent
@@ -276,48 +237,38 @@ internal class EventsRepositoryImplTest {
     @Test
     fun `addEvents should return a list of IDs returned by localSource's addList method`() = runBlocking {
         // Arrange
-        val id1 = 1L
-        val name1 = "Event 1"
-        val description1 = "Description 1"
-        val dateStartInMilliseconds1 = 1688737200000
-        val dateFinishInMilliseconds1 = 1688742000000
         val event1 = Event(
-            id = id1,
-            dateStart = Date(dateStartInMilliseconds1),
-            dateFinish = Date(dateFinishInMilliseconds1),
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStart = Date(1688737200000),
+            dateFinish = Date(1688742000000),
+            name = "Event 1",
+            description = "Description 1"
         )
         val eventLocal1 = EventEntity(
-            id = id1,
-            dateStartInMilliseconds = dateStartInMilliseconds1,
-            dateFinishInMilliseconds = dateFinishInMilliseconds1,
-            name = name1,
-            description = description1
+            id = 1L,
+            dateStartInMilliseconds = 1688737200000,
+            dateFinishInMilliseconds = 1688742000000,
+            name = "Event 1",
+            description = "Description 1"
         )
 
-        val id2 = 2L
-        val name2 = "Event 2"
-        val description2 = "Description 2"
-        val dateStartInMilliseconds2 = 1688937200000
-        val dateFinishInMilliseconds2 = 1688942000000
         val event2 = Event(
-            id = id2,
-            dateStart = Date(dateStartInMilliseconds2),
-            dateFinish = Date(dateFinishInMilliseconds2),
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStart = Date(1688937200000),
+            dateFinish = Date(1688942000000),
+            name = "Event 2",
+            description = "Description 2"
         )
         val eventLocal2 = EventEntity(
-            id = id2,
-            dateStartInMilliseconds = dateStartInMilliseconds2,
-            dateFinishInMilliseconds = dateFinishInMilliseconds2,
-            name = name2,
-            description = description2
+            id = 2L,
+            dateStartInMilliseconds = 1688937200000,
+            dateFinishInMilliseconds = 1688942000000,
+            name = "Event 2",
+            description = "Description 2"
         )
         val events = listOf(event1, event2)
         val eventEntities = listOf(eventLocal1, eventLocal2)
-        val expectedIds = listOf(id1, id2)
+        val expectedIds = listOf(1L, 2L)
         every { mapper.mapToLocal(any()) } returnsMany eventEntities
         coEvery { localSource.addList(eventEntities) } returns expectedIds
 
