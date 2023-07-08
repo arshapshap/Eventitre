@@ -63,7 +63,7 @@ internal class CalendarManager(
     }
 
     fun changeCalendarView(weekToMonth: Boolean) {
-        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
+        val selectedDate = viewModel.selectedDate.toLocalDate()
         if (!weekToMonth) {
             weekCalendarView.scrollToDate(selectedDate)
         } else {
@@ -82,7 +82,7 @@ internal class CalendarManager(
             animator?.cancel()
         }
 
-        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
+        val selectedDate = viewModel.selectedDate.toLocalDate()
         if (!weekToMonth) {
             weekCalendarView.scrollToDate(selectedDate)
         } else {
@@ -205,12 +205,12 @@ internal class CalendarManager(
             text = date.dayOfMonth.toString()
             contentColor = getContentColorForDay(
                 date = date,
-                selectedDate = viewModel.selectedDateLiveData.value!!,
+                selectedDate = viewModel.selectedDate,
                 inMonth = position == DayPosition.MonthDate || position == null
             )
             background = getBackgroundForDay(
                 date = date,
-                selectedDate = viewModel.selectedDateLiveData.value!!
+                selectedDate = viewModel.selectedDate
             )
         }
     }

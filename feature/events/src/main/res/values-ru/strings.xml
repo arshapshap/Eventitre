@@ -24,4 +24,5 @@
     <string name="successfully_exported">Успешно экспортировано</string>
     <string name="change_calendar_view">Изменить вид календаря</string>
     <string name="event_deleted">Событие удалено</string>
+    <string name="action_go_to_date">Перейти к дате</string>
 </resources>

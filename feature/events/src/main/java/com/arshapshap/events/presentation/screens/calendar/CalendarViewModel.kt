@@ -44,13 +44,15 @@ class CalendarViewModel @AssistedInject constructor(
     internal val listLiveData: LiveData<LiveDataEvent<List<Event>>>
         get() = _listLiveData
 
-    private val _unselectedDateLiveData = MutableLiveData<Date>()
-    internal val unselectedDateLiveData: LiveData<Date>
-        get() = _unselectedDateLiveData
-
-    private val _selectedDateLiveData = MutableLiveData(LocalDate.now().toDate())
-    internal val selectedDateLiveData: LiveData<Date>
+    private val _selectedDateLiveData = MutableLiveData(DateSelect(
+        newDate = LocalDate.now().toDate(),
+        oldDate = LocalDate.now().toDate()
+    ))
+    internal val selectedDateLiveData: LiveData<DateSelect>
         get() = _selectedDateLiveData
+
+    internal val selectedDate: Date
+        get() = _selectedDateLiveData.value!!.newDate
 
     private val _isCalendarExpandedLiveData = MutableLiveData(true)
     internal val isCalendarExpandedLiveData: LiveData<Boolean>
@@ -73,7 +75,7 @@ class CalendarViewModel @AssistedInject constructor(
             } ?: _changedDatesLiveData.postValue(events.keys.toList())
             _eventsLiveData.postValue(events)
 
-            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value!!.newDate.roundToDay()] ?: listOf())
             _listLiveData.postValue(liveDataEvent)
             _loadingLiveData.postValue(false)
         }
@@ -91,7 +93,7 @@ class CalendarViewModel @AssistedInject constructor(
             _eventsLiveData.postValue(events)
             _changedDatesLiveData.postValue(events.keys.toList())
 
-            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value?.roundToDay()] ?: listOf())
+            val liveDataEvent = LiveDataEvent(events[_selectedDateLiveData.value!!.newDate.roundToDay()] ?: listOf())
             _listLiveData.postValue(liveDataEvent)
             _loadingLiveData.postValue(false)
             _loadedYears.add(year)
@@ -103,14 +105,17 @@ class CalendarViewModel @AssistedInject constructor(
     }
 
     internal fun openEventCreating() {
-        router.openEventCreating(selectedDateLiveData.value!!.updateTime(Calendar.getInstance().time))
+        router.openEventCreating(selectedDateLiveData.value!!.newDate.updateTime(Calendar.getInstance().time))
     }
 
     internal fun selectDate(date: Date) {
-        if (selectedDateLiveData.value == date) return
+        if (selectedDateLiveData.value!!.newDate == date) return
         viewModelScope.launch(Dispatchers.IO) {
-            _unselectedDateLiveData.postValue(selectedDateLiveData.value)
-            _selectedDateLiveData.postValue(date)
+            val dateSelect = DateSelect(
+                newDate = date,
+                oldDate = selectedDateLiveData.value!!.newDate
+            )
+            _selectedDateLiveData.postValue(dateSelect)
             if (_loadingLiveData.value == true) return@launch
             eventsLiveData.value?.let {
                 val liveDataEvent = LiveDataEvent(it[date] ?: listOf())
@@ -120,12 +125,12 @@ class CalendarViewModel @AssistedInject constructor(
     }
 
     internal fun openMonth(month: YearMonth) {
-        val date = selectedDateLiveData.value?.toLocalDate()?.withMonth(month.monthValue)?.withYear(month.year) ?: return
+        val date = selectedDateLiveData.value!!.newDate.toLocalDate().withMonth(month.monthValue)?.withYear(month.year) ?: return
         selectDate(date.toDate())
     }
 
     internal fun openWeek(week: Week) {
-        val weekDay = selectedDateLiveData.value?.toLocalDate()?.dayOfWeek ?: return
+        val weekDay = selectedDateLiveData.value!!.newDate.toLocalDate().dayOfWeek ?: return
         val date = week.days[weekDay.value - 1].date
         selectDate(date.toDate())
     }
@@ -153,4 +158,9 @@ class CalendarViewModel @AssistedInject constructor(
 
         fun create(): CalendarViewModel
     }
+
+    internal data class DateSelect(
+        val newDate: Date,
+        val oldDate: Date
+    )
 }

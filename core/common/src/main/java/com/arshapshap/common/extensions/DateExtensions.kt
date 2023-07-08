@@ -1,5 +1,6 @@
 package com.arshapshap.common.extensions
 
+import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -7,6 +8,16 @@ import java.util.*
 
 fun Date.toLocalDate(): LocalDate {
     return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+}
+
+fun getMonthDifference(startDate: Date, endDate: Date): Int {
+    val calendar1 = startDate.toCalendar()
+    val calendar2 = endDate.toCalendar()
+
+    val yearDiff = calendar2.get(Calendar.YEAR) - calendar1.get(Calendar.YEAR)
+    val monthDiff = calendar2.get(Calendar.MONTH) - calendar1.get(Calendar.MONTH)
+
+    return abs(yearDiff * 12 + monthDiff)
 }
 
 fun Date.getTimeInFloat(): Float {

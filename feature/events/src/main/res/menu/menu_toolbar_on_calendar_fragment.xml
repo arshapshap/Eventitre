@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.wallette.presentation.MainActivity">
     <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="10"
+        android:id="@+id/goToDateAction"
+        android:icon="@drawable/ic_date"
+        android:title="@string/action_go_to_date"
+        android:orderInCategory="1"
+        app:iconTint="?attr/colorControlNormal"
         app:showAsAction="always" />
 </menu>

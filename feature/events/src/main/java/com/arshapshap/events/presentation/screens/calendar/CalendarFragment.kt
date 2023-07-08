@@ -1,12 +1,19 @@
 package com.arshapshap.events.presentation.screens.calendar
 
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import com.arshapshap.common.domain.models.Event
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common.extensions.isSameDay
+import com.arshapshap.common.extensions.toCalendar
 import com.arshapshap.common.extensions.toDate
+import com.arshapshap.common_ui.extensions.showDatePickerDialog
 import com.arshapshap.common_ui.viewmodel.lazyViewModel
 import com.arshapshap.events.R
 import com.arshapshap.events.databinding.FragmentCalendarBinding
@@ -16,10 +23,14 @@ import com.arshapshap.events.presentation.screens.calendar.calendarview.Calendar
 import com.arshapshap.events.presentation.screens.calendar.timelinelayout.EventTimelineModel
 import com.arshapshap.events.presentation.screens.calendar.timelinelayout.EventView
 import java.time.LocalDate
+import java.util.Calendar
+import com.arshapshap.common.domain.Constants
+import com.arshapshap.common.extensions.getMonthDifference
+import java.util.Date
 
 class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel>(
     FragmentCalendarBinding::inflate
-) {
+), MenuProvider {
 
     private val component by lazy {
         getFeatureComponent<EventsFeatureViewModel, EventsFeatureComponent>()
@@ -43,6 +54,8 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     override fun initViews() {
         firstCalendarScroll = true
         firstCalendarExpanding = true
+
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         with (binding) {
             todayTextView.text = LocalDate.now().dayOfMonth.toString()
             showTodayButton.setOnClickListener {
@@ -81,19 +94,17 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
                     }
                 }
             }
-            unselectedDateLiveData.observe(viewLifecycleOwner) {
-                calendarManager.notifyDateChanged(it)
-            }
             selectedDateLiveData.observe(viewLifecycleOwner) {
-                calendarManager.notifyDateChanged(it)
-                if (firstCalendarScroll) {
+                calendarManager.notifyDateChanged(it.oldDate)
+                calendarManager.notifyDateChanged(it.newDate)
+                if (firstCalendarScroll || !needsToAnimateTransitionToDate(it.oldDate, it.newDate)) {
                     firstCalendarScroll = false
-                    calendarManager.scrollToDate(it)
+                    calendarManager.scrollToDate(it.newDate)
                 } else {
-                    calendarManager.smoothScrollToDate(it)
+                    calendarManager.smoothScrollToDate(it.newDate)
                 }
 
-                animateShowTodayButton(it.isSameDay(LocalDate.now().toDate()))
+                animateShowTodayButton(it.newDate.isSameDay(LocalDate.now().toDate()))
             }
             isCalendarExpandedLiveData.observe(viewLifecycleOwner) {
                 if (firstCalendarExpanding) {
@@ -113,7 +124,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     }
 
     private fun addEventToTimeline(event: Event) {
-        val model = EventTimelineModel(event, viewModel.selectedDateLiveData.value!!)
+        val model = EventTimelineModel(event, viewModel.selectedDate)
         val eventView = EventView(requireContext(),
             model,
             layoutResourceId = R.layout.item_event_on_timeline,
@@ -138,5 +149,37 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     private fun animateShowTodayButton(isToday: Boolean) {
         binding.showTodayButton.isVisible = !isToday
         binding.todayTextView.isVisible = !isToday
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_toolbar_on_calendar_fragment, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.goToDateAction -> {
+                showDatePickerDialog(
+                    title = getString(R.string.action_go_to_date),
+                    getCurrent = ::getCurrentDate,
+                    onDateSet = ::goToDate,
+                    minDate = Constants.MIN_DATE.toDate().time,
+                    maxDate = Constants.MAX_DATE.toDate().time
+                )
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun needsToAnimateTransitionToDate(oldDate: Date, newDate: Date): Boolean {
+        return (viewModel.isCalendarExpandedLiveData.value!! && getMonthDifference(oldDate, newDate) < 6) || (getMonthDifference(oldDate, newDate) < 3)
+    }
+
+    private fun getCurrentDate(): Calendar {
+        return viewModel.selectedDate.toCalendar()
+    }
+
+    private fun goToDate(calendar: Calendar) {
+        viewModel.selectDate(calendar.time)
     }
 }
