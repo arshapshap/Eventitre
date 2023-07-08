@@ -93,7 +93,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
                 else
                     showAlertWithThreeButtons(
                         title = getString(R.string.import_events),
-                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.allEvents.size, it.newEvents.size),
+                        message = getString(R.string.events_prepared_for_import_with_conflicts, it.allEvents.size, it.allEvents.size - it.newEvents.size),
                         neutralButtonText = getString(R.string.add_only_new),
                         onPositiveButtonClick = ::importEventsWithOverwriting,
                         onNeutralButtonClick = ::importOnlyNewEvents
