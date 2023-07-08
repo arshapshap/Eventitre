@@ -16,7 +16,7 @@
     <string name="select_json_file">Выберите файл в json-формате</string>
     <string name="clear_data">Очистить данные</string>
     <string name="clearing_data">Очистка данных</string>
-    <string name="clearing_data_warning">Вы уверены, что хотите очистить данные? Все добавленные события будут удалены безвозвратно</string>
+    <string name="clearing_data_warning">Вы уверены, что хотите очистить данные? Все события будут удалены безвозвратно</string>
     <string name="delete">Удалить</string>
     <string name="data_cleared">Данные удалены</string>
 </resources>
