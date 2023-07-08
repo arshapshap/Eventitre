@@ -53,17 +53,74 @@ internal class CalendarManager(
     private val weekCalendarView: WeekCalendarView
 ) {
 
-    var isCalendarExpanded: Boolean = false
-        set(value) {
-            changeCalendarViewWithAnimation(value)
-            field = value
-        }
+    private var isCalendarExpanded: Boolean = true
 
     private var animator: ValueAnimator? = null
 
     fun setup() {
         configureCalendarView()
         configureWeekCalendarView()
+    }
+
+    fun changeCalendarView(weekToMonth: Boolean) {
+        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
+        if (!weekToMonth) {
+            weekCalendarView.scrollToDate(selectedDate)
+        } else {
+            monthCalendarView.scrollToDate(selectedDate)
+        }
+        weekCalendarView.isVisible = !weekToMonth
+        monthCalendarView.isVisible = weekToMonth
+        isCalendarExpanded = weekToMonth
+    }
+
+    fun changeCalendarViewWithAnimation(weekToMonth: Boolean)
+    {
+        isCalendarExpanded = weekToMonth
+
+        if (animator != null) {
+            animator?.cancel()
+        }
+
+        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
+        if (!weekToMonth) {
+            weekCalendarView.scrollToDate(selectedDate)
+        } else {
+            monthCalendarView.scrollToDate(selectedDate)
+        }
+
+        val headerHeight = context.resources.getDimension(R.dimen.events_header_height).toInt()
+        val dayHeight = context.resources.getDimension(R.dimen.calendar_day_size).toInt()
+
+        val weekCalendarViewHeight = headerHeight + dayHeight
+        val monthCalendarViewHeight = headerHeight + dayHeight * 6
+
+        val oldHeight = if (weekToMonth) weekCalendarViewHeight else monthCalendarViewHeight
+        val newHeight = if (weekToMonth) monthCalendarViewHeight else weekCalendarViewHeight
+
+        animator = ValueAnimator.ofInt(oldHeight, newHeight)
+        animator?.addUpdateListener { anim ->
+            monthCalendarView.updateLayoutParams {
+                height = anim.animatedValue as Int
+            }
+            monthCalendarView.children.forEach { child ->
+                child.requestLayout()
+            }
+        }
+
+        animator?.doOnStart {
+            if (weekToMonth) {
+                weekCalendarView.isVisible = false
+                monthCalendarView.isVisible = true
+            }
+        }
+        animator?.doOnEnd {
+            if (!weekToMonth) {
+                weekCalendarView.isVisible = true
+                monthCalendarView.isVisible = false
+            }
+        }
+        animator?.start()
     }
 
     fun notifyDateChanged(date: Date) {
@@ -156,53 +213,6 @@ internal class CalendarManager(
                 selectedDate = viewModel.selectedDateLiveData.value!!
             )
         }
-    }
-
-    private fun changeCalendarViewWithAnimation(weekToMonth: Boolean)
-    {
-        if (animator != null) {
-            animator?.cancel()
-        }
-
-        val selectedDate = viewModel.selectedDateLiveData.value?.toLocalDate() ?: return
-        if (!weekToMonth) {
-            weekCalendarView.scrollToDate(selectedDate)
-        } else {
-            monthCalendarView.scrollToDate(selectedDate)
-        }
-
-        val headerHeight = context.resources.getDimension(R.dimen.events_header_height).toInt()
-        val dayHeight = context.resources.getDimension(R.dimen.calendar_day_size).toInt()
-
-        val weekCalendarViewHeight = headerHeight + dayHeight
-        val monthCalendarViewHeight = headerHeight + dayHeight * 6
-
-        val oldHeight = if (weekToMonth) weekCalendarViewHeight else monthCalendarViewHeight
-        val newHeight = if (weekToMonth) monthCalendarViewHeight else weekCalendarViewHeight
-
-        animator = ValueAnimator.ofInt(oldHeight, newHeight)
-        animator?.addUpdateListener { anim ->
-            monthCalendarView.updateLayoutParams {
-                height = anim.animatedValue as Int
-            }
-            monthCalendarView.children.forEach { child ->
-                child.requestLayout()
-            }
-        }
-
-        animator?.doOnStart {
-            if (weekToMonth) {
-                weekCalendarView.isVisible = false
-                monthCalendarView.isVisible = true
-            }
-        }
-        animator?.doOnEnd {
-            if (!weekToMonth) {
-                weekCalendarView.isVisible = true
-                monthCalendarView.isVisible = false
-            }
-        }
-        animator?.start()
     }
 
     @ColorInt

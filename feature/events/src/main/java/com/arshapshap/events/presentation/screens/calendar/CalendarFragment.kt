@@ -37,10 +37,12 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
     private val calendarManager: CalendarManager
         get() = _calendarManager!!
 
-    private var firstOpening = true
+    private var firstCalendarScroll = true
+    private var firstCalendarExpanding = true
 
     override fun initViews() {
-        firstOpening = true
+        firstCalendarScroll = true
+        firstCalendarExpanding = true
         with (binding) {
             todayTextView.text = LocalDate.now().dayOfMonth.toString()
             showTodayButton.setOnClickListener {
@@ -84,18 +86,22 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding, CalendarViewModel
             }
             selectedDateLiveData.observe(viewLifecycleOwner) {
                 calendarManager.notifyDateChanged(it)
-                if (firstOpening) {
-                    firstOpening = false
+                if (firstCalendarScroll) {
+                    firstCalendarScroll = false
                     calendarManager.scrollToDate(it)
-                }
-                else {
+                } else {
                     calendarManager.smoothScrollToDate(it)
                 }
 
                 animateShowTodayButton(it.isSameDay(LocalDate.now().toDate()))
             }
             isCalendarExpandedLiveData.observe(viewLifecycleOwner) {
-                calendarManager.isCalendarExpanded = it
+                if (firstCalendarExpanding) {
+                    firstCalendarExpanding = false
+                    calendarManager.changeCalendarView(it)
+                } else {
+                    calendarManager.changeCalendarViewWithAnimation(it)
+                }
                 binding.changeCalendarViewButton.rotate(it)
             }
         }
