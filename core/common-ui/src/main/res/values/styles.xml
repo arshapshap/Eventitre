@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text">
+    </style>
+
+    <style name="Text.ExtraSmall">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Small">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Medium">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="Text.Large">
+        <item name="android:textSize">70sp</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/colorSecondary</item>
+    </style>
+
+    <style name="DateTimePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+</resources>

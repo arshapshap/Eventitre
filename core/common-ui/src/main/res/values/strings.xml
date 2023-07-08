@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="cancel">Cancel</string>
+    <string name="unexpected_error">An unexpected error has occurred</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/calendarFragment">
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.arshapshap.events.presentation.screens.calendar.CalendarFragment"
+        android:label="@string/calendar_fragment_label"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
+        android:label="@string/event_fragment_label"
+        tools:layout="@layout/fragment_event" />
+
+    <fragment
+        android:id="@+id/newEventFragment"
+        android:name="com.arshapshap.events.presentation.screens.event.EventFragment"
+        android:label="@string/new_event_fragment_label"
+        tools:layout="@layout/fragment_event" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.arshapshap.settings.presentation.screens.settings.SettingsFragment"
+        android:label="@string/settings_fragment_label"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calendar_fragment_label">Календарь</string>
+    <string name="event_fragment_label">Событие</string>
+    <string name="new_event_fragment_label">Новое событие</string>
+    <string name="event_not_found">Событие не найдено</string>
+    <string name="start">Начало</string>
+    <string name="finish">Окончание</string>
+    <string name="edit_event">Редактировать событие</string>
+    <string name="delete_event">Удалить событие</string>
+    <string name="description">Описание</string>
+    <string name="confirm_deleting_event">Удалить событие?</string>
+    <string name="name_must_be_filled">Название должно быть заполнено</string>
+    <string name="event_name">Название события</string>
+    <string name="event_description">Описание события</string>
+    <string name="start_date_must_be_earlier_than_finish_error">Дата начала события должна быть раньше даты окончания</string>
+    <string name="event_start_time">Время начала события</string>
+    <string name="event_finish_time">Время окончания события</string>
+    <string name="event_start_date">Дата начала события</string>
+    <string name="event_finish_date">Дата окончания события</string>
+    <string name="add_event">Добавить событие</string>
+    <string name="action_export">Экспорт</string>
+    <string name="export_event_confirm">Экспортировать событие в json-формате?</string>
+    <string name="successfully_exported">Успешно экспортировано</string>
+    <string name="change_calendar_view">Изменить вид календаря</string>
+    <string name="event_deleted">Событие удалено</string>
+    <string name="action_go_to_date">Перейти к дате</string>
+</resources>

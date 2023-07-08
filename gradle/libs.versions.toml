@@ -1,25 +1,62 @@
 [versions]
-androidx-core-ktx = "1.9.0"
+android-gradle-plugin = "8.0.2"
+android-material = "1.9.0"
 androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
-com-google-android-material = "1.9.0"
-junit = "4.13.2"
-androidx-test-ext-junit = "1.1.5"
+androidx-core-ktx = "1.9.0"
 androidx-test-espresso-core = "3.5.1"
-android-gradle-plugin = "7.4.2"
-org-jetbrains-kotlin-android = "1.8.0"
+androidx-test-ext-junit = "1.1.5"
+calendar-view = "2.3.0"
+dagger = "2.45"
+fragment-ktx = "1.5.6"
+gson = "2.8.8"
+jetbrains-kotlin-android = "1.8.0"
+junit = "4.13.2"
+kotlinx-coroutines-test = "1.6.4"
+kotlinx-test-junit = "1.8.10"
+mockk = "1.13.5"
+navigation = "2.5.3"
+recycler-view = "1.2.1"
+room = "2.5.1"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+android-material = { group = "com.google.android.material", name = "material", version.ref = "android-material" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
-com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "com-google-android-material" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recycler-view"}
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-test-espresso-core" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+calendar-view = { group = "com.kizitonwose.calendar", name = "view", version.ref = "calendar-view" }
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-android = { group = "com.google.dagger", name = "dagger-android", version.ref = "dagger" }
+dagger-android-processor = { group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment-ktx" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+kotlinx-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinx-test-junit" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
-com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
-org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrains-kotlin-android" }
+jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "jetbrains-kotlin-android" }
+
+[bundles]
+dagger = ["dagger", "dagger-android"]
+dagger-kapt = ["dagger-compiler", "dagger-android-processor"]
+navigation = ["navigation-runtime-ktx", "navigation-fragment-ktx", "navigation-ui-ktx"]
+room = ["room-runtime", "room-ktx"]
+tests = ["junit", "junit-jupiter","kotlinx-coroutines-test", "kotlinx-test-junit", "mockk"]
+tests-android = ["androidx-test-espresso-core", "androidx-test-ext-junit", "mockk-android"]

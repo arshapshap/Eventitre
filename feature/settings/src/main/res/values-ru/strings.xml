@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_fragment_label">Настройки</string>
+    <string name="import_events">Импорт событий</string>
+    <string name="export_events">Экспорт событий</string>
+    <string name="events_prepared_for_import">Событий для импорта: %d</string>
+    <string name="events_prepared_for_import_with_conflicts">Событий для импорта: %1$d.\n%2$d из них уже существуют и будут перезаписаны</string>
+    <string name="no_events_to_import">не было найдено событий в этом файле</string>
+    <string name="add_only_new">Добавить только новые</string>
+    <string name="imported_events_number">Импортировано: %d</string>
+    <string name="exported_events_number">Экспортировано: %d</string>
+    <string name="no_file_was_selected">Файл не был выбран</string>
+    <string name="nothing_to_export">Нет событий для экспорта</string>
+    <string name="action_export">Экспорт</string>
+    <string name="export_all_events_confirm">Экспортировать все события в json-формате?</string>
+    <string name="select_json_file">Выберите файл в json-формате</string>
+    <string name="clear_data">Очистить данные</string>
+    <string name="clearing_data">Очистка данных</string>
+    <string name="clearing_data_warning">Вы уверены, что хотите очистить данные? Все добавленные события будут удалены безвозвратно</string>
+    <string name="delete">Удалить</string>
+    <string name="data_cleared">Данные удалены</string>
+</resources>

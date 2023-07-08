@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_fragment_label">Settings</string>
+    <string name="import_events">Import events</string>
+    <string name="export_events">Export events</string>
+    <string name="events_prepared_for_import">Events prepared for import: %d</string>
+    <string name="events_prepared_for_import_with_conflicts">Events prepared for import: %1$d.\n%2$d of them already exist in the database and will be overwritten</string>
+    <string name="no_events_to_import">No events were found for import in this file</string>
+    <string name="add_only_new">Add only new ones</string>
+    <string name="imported_events_number">Imported events: %d</string>
+    <string name="exported_events_number">Exported events: %d</string>
+    <string name="no_file_was_selected">No file was selected</string>
+    <string name="nothing_to_export">Nothing to export</string>
+    <string name="action_export">Export</string>
+    <string name="export_all_events_confirm">Export all events in json format?</string>
+    <string name="select_json_file">Select a file in json format</string>
+    <string name="clear_data">Clear data</string>
+    <string name="clearing_data">Clearing data</string>
+    <string name="clearing_data_warning">Are you sure you want to clear the data? All added events will be lost forever</string>
+    <string name="delete">Delete</string>
+    <string name="data_cleared">Data cleared</string>
+</resources>

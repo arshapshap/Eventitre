@@ -1,7 +1,7 @@
 plugins {
-    alias libs.plugins.com.android.application
-    alias libs.plugins.org.jetbrains.kotlin.android
-    alias libs.plugins.org.jetbrains.kotlin.kapt
+    alias libs.plugins.android.application
+    alias libs.plugins.jetbrains.kotlin.android
+    alias libs.plugins.jetbrains.kotlin.kapt
 }
 
 android {
@@ -16,6 +16,7 @@ android {
         versionName rootProject.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -24,22 +25,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 }
 
 dependencies {
 
+    implementation project(path: ':core:common')
+    implementation project(path: ':core:common-ui')
+    implementation project(path: ':core:database')
+    implementation project(path: ':core:files')
+    implementation project(path: ':feature:events')
+    implementation project(path: ':feature:settings')
+
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
-    implementation libs.com.google.android.material
+    implementation libs.android.material
     implementation libs.androidx.constraintlayout
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.test.ext.junit
-    androidTestImplementation libs.androidx.test.espresso.core
+
+    implementation libs.bundles.navigation
+
+    implementation libs.bundles.dagger
+    kapt libs.bundles.dagger.kapt
 }

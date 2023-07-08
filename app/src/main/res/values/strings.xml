@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Eventitre</string>
+    <string name="app_name" translatable="false">Eventitre</string>
+    <string name="action_settings">Settings</string>
 </resources>
