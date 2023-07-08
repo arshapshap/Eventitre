@@ -25,6 +25,30 @@
 <image src='https://github.com/arshapshap/Eventitre/assets/48681339/21014ac8-5d15-486b-8aa3-af9bc3500f21' width=110 />
 <image src='https://github.com/arshapshap/Eventitre/assets/48681339/d2fa5b56-7400-4654-b8db-2c8f2df79f73' width=110 />
 
+### Скринкасты:
+<details><summary>Добавление события</summary>
+<br>
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/8d97c0e1-b436-4260-bda4-42e55035e4ec' width=250 />
+</details>
+<details><summary>Редактирование события</summary>
+<br>
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/c9fdf98a-d4af-43fe-96ec-e15eb97e6b02' width=250 />
+</details>
+<details><summary>Переход к дате</summary>
+<br>
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/7f750e7a-8b67-4838-881a-ebc3d48276fb' width=250 />
+</details>
+<details><summary>Экспорт и импорт события</summary>
+<br>
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/e252b2ea-40ae-470f-89e2-86c3ed80fefa' width=250 />
+</details>
+<details><summary>Удаление событий, импорт событий</summary>
+<br>
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/81e9e191-e920-45d5-b2fd-a3976d5bc024' width=250 />
+  <image src='https://github.com/arshapshap/Eventitre/assets/48681339/b915dbf4-8ab6-4278-b28b-b87953c802e3' width=250 />
+</details>
+
+
 ## Используемые технологии
 
 * Kotlin
