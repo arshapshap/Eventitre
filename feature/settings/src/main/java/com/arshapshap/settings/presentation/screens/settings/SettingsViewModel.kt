@@ -6,16 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.common_ui.base.BaseViewModel
 import com.arshapshap.common_ui.base.ViewModelError
 import com.arshapshap.common_ui.base.ViewModelErrorLevel
-import com.arshapshap.settings.R
 import com.arshapshap.settings.domain.SettingsInteractor
 import com.arshapshap.settings.domain.models.EventsImportInfo
+import com.arshapshap.settings.presentation.SettingsFeatureRouter
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsViewModel @AssistedInject constructor(
-    private val interactor: SettingsInteractor
+    private val interactor: SettingsInteractor,
+    private val router: SettingsFeatureRouter
 ) : BaseViewModel() {
 
     private val _eventsToImportLiveData = MutableLiveData<EventsImportInfo>()
@@ -50,19 +51,23 @@ class SettingsViewModel @AssistedInject constructor(
                 val events = interactor.getEventsFromJson()
                 _eventsToImportLiveData.postValue(events)
             }.onFailure {
-                val error = when (it) {
-                    is java.lang.NullPointerException -> ViewModelError(
-                        messageRes = R.string.no_file_was_selected,
-                        level = ViewModelErrorLevel.Message
-                    )
-                    else -> ViewModelError(
-                        messageRes = com.arshapshap.common_ui.R.string.unexpected_error,
-                        level = ViewModelErrorLevel.Message
-                    )
+                when (it) {
+                    is java.lang.NullPointerException -> {
+                        // no file was selected
+                    }
+                    else -> {
+                        _errorLiveData.postValue(ViewModelError(
+                            messageRes = com.arshapshap.common_ui.R.string.unexpected_error,
+                            level = ViewModelErrorLevel.Message
+                        ))
+                    }
                 }
-                _errorLiveData.postValue(error)
             }
         }
+    }
+
+    internal fun reopenSettings() {
+        router.refreshCurrentFragment()
     }
 
     internal fun importEvents(withOverwriting: Boolean) {

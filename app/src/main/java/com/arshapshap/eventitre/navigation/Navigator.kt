@@ -5,9 +5,10 @@ import androidx.navigation.navOptions
 import com.arshapshap.eventitre.R
 import com.arshapshap.events.presentation.EventsFeatureRouter
 import com.arshapshap.events.presentation.screens.event.EventFragment
+import com.arshapshap.settings.presentation.SettingsFeatureRouter
 import java.util.*
 
-class Navigator: EventsFeatureRouter {
+class Navigator: EventsFeatureRouter, SettingsFeatureRouter {
 
     private var navController: NavController? = null
 
@@ -41,5 +42,11 @@ class Navigator: EventsFeatureRouter {
             popExit = R.anim.slide_out_right
             popEnter = R.anim.slide_in_left
         }
+    }
+
+    override fun refreshCurrentFragment() {
+        val destination = navController?.currentDestination?.id ?: return
+        closeCurrentFragment()
+        navController?.navigate(destination)
     }
 }

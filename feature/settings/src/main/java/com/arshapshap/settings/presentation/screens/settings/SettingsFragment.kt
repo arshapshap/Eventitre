@@ -1,5 +1,9 @@
 package com.arshapshap.settings.presentation.screens.settings
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.arshapshap.common_ui.base.BaseFragment
 import com.arshapshap.common_ui.extensions.showAlert
 import com.arshapshap.common_ui.extensions.showAlertWithThreeButtons
@@ -27,6 +31,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
         component.inject(this)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // this is necessary, because when the activity is recreated,
+        // the observer used to open the file manager
+        // becomes irrelevant and needs to be recreated too
+        if (savedInstanceState != null)
+            viewModel.reopenSettings()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun initViews() {
         with (binding) {
             exportButton.setOnClickListener {
@@ -35,8 +52,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             importButton.setOnClickListener {
                 viewModel.requestImportEvents()
                 showToast(
-                    message = getString(R.string.select_json_file),
-                    longLength = true
+                    message = getString(R.string.select_json_file)
                 )
             }
             clearDataButton.setOnClickListener {
