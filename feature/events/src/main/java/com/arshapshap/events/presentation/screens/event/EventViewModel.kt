@@ -112,6 +112,15 @@ class EventViewModel @AssistedInject constructor(
             )
             return
         }
+        else if (!EventValidator.validateDates(newEvent.dateStart, newEvent.dateFinish)) {
+            _errorLiveData.postValue(
+                ViewModelError(
+                    messageRes = R.string.start_must_be_earlier_than_finish_error,
+                    level = ViewModelErrorLevel.Message
+                )
+            )
+            return
+        }
 
         if (isCreating) {
             viewModelScope.launch(Dispatchers.IO) {
@@ -151,17 +160,6 @@ class EventViewModel @AssistedInject constructor(
     internal fun setDateStart(calendar: Calendar) {
         if (isEditingLiveData.value != true) return
 
-        val currentDateFinish = _editingEventLiveData.value?.dateFinish ?: return
-        if (!EventValidator.validateDates(calendar.time, currentDateFinish)) {
-            _errorLiveData.postValue(
-                ViewModelError(
-                    messageRes = R.string.start_date_must_be_earlier_than_finish_error,
-                    level = ViewModelErrorLevel.Message
-                )
-            )
-            return
-        }
-
         val event = _editingEventLiveData.value?.copy(
             dateStart = calendar.time
         )
@@ -170,17 +168,6 @@ class EventViewModel @AssistedInject constructor(
 
     internal fun setDateFinish(calendar: Calendar) {
         if (isEditingLiveData.value != true) return
-
-        val currentDateStart = _editingEventLiveData.value?.dateStart ?: return
-        if (!EventValidator.validateDates(currentDateStart, calendar.time)) {
-            _errorLiveData.postValue(
-                ViewModelError(
-                    messageRes = R.string.start_date_must_be_earlier_than_finish_error,
-                    level = ViewModelErrorLevel.Message
-                )
-            )
-            return
-        }
 
         val event = _editingEventLiveData.value?.copy(
             dateFinish = calendar.time

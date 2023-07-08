@@ -13,7 +13,7 @@
     <string name="name_must_be_filled">The name must be filled</string>
     <string name="event_name">Event name</string>
     <string name="event_description">Event description</string>
-    <string name="start_date_must_be_earlier_than_finish_error">The start date must be earlier than the finish date</string>
+    <string name="start_must_be_earlier_than_finish_error">The start must be earlier than the finish</string>
     <string name="event_start_time">Start time of the event</string>
     <string name="event_finish_time">Finish time of the event</string>
     <string name="event_start_date">Start date of the event</string>
