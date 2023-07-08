@@ -27,7 +27,7 @@ class EventTimelineModel(event: Event, selectedDate: Date) {
             this.startTime = 0f
             this.startTimeString = event.dateStart.formatDateTimeToString()
         }
-        if (event.dateFinish.after(selectedDate.addHours(24))) {
+        if (!event.dateFinish.before(selectedDate.addHours(24))) {
             this.endTime = 24f
             this.endTimeString = event.dateFinish.formatDateTimeToString()
         }
