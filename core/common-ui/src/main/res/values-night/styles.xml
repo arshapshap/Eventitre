@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><style name="DateTimePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+    <item name="colorAccent">@color/colorAccent</item>
+</style></resources>
