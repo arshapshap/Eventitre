@@ -16,7 +16,7 @@
     <string name="select_json_file">Select a file in json format</string>
     <string name="clear_data">Clear data</string>
     <string name="clearing_data">Clearing data</string>
-    <string name="clearing_data_warning">Are you sure you want to clear the data? All added events will be lost forever</string>
+    <string name="clearing_data_warning">Are you sure you want to clear the data? All events will be deleted</string>
     <string name="delete">Delete</string>
     <string name="data_cleared">Data cleared</string>
 </resources>
