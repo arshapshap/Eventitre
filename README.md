@@ -60,7 +60,7 @@
 * Dagger 2
 * Room
 * Navigation Component
-* Testing (JUnit5, Mockk)
+* Testing (JUnit 5, Mockk)
 * Gson
 * ContentResolver (Работа с внешним файловым менеджером)
 * CustomView
