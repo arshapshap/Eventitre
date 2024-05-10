@@ -1,4 +1,4 @@
-# Eventitre
+# <image src='https://github.com/arshapshap/Eventitre/assets/48681339/cd9354c1-1ff5-48c9-9b4c-b2da1e7946c8' width=50 /> Eventitre
 
   Мобильное приложение для организации своих дел, задач и мероприятий.
 
