@@ -48,14 +48,22 @@
   <image src='https://github.com/arshapshap/Eventitre/assets/48681339/b915dbf4-8ab6-4278-b28b-b87953c802e3' width=250 />
 </details>
 
+## Скачивание
+      
+  * APK-файл доступен для скачивания в разделе Releases:
+
+    - [Version 1.0](https://github.com/arshapshap/Eventitre/releases/tag/v1.0)
+
+## Архитектура
+* Clean Architecture
+* MVVM
+* Многомодульность
 
 ## Используемые технологии
 
 * Kotlin
 * Android SDK
-* Clean Architecture
-* MVVM, LiveData
-* Multimodule
+* LiveData
 * Coroutines
 * Dagger 2
 * Room
